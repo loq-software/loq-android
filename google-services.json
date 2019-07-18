@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "842408038792",
+    "firebase_url": "https://loqandroid-1562031823715.firebaseio.com",
+    "project_id": "loqandroid-1562031823715",
+    "storage_bucket": "loqandroid-1562031823715.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842408038792:android:f637ab2971855c12",
+        "android_client_info": {
+          "package_name": "com.loq.buggadooli.loq2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842408038792-11aum1qg0astnger2m4qal8or3an5g3u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.loq.buggadooli.loq2",
+            "certificate_hash": "90b19d3495c36f28535dbdbfe3b0190e9eda6251"
+          }
+        },
+        {
+          "client_id": "842408038792-hlg1a0mfjk40ti09pvaveoctfurjl3s7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGop_6nxBpmzZOstx8KtojNt6KGmUrYfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842408038792-hlg1a0mfjk40ti09pvaveoctfurjl3s7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

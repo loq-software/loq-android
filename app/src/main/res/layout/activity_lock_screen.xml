@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_with_icon"
+    tools:context=".ui.activities.LockScreenActivity">
+
+    <Button
+        android:id="@+id/btnPay"
+        android:layout_width="197dp"
+        android:layout_height="46dp"
+        android:layout_below="@id/textView22"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/submit_button"
+        android:text="Pay $0.99 for 1 minute of use. "
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgAd"
+        android:layout_centerHorizontal="true"
+        android:text="Or"
+        android:textColor="#FFFEFE"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/imgAd"
+        android:layout_width="291dp"
+        android:layout_height="141dp"
+        android:layout_below="@id/textView28"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/loq_crop" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:fontFamily="@font/roboto"
+        android:inputType="textMultiLine"
+        android:text="You have a Loq on this app at this time."
+        android:textAlignment="center"
+        android:textColor="#FDFDFD"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/anchor"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:inputType="textMultiLine"
+        android:text="Watch a 30 second video"
+        android:textAlignment="center"
+        android:textColor="#FDFDFD"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView18"
+        android:layout_centerHorizontal="true"
+        android:text="If you would still like to continue using this application, please select one of the two Penalty options"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF" />
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/logoView"
+        android:layout_width="217dp"
+        android:layout_height="102dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/logo" />
+
+
+</RelativeLayout>

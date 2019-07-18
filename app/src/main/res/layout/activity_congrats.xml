@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_with_icon"
+    tools:context=".ui.activities.CongratsActivity">
+
+    <Button
+        android:id="@+id/btnTwitterShare"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/btnFacebookShare"
+        android:layout_alignLeft="@id/btnFacebookShare"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/twitter_bg"
+        android:drawableLeft="@drawable/twitter"
+        android:fontFamily="@font/roboto"
+        android:paddingLeft="10dp"
+        android:text="  |  Share on Twitter"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/textView12"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Congratulations"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/anchor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/roboto"
+        android:inputType="textMultiLine"
+        android:text="Were so excited to see what you'll do with your new found free time!\n\nShare your activities as well as see what\n other Loq members are doing with the\nhashtag #LifeWithLoq (obviously outside \n your Loq times (winky face emoji))"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/logoView5"
+        android:layout_width="209dp"
+        android:layout_height="91dp"
+        android:layout_above="@id/textView15"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/logo" />
+
+    <Button
+        android:id="@+id/btnFacebookShare"
+        android:layout_width="260dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/anchor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/facebook_bg"
+        android:drawableLeft="@drawable/facebook"
+        android:fontFamily="@font/roboto"
+        android:paddingLeft="10dp"
+        android:text="  |  Share on Facebook"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/submit_button"
+        android:fontFamily="@font/roboto"
+        android:text="GO TO DASHBOARD"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

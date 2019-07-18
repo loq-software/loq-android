@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="loq"
+            type="com.loq.buggadooli.loq2.models.Loq" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtAppName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{loq.appName}" />
+
+        <TextView
+            android:id="@+id/txtDays"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="@{loq.daysStr}" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:loqItemStartTime="@{loq.startTime}"
+            app:loqItemEndTime="@{loq.endTime}"/>
+
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="10dp"
+            android:layout_height="25dp"
+            android:layout_weight="1"
+            android:background="#0080CE2F"
+            android:scaleType="fitCenter"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+    </LinearLayout>
+
+</layout>

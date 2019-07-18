@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_with_icon"
+    tools:context=".ui.activities.ChildLock">
+
+    <EditText
+        android:id="@+id/txtPinCode2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtPinCode"
+        android:ems="10"
+        android:hint="Enter pin code"
+        android:inputType="numberPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/txtPinCode"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt22"
+        android:ems="10"
+        android:hint="Enter pin code"
+        android:inputType="numberPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/logoView8"
+        android:layout_width="209dp"
+        android:layout_height="91dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/txt22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoView8"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:text="Add Child Lock?"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtPinCode2"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/roboto"
+        android:text="Leave blank for no child lock"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnEnter"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/textView24"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/back_button_2"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

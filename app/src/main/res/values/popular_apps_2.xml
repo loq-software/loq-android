@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="popular_apps_2">
+        <item>Facebook</item>
+        <item>WhatsApp</item>
+        <item>Instagram</item>
+        <item>Messenger</item>
+        <item>Youtube</item>
+        <item>Snapchat</item>
+        <item>Netflix</item>
+        <item>Gmail</item>
+        <item>Amazon</item>
+        <item>Twitter</item>
+        <item>Pinterest</item>
+        <item>Play Store</item>
+        <item>Google Chrome</item>
+        <item>TikTok</item>
+        <item>Clash of Clans</item>
+    </string-array>
+</resources>

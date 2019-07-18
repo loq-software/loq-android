@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_with_icon"
+    tools:context=".ui.activities.SetupActivity">
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/submit_button"
+        android:fontFamily="@font/roboto"
+        android:text="Next"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoView3"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:text="Let's set up your Loq's"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="normal" />
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <RadioGroup
+        android:id="@+id/appSelectGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="56dp"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <RadioButton
+            android:id="@+id/radioBtnPopular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#FFFFFF"
+            android:checked="false"
+            android:fontFamily="@font/roboto"
+            android:text="@string/use_the_20_most_popular_apps"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/radioBtnCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10sp"
+            android:layout_weight="0.13"
+            android:buttonTint="#FFFFFF"
+            android:checked="false"
+            android:fontFamily="@font/roboto"
+            android:text="Let me select which apps to Loq"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/appSelectGroup"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:background="@android:drawable/spinner_dropdown_background"
+        android:prompt="@string/see_apps"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/logoView3"
+        android:layout_width="259dp"
+        android:layout_height="154dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/logo" />
+
+</RelativeLayout>
