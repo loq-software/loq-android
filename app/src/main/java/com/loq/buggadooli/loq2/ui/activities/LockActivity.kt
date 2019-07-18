@@ -21,7 +21,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.TimePicker
 
-import com.loq.buggadooli.loq2.LockService
+import com.loq.buggadooli.loq2.loqer.LockService
 import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.utils.Utils
@@ -47,7 +47,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
     private var multiSpinner: MultiSpinner? = null
     private var isStartTime = false
     private var apps: List<ApplicationInfo>? = null
-    internal var days: MutableList<CheckBox> = ArrayList()
+    private var days: MutableList<CheckBox> = ArrayList()
     private var mLockService: LockService? = null
     private var mServiceIntent: Intent? = null
     private var rawStartHour: String? = null
@@ -55,9 +55,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
     private var rawEndHour: String? = null
     private var rawEndMinute: String? = null
 
-    private// System application
-    //Log.d("Loq", appInfo.loadLabel(pm).toString() );
-    val listOfInstalledApps: List<ApplicationInfo>
+    private val listOfInstalledApps: List<ApplicationInfo>
         get() {
             val apps = ArrayList<ApplicationInfo>()
             val flags = PackageManager.GET_META_DATA or
@@ -291,7 +289,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
     }
 
     private fun startLockService() {
-        mLockService = LockService(applicationContext)
+        mLockService = LockService()
         if (isMyServiceRunning(mLockService!!.javaClass)) {
             //stop and restart
         } else {
@@ -317,7 +315,6 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
     override fun onDestroy() {
         if (mServiceIntent != null)
             stopService(mServiceIntent)
-        //Log.i("MAINACT", "onDestroy!");
         super.onDestroy()
 
     }

@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.loq.buggadooli.loq2.LockService;
+import com.loq.buggadooli.loq2.loqer.LockService;
 import com.loq.buggadooli.loq2.models.Loq;
 import com.loq.buggadooli.loq2.R;
 import com.loq.buggadooli.loq2.utils.Utils;
@@ -70,7 +70,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void startLockService() {
-        mLockService = new LockService(getApplicationContext());
+        mLockService = new LockService();
         if (isMyServiceRunning(mLockService.getClass())) {
             stopService(new Intent(getApplicationContext(), mLockService.getClass()));
             startService(new Intent(getApplicationContext(), mLockService.getClass()));

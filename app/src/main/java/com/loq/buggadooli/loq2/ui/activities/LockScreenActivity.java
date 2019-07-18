@@ -23,7 +23,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.loq.buggadooli.loq2.LockService;
+import com.loq.buggadooli.loq2.loqer.LockService;
 import com.loq.buggadooli.loq2.R;
 import com.loq.buggadooli.loq2.utils.Utils;
 

@@ -30,13 +30,13 @@
         <activity android:name=".ui.activities.LockActivity" />
 
         <receiver
-            android:name=".LockServiceBroadcastReceiver"
+            android:name=".loqer.LockServiceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStopped" />
 
         <service
-            android:name=".LockService"
+            android:name=".loqer.LockService"
             android:enabled="true"
             android:exported="true" />
 

@@ -1,4 +1,4 @@
-package com.loq.buggadooli.loq2;
+package com.loq.buggadooli.loq2.loqer;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
