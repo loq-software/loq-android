@@ -1,6 +1,8 @@
 package com.loq.buggadooli.loq2
 
 import android.app.Application
+import com.facebook.FacebookSdk
+import com.facebook.appevents.AppEventsLogger
 import com.loq.buggadooli.loq2.loqer.loqerModule
 import com.loq.buggadooli.loq2.network.googleModule
 import com.loq.buggadooli.loq2.network.networkModule
@@ -27,5 +29,8 @@ class LoqApplication: Application() {
                 androidContext = this,
                 modules = modules
         )
+
+        FacebookSdk.sdkInitialize(this)
+        AppEventsLogger.activateApp(this)
     }
 }
