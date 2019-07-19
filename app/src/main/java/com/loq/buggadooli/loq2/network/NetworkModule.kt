@@ -12,7 +12,7 @@ val networkModule = module {
     } bind AuthenticationService::class
 
     single {
-        RealGmailService()
+        RealGmailService(get())
     } bind GmailService::class
 
     single {

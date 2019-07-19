@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "842408038792-11aum1qg0astnger2m4qal8or3an5g3u.apps.googleusercontent.com",
+          "client_id": "842408038792-lked4v1cmpiuv9p7f2vbvp81ofj3u5jm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.loq.buggadooli.loq2",
-            "certificate_hash": "90b19d3495c36f28535dbdbfe3b0190e9eda6251"
+            "certificate_hash": "8954adc0395f16e7808d2c4f1d04c421db85d8ec"
           }
         },
         {

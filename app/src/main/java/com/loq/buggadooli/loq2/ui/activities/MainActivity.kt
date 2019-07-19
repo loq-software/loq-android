@@ -7,14 +7,16 @@ import android.os.Bundle
 import android.widget.ProgressBar
 
 import com.loq.buggadooli.loq2.R
-import com.loq.buggadooli.loq2.utils.Utils
+import com.loq.buggadooli.loq2.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private var progressBar: ProgressBar? = null
     private var progressStatus = 0
     private val handler = Handler()
+    private val mainViewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchActivity() {
-        // todo: Check if user is logged in instead.
-        if (Utils.INSTANCE.readLoqsFromFile(applicationContext).isEmpty()) {
-            launchRegistrationActivity()
+        if (mainViewModel.user == null) {
+            launchLoginActivity()
         } else {
             launchDashboard()
         }
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun launchRegistrationActivity() {
+    private fun launchLoginActivity() {
         val intent = Intent(applicationContext, LoginActivity::class.java)
         startActivity(intent)
     }
