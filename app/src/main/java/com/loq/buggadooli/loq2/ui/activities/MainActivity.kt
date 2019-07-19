@@ -1,70 +1,61 @@
-package com.loq.buggadooli.loq2.ui.activities;
+package com.loq.buggadooli.loq2.ui.activities
 
-import android.content.Intent;
-import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.ProgressBar;
+import android.content.Intent
+import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ProgressBar
 
-import com.loq.buggadooli.loq2.R;
-import com.loq.buggadooli.loq2.utils.Utils;
+import com.loq.buggadooli.loq2.R
+import com.loq.buggadooli.loq2.utils.Utils
+import kotlinx.android.synthetic.main.activity_main.*
 
-public class MainActivity extends AppCompatActivity {
+class MainActivity : AppCompatActivity() {
 
-    //private RecyclerView appSelector;
-    //private SelectionTracker<Long> tracker = null;
-    //private AppSelectionAdapter adapter = null;
-    //private Button btnRegister;
-    //private Button btnSignin;
-    private ProgressBar progressBar;
-    private int progressStatus = 0;
-    private Handler handler = new Handler();
+    private var progressBar: ProgressBar? = null
+    private var progressStatus = 0
+    private val handler = Handler()
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
-        progressBar = findViewById(R.id.progressBar);
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 100) {
-                    progressStatus += 1;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(progressStatus);
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        supportActionBar!!.hide()
+        textView6
+        progressBar = findViewById(R.id.progressBar)
+        Thread(Runnable {
+            while (progressStatus < 100) {
+                progressStatus += 1
+                // Update the progress bar and display the
+                //current value in the text view
+                handler.post { progressBar!!.progress = progressStatus }
+                try {
+                    Thread.sleep(50)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
                 }
-                launchActivity();
+
             }
-        }).start();
+            launchActivity()
+        }).start()
     }
 
-    private void launchActivity() {
-        if(Utils.INSTANCE.readLoqsFromFile(getApplicationContext()).isEmpty()) {
-            launchRegistrationActivity();
+    private fun launchActivity() {
+        // todo: Check if user is logged in instead.
+        if (Utils.INSTANCE.readLoqsFromFile(applicationContext).isEmpty()) {
+            launchRegistrationActivity()
         } else {
-            launchDashboard();
+            launchDashboard()
         }
     }
 
-    private void launchDashboard() {
-        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-        startActivity(intent);
+    private fun launchDashboard() {
+        val intent = Intent(applicationContext, Dashboard::class.java)
+        startActivity(intent)
     }
 
-    private void launchRegistrationActivity() {
-        Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-        startActivity(intent);
+    private fun launchRegistrationActivity() {
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     /*private void startRegistration() {

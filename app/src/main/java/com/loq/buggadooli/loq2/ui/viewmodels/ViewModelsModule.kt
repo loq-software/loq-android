@@ -7,4 +7,8 @@ val viewModelsModule = module {
     single {
         MainViewModel()
     }
+
+    single {
+        LoginViewModel(get())
+    }
 }
