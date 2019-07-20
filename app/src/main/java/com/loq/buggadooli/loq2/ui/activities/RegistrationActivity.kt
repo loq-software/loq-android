@@ -32,12 +32,6 @@ class RegistrationActivity : AppCompatActivity() {
         supportActionBar!!.hide()
         initGoogleSignin()
         mAuth = FirebaseAuth.getInstance()
-
-        btnFacebook!!.setOnClickListener { openSetupActivity() }
-        btnGoogle!!.setOnClickListener {
-            val signInIntent = mGoogleSignInClient!!.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
-        }
         btnSubmit!!.setOnClickListener { registerWithEmailPassword() }
     }
 
@@ -110,7 +104,7 @@ class RegistrationActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext,
                                 "Verification email sent to " + fbuser.email!!,
                                 Toast.LENGTH_SHORT).show()
-                        openSetupActivity()
+                        onBackPressed()
                     } else {
                         //Log.e(TAG, "sendEmailVerification", task.getException());
                         Toast.makeText(applicationContext,

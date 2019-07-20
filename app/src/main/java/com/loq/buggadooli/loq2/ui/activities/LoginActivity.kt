@@ -30,6 +30,11 @@ class LoginActivity: AppCompatActivity() {
             loginViewModel.loginWithEmail(txtEmail.text.toString(), txtPassword.text.toString(), this)
         }
 
+        registerButton.setOnClickListener {
+            val intent = Intent(applicationContext, RegistrationActivity::class.java)
+            startActivity(intent)
+        }
+
         loginViewModel.signInSuccessful.observe(this, Observer { userEvent ->
             val user = userEvent.getContentIfNotHandled()?.user
             if (user != null){

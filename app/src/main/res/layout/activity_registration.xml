@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_with_icon">
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/txtRepeatPassword"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/submit_button"
-        android:text="Submit"
-        android:textColor="#FFFFFF" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="259dp"
+        android:layout_height="154dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="Register With"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:textSize="26sp" />
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#E4E4E4"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/txtRepeatPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtPassword"
-        android:layout_alignLeft="@id/txtEmail"
+        android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         android:ems="10"
         android:hint="Repeat Password"
@@ -33,8 +56,7 @@
         android:id="@+id/txtPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtEmail"
-        android:layout_alignLeft="@id/txtEmail"
+        android:layout_gravity="center_horizontal"
         android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         android:ems="10"
         android:hint="Password"
@@ -43,83 +65,15 @@
         android:textColorHint="#E4E4E4"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/txtEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView9"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#E4E4E4"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnGoogle"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto_italic"
-        android:text="Or"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
-
     <Button
-        android:id="@+id/btnGoogle"
+        android:id="@+id/btnSubmit"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_below="@id/btnFacebook"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/back_button_2"
-        android:drawableLeft="@drawable/googleg_standard_color_18"
-        android:paddingLeft="10dp"
-        android:text="  | Google"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp" />
-
-    <Button
-        android:id="@+id/btnFacebook"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/textView2"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/facebook_bg"
-        android:drawableLeft="@drawable/facebook"
-        android:fontFamily="@font/roboto"
-        android:paddingLeft="10dp"
-        android:text="  |  Facebook"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView3"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto"
-        android:text="Register With"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="259dp"
-        android:layout_height="154dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/logo" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/submit_button"
+        android:text="Submit"
+        android:textColor="#FFFFFF" />
 
     <View
         android:id="@+id/anchor"
@@ -127,4 +81,4 @@
         android:layout_height="0dp"
         android:layout_centerInParent="true" />
 
-</RelativeLayout>
+</LinearLayout>
