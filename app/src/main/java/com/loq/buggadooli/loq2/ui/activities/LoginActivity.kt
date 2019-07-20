@@ -19,7 +19,7 @@ class LoginActivity: AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar!!.hide()
         btnFacebook.setOnClickListener {
-            loginViewModel.loginWithFacebook()
+            loginViewModel.loginWithFacebook(this, this)
         }
 
         btnGoogle.setOnClickListener {

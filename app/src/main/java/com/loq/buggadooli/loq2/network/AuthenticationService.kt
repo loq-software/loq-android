@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -21,7 +23,9 @@ interface AuthenticationService{
 
     fun handleGoogleLogin(data: Intent?): Observable<AuthenticationResult>
 
-    fun signInWithFacebook()
+    fun signInWithFacebook(activity: Activity)
+
+    fun handleFacebookAccessToken(token: AccessToken): Observable<AuthenticationResult>
 
     val currentUser: FirebaseUser?
 }
@@ -41,7 +45,8 @@ class RealAuthenticationService(
         gmailService.signIn(activity)
     }
 
-    override fun signInWithFacebook() {
+    override fun signInWithFacebook(activity: Activity) {
+        facebookService.loginWithReadPermissions(activity)
     }
 
     override fun signInWithEmailAndPassword(email: String, password: String): Observable<AuthenticationResult> {
@@ -81,33 +86,59 @@ class RealAuthenticationService(
     override fun handleGoogleLogin(data: Intent?): Observable<AuthenticationResult> {
         return Observable.create { emitter ->
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val errorMessage = "Google sign in failed"
+
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 val token = account?.idToken
-                val id = account?.id
                 val credential = GoogleAuthProvider.getCredential(token, null)
                 authentication.signInWithCredential(credential)
                         .addOnCompleteListener { resultTask ->
                             if (resultTask.isSuccessful) {
-                                // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithCredential:success")
                                 val user = authentication.currentUser
+                                if (user != null){
+                                    emitter.onNext(AuthenticationResult(user))
+                                }
+                                else{
+                                    emitter.onError(Throwable(errorMessage))
+                                }
                                 user?.let { emitter.onNext(AuthenticationResult(it)) }
                             } else {
-                                val error = "signInWithCredential:failure"
-                                Log.w(TAG, error, resultTask.exception)
-                                emitter.onError(Throwable(error))
+                                Log.w(TAG, errorMessage, resultTask.exception)
+                                emitter.onError(Throwable(errorMessage))
                             }
 
                         }
             } catch (e: Exception) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-                emitter.onError(Throwable("Google sign in failed"))
+                Log.w(TAG, errorMessage, e)
+                emitter.onError(Throwable(errorMessage))
             }
         }
     }
+
+    override fun handleFacebookAccessToken(token: AccessToken): Observable<AuthenticationResult> {
+        return Observable.create{ emitter ->
+            val credential = FacebookAuthProvider.getCredential(token.token)
+            authentication.signInWithCredential(credential)
+                    .addOnCompleteListener{ task ->
+                        if (task.isSuccessful) {
+                            val user = authentication.currentUser
+                            if (user != null) {
+                                emitter.onNext(AuthenticationResult(user))
+                            }
+                            else{
+                                emitter.onError(Throwable("Facebook authentication failed."))
+                            }
+                        } else {
+                            emitter.onError(Throwable("Facebook authentication failed."))
+                        }
+
+                    }
+
+        }
+    }
+
 
 }
 

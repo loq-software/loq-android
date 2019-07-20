@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
-        textView6
         progressBar = findViewById(R.id.progressBar)
         Thread(Runnable {
             while (progressStatus < 100) {
