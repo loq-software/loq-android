@@ -5,12 +5,15 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
 import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.loq.buggadooli.loq2.constants.Constants
 import io.reactivex.Observable
 
 interface AuthenticationService{
@@ -32,8 +35,7 @@ interface AuthenticationService{
 
 class RealAuthenticationService(
         private val authentication: FirebaseAuth,
-        private val facebookService: FacebookService,
-        private val gmailService: GmailService
+        private val options: GoogleSignInOptions
 
 ): AuthenticationService{
 
@@ -42,11 +44,13 @@ class RealAuthenticationService(
 
 
     override fun signInWithGoogle(activity: Activity) {
-        gmailService.signIn(activity)
+        val client = GoogleSignIn.getClient(activity, options)
+        val signInIntent = client!!.signInIntent
+        activity.startActivityForResult(signInIntent, Constants.GOOGLE_LOGIN_REQUEST)
     }
 
     override fun signInWithFacebook(activity: Activity) {
-        facebookService.loginWithReadPermissions(activity)
+        LoginManager.getInstance().logInWithReadPermissions(activity, listOf("public_profile", "email"))
     }
 
     override fun signInWithEmailAndPassword(email: String, password: String): Observable<AuthenticationResult> {
@@ -122,16 +126,17 @@ class RealAuthenticationService(
             val credential = FacebookAuthProvider.getCredential(token.token)
             authentication.signInWithCredential(credential)
                     .addOnCompleteListener{ task ->
+                        val errorMessage = "Facebook authentication failed."
                         if (task.isSuccessful) {
                             val user = authentication.currentUser
                             if (user != null) {
                                 emitter.onNext(AuthenticationResult(user))
                             }
                             else{
-                                emitter.onError(Throwable("Facebook authentication failed."))
+                                emitter.onError(Throwable(errorMessage))
                             }
                         } else {
-                            emitter.onError(Throwable("Facebook authentication failed."))
+                            emitter.onError(Throwable(errorMessage))
                         }
 
                     }
