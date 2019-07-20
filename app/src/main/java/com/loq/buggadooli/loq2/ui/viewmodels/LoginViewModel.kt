@@ -19,7 +19,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.FacebookCallback
 import com.facebook.login.LoginManager
-
+import com.loq.buggadooli.loq2.utils.Event
 
 
 class LoginViewModel(
@@ -28,11 +28,11 @@ class LoginViewModel(
 
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
-    val signInSuccessful: LiveData<AuthenticationResult> get() = _signInSuccessful
-    private val _signInSuccessful = MutableLiveData<AuthenticationResult>()
+    val signInSuccessful: LiveData<Event<AuthenticationResult>> get() = _signInSuccessful
+    private val _signInSuccessful = MutableLiveData<Event<AuthenticationResult>>()
 
-    val signInError: LiveData<String> get() = _signInError
-    private val _signInError = MutableLiveData<String>()
+    val signInError: LiveData<Event<String>> get() = _signInError
+    private val _signInError = MutableLiveData<Event<String>>()
 
     fun loginWithGmail(activity: Activity){
         authenticationService.signInWithGoogle(activity)
@@ -42,27 +42,27 @@ class LoginViewModel(
         LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
-                        authenticationService.handleFacebookAccessToken(loginResult.accessToken)
+                        authenticationService.handleFacebookLogin(loginResult.accessToken)
                                 .ioToMain()
                                 .subscribeForOutcome { outcome ->
                                     when(outcome){
                                         is Outcome.Success ->{
-                                            _signInSuccessful.postValue(outcome.data)
+                                            _signInSuccessful.postValue(Event(outcome.data))
                                         }
                                         else -> {
-                                            _signInSuccessful.postValue(AuthenticationResult())
+                                            _signInError.postValue(Event("Error logging in with Facebook"))
                                         }
                                     }
                                 }.attachLifecycle(owner)
                     }
 
                     override fun onCancel() {
-                        Log.d("test", "facebook login can canceled")
+                        Log.d("test", "facebook login is canceled")
                     }
 
                     override fun onError(exception: FacebookException) {
-                        Log.d("test", exception.message)
-                        _signInError.postValue(exception.message)
+                        exception.printStackTrace()
+                        _signInError.postValue(Event(exception.message?: "Error"))
                     }
                 })
 
@@ -76,10 +76,10 @@ class LoginViewModel(
                 .subscribeForOutcome { outcome ->
                     when(outcome){
                         is Outcome.Success ->{
-                            _signInSuccessful.postValue(outcome.data)
+                            _signInSuccessful.postValue(Event(outcome.data))
                         }
                         else -> {
-                            _signInSuccessful.postValue(AuthenticationResult())
+                            _signInSuccessful.postValue(Event(AuthenticationResult()))
                         }
                     }
                 }.attachLifecycle(owner)
@@ -92,10 +92,10 @@ class LoginViewModel(
                     .subscribeForOutcome { outcome ->
                         when(outcome){
                             is Outcome.Success ->{
-                                _signInSuccessful.postValue(outcome.data)
+                                _signInSuccessful.postValue(Event(outcome.data))
                             }
                             else -> {
-                                _signInSuccessful.postValue(AuthenticationResult())
+                                _signInError.postValue(Event("Error Logging into Gmail"))
                             }
                         }
                     }.attachLifecycle(owner)

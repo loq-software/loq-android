@@ -28,7 +28,7 @@ interface AuthenticationService{
 
     fun signInWithFacebook(activity: Activity)
 
-    fun handleFacebookAccessToken(token: AccessToken): Observable<AuthenticationResult>
+    fun handleFacebookLogin(token: AccessToken): Observable<AuthenticationResult>
 
     val currentUser: FirebaseUser?
 }
@@ -121,7 +121,7 @@ class RealAuthenticationService(
         }
     }
 
-    override fun handleFacebookAccessToken(token: AccessToken): Observable<AuthenticationResult> {
+    override fun handleFacebookLogin(token: AccessToken): Observable<AuthenticationResult> {
         return Observable.create{ emitter ->
             val credential = FacebookAuthProvider.getCredential(token.token)
             authentication.signInWithCredential(credential)

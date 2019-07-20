@@ -30,12 +30,20 @@ class LoginActivity: AppCompatActivity() {
             loginViewModel.loginWithEmail(txtEmail.text.toString(), txtPassword.text.toString(), this)
         }
 
-        loginViewModel.signInSuccessful.observe(this, Observer { userResult ->
-            if (userResult.user != null){
+        loginViewModel.signInSuccessful.observe(this, Observer { userEvent ->
+            val user = userEvent.getContentIfNotHandled()
+            if (user != null){
                 openSetupActivity()
             }
             else{
                 Toast.makeText(this, "Invalid email or password", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        loginViewModel.signInError.observe(this, Observer { errorEvent ->
+            val errorMessage = errorEvent.getContentIfNotHandled()
+            if (errorMessage != null) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
             }
         })
     }
