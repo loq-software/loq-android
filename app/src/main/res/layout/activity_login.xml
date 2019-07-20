@@ -15,6 +15,17 @@
         android:text="Submit"
         android:textColor="#FFFFFF" />
 
+    <TextView
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/btnSubmit"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto"
+        android:text="Register"
+        android:textColor="#FFFFFF" />
+
 
     <EditText
         android:id="@+id/txtPassword"
