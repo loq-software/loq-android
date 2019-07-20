@@ -31,7 +31,7 @@ class LoginActivity: AppCompatActivity() {
         }
 
         loginViewModel.signInSuccessful.observe(this, Observer { userEvent ->
-            val user = userEvent.getContentIfNotHandled()
+            val user = userEvent.getContentIfNotHandled()?.user
             if (user != null){
                 openSetupActivity()
             }
