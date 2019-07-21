@@ -50,7 +50,7 @@ class LoginFragment: Fragment() {
             event?: return@Observer
             val user = event.user
             if (user != null){
-                safeActivity.replaceFragment(fragment = SetupFragment())
+                safeActivity.replaceFragment(fragment = EasyLoqFragment())
             }
             else{
                 Toast.makeText(safeActivity, "Invalid email or password", Toast.LENGTH_LONG).show()

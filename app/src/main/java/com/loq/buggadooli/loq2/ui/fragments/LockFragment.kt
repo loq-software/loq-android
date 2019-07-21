@@ -42,7 +42,7 @@ import java.util.Calendar
 class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDialog.OnTimeSetListener {
 
     private val newLoqs = ArrayList<Loq>()
-    private var chooseApps = false
+    private var chooseAppName = ""
     private var isStartTime = false
     private var apps: List<ApplicationInfo>? = null
     private var days: MutableList<CheckBox> = ArrayList()
@@ -84,7 +84,8 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        chooseApps = arguments?.getBoolean("chooseApps", false)?: false
+        val chooseAppName = arguments?.getString("chooseApps", "")?: ""
+        this.chooseAppName = chooseAppName
     }
 
     override fun onCreateView(
@@ -155,18 +156,16 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
     }
 
     private fun populateAppList() {
-        if (!chooseApps) {
-            multiSpinner!!.setItems(Arrays.asList(*resources.getStringArray(R.array.popular_apps_2)), "", this)
-            apps = listOfInstalledApps
+        apps = listOfInstalledApps
+
+        if (chooseAppName.isBlank()) {
+            multiSpinner!!.setItems(listOf(*resources.getStringArray(R.array.popular_apps_2)), "", this)
         } else {
-            apps = listOfInstalledApps
             val appNames = ArrayList<String>()
             var nameVal: String?
             for (appInfo in apps!!) {
                 nameVal = appInfo.loadLabel(safeActivity.packageManager).toString()
-                if (nameVal != null) {
-                    appNames.add(nameVal)
-                }
+                appNames.add(nameVal)
             }
             multiSpinner!!.setItems(appNames, "", this)
         }

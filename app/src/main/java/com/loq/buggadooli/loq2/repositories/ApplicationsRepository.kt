@@ -7,32 +7,54 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import com.loq.buggadooli.loq2.extensions.safeActivity
+import io.reactivex.Observable
 import java.util.*
 
 interface ApplicationsRepository{
 
-    fun getInstalledApps(): List<ApplicationInfo>
+    fun getInstalledApps(): Observable<List<ApplicationInfo>>
 
     fun getForegroundApp(): String
+    fun getHasApplicationInstalled(appName: String): Observable<Boolean>
 }
 
 class RealApplicationsRepository(private val context: Application): ApplicationsRepository{
 
-    override fun getInstalledApps(): List<ApplicationInfo> {
-        val apps = ArrayList<ApplicationInfo>()
-        val flags = PackageManager.GET_META_DATA or
-                PackageManager.GET_SHARED_LIBRARY_FILES or
-                PackageManager.GET_UNINSTALLED_PACKAGES
+    override fun getHasApplicationInstalled(appName: String): Observable<Boolean> {
+        return getInstalledApps()
+                .switchMap { applications ->
+                    Observable.create<Boolean> { emitter ->
+                       for (application in applications){
+                           val name = application.loadLabel(context.packageManager).toString()
+                           if (name.contentEquals(appName)){
+                               emitter.onNext(true)
+                               return@create
+                           }
+                       }
+                        emitter.onNext(false)
+                    }
+                }
+    }
 
-        val applications = context.packageManager.getInstalledApplications(flags)
-        for (appInfo in applications) {
-            if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-            } else {
-                apps.add(appInfo)
+    override fun getInstalledApps(): Observable<List<ApplicationInfo>> {
+
+        return Observable.create { emitter ->
+            val apps = ArrayList<ApplicationInfo>()
+            val flags = PackageManager.GET_META_DATA or
+                    PackageManager.GET_SHARED_LIBRARY_FILES or
+                    PackageManager.GET_UNINSTALLED_PACKAGES
+
+            val applications = context.packageManager.getInstalledApplications(flags)
+            for (appInfo in applications) {
+                if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
+                } else {
+                    apps.add(appInfo)
+                }
             }
-        }
 
-        return apps
+            emitter.onNext(apps)
+        }
     }
 
     override fun getForegroundApp(): String {

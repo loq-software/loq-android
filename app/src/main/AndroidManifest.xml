@@ -25,7 +25,7 @@
         <activity android:name=".ui.activities.LockScreenActivity" />
         <activity android:name=".ui.fragments.DashboardFragment" />
         <activity android:name=".ui.fragments.CongratsFragment" />
-        <activity android:name=".ui.fragments.SetupFragment" />
+        <activity android:name=".ui.fragments.EasyLoqFragment" />
         <activity android:name=".ui.fragments.RegistrationFragment" />
         <activity android:name=".ui.fragments.LoginFragment" />
         <activity android:name=".ui.fragments.LockFragment" />
@@ -41,7 +41,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.activities.MainActivity">
+        <activity android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
