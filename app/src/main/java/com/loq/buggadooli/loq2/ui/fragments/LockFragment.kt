@@ -1,4 +1,4 @@
-package com.loq.buggadooli.loq2.ui.activities
+package com.loq.buggadooli.loq2.ui.fragments
 
 import android.app.ActivityManager
 import android.app.AlarmManager
@@ -11,21 +11,25 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.TimePicker
+import androidx.fragment.app.Fragment
 
 import com.loq.buggadooli.loq2.loqer.LockService
 import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
+import com.loq.buggadooli.loq2.extensions.addFragment
+import com.loq.buggadooli.loq2.extensions.inflateTo
+import com.loq.buggadooli.loq2.extensions.safeActivity
 import com.loq.buggadooli.loq2.utils.Utils
 import com.loq.buggadooli.loq2.ui.widgets.MultiSpinner
+import kotlinx.android.synthetic.main.fragment_lock.*
 
 import org.json.JSONArray
 import org.json.JSONException
@@ -35,16 +39,10 @@ import java.util.ArrayList
 import java.util.Arrays
 import java.util.Calendar
 
-class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, TimePickerDialog.OnTimeSetListener {
+class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDialog.OnTimeSetListener {
 
-    private var txtLoqs: TextView? = null
-    private var btnFinished: Button? = null
-    private var btnAddLoq: Button? = null
-    private var btnStartTime: Button? = null
-    private var btnEndTime: Button? = null
     private val newLoqs = ArrayList<Loq>()
     private var chooseApps = false
-    private var multiSpinner: MultiSpinner? = null
     private var isStartTime = false
     private var apps: List<ApplicationInfo>? = null
     private var days: MutableList<CheckBox> = ArrayList()
@@ -62,7 +60,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
                     PackageManager.GET_SHARED_LIBRARY_FILES or
                     PackageManager.GET_UNINSTALLED_PACKAGES
 
-            val pm = packageManager
+            val pm = safeActivity.packageManager
             val applications = pm.getInstalledApplications(flags)
             for (appInfo in applications) {
                 if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
@@ -86,20 +84,23 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lock)
-        supportActionBar!!.hide()
-        chooseApps = intent.getBooleanExtra("chooseApps", false)
+        chooseApps = arguments?.getBoolean("chooseApps", false)?: false
+    }
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View = inflater.inflateTo(R.layout.fragment_lock, container)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getDayCheckboxes()
-        txtLoqs = findViewById(R.id.txtLoqs)
-        btnFinished = findViewById(R.id.btnFinished)
-        btnAddLoq = findViewById(R.id.btnAddLoq)
-        btnAddLoq!!.setOnClickListener { addLoq() }
-        btnStartTime = findViewById(R.id.btnStartTime)
+        btnAddLoq.setOnClickListener { addLoq() }
         btnStartTime!!.setOnClickListener {
             isStartTime = true
             showTimePicker()
         }
-        btnEndTime = findViewById(R.id.btnEndTime)
         btnEndTime!!.setOnClickListener {
             isStartTime = false
             showTimePicker()
@@ -107,13 +108,11 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
         btnFinished!!.setOnClickListener {
             if (saveLoqs()) {
                 startLockService()
-                goToCongratulations()
-            }
+                safeActivity.addFragment(fragment = ChildLockFragment()) }
         }
-        multiSpinner = findViewById(R.id.multiSpinner)
         populateAppList()
         if (!verifyAccess()) {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(safeActivity)
             builder.setMessage("Make sure Usage Access is granted to Loq for the app to work!")
                     .setCancelable(false)
                     .setPositiveButton("OK") { dialog, id ->
@@ -127,9 +126,9 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
 
     private fun verifyAccess(): Boolean {
         try {
-            val packageManager = packageManager
-            val applicationInfo = packageManager.getApplicationInfo(packageName, 0)
-            val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val packageManager = safeActivity.packageManager
+            val applicationInfo = packageManager.getApplicationInfo(safeActivity.packageName, 0)
+            val appOpsManager = safeActivity.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
             val mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName)
             return mode == AppOpsManager.MODE_ALLOWED
 
@@ -140,24 +139,19 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
     }
 
     private fun getDayCheckboxes() {
-        days.add(findViewById<View>(R.id.chkSunday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkMonday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkTuesday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkWednesday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkThursday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkFriday) as CheckBox)
-        days.add(findViewById<View>(R.id.chkSaturday) as CheckBox)
+        days.add(chkSunday)
+        days.add(chkMonday)
+        days.add(chkTuesday)
+        days.add(chkWednesday)
+        days.add(chkThursday)
+        days.add(chkFriday)
+        days.add(chkSaturday)
     }
 
     private fun saveLoqs(): Boolean {
         val jsonLoqs = convertLoqsToJson()
-        Utils.INSTANCE.saveLoqsToFile(applicationContext, jsonLoqs)
+        Utils.INSTANCE.saveLoqsToFile(safeActivity, jsonLoqs)
         return true
-    }
-
-    private fun goToCongratulations() {
-        val intent = Intent(applicationContext, ChildLock::class.java)
-        startActivity(intent)
     }
 
     private fun populateAppList() {
@@ -169,7 +163,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
             val appNames = ArrayList<String>()
             var nameVal: String?
             for (appInfo in apps!!) {
-                nameVal = appInfo.loadLabel(packageManager).toString()
+                nameVal = appInfo.loadLabel(safeActivity.packageManager).toString()
                 if (nameVal != null) {
                     appNames.add(nameVal)
                 }
@@ -184,8 +178,8 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        val dialog = TimePickerDialog(this, this, hour, minute,
-                DateFormat.is24HourFormat(this))
+        val dialog = TimePickerDialog(safeActivity, this, hour, minute,
+                DateFormat.is24HourFormat(safeActivity))
         dialog.show()
     }
 
@@ -225,7 +219,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
         }
         var appName: String
         for (appInfo in apps!!) {
-            appName = appInfo.loadLabel(packageManager).toString()
+            appName = appInfo.loadLabel(safeActivity.packageManager).toString()
             if (selectedApps.contains(appName)) {
                 val loq = Loq()
                 loq.appName = appName
@@ -293,15 +287,15 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
         if (isMyServiceRunning(mLockService!!.javaClass)) {
             //stop and restart
         } else {
-            mServiceIntent = Intent(applicationContext, mLockService!!.javaClass)
-            val pintent = PendingIntent.getService(this, 0, mServiceIntent!!, 0)
-            val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            mServiceIntent = Intent(safeActivity, mLockService!!.javaClass)
+            val pintent = PendingIntent.getService(safeActivity, 0, mServiceIntent!!, 0)
+            val alarm = safeActivity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarm.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis, 1000, pintent)
         }
     }
 
     private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val manager = safeActivity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.name == service.service.className) {
                 Log.i("isMyServiceRunning?", true.toString() + "")
@@ -314,7 +308,7 @@ class LockActivity : AppCompatActivity(), MultiSpinner.MultiSpinnerListener, Tim
 
     override fun onDestroy() {
         if (mServiceIntent != null)
-            stopService(mServiceIntent)
+            safeActivity.stopService(mServiceIntent)
         super.onDestroy()
 
     }

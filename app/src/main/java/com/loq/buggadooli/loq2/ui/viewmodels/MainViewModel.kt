@@ -7,6 +7,6 @@ import com.loq.buggadooli.loq2.network.AuthenticationService
 class MainViewModel(private val authenticationService: AuthenticationService): ViewModel() {
 
 
-    val user: FirebaseUser? = authenticationService.currentUser
+    val user: FirebaseUser? get() = authenticationService.getCurrentUser()
 
 }

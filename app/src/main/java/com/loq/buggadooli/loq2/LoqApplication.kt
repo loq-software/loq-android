@@ -18,12 +18,12 @@ class LoqApplication: Application() {
 
         val modules = listOf(
                 mainModule,
+                networkModule,
+                googleModule,
                 viewModelsModule,
                 notificationsModule,
                 repositoriesModule,
-                loqerModule,
-                networkModule,
-                googleModule
+                loqerModule
         )
         startKoin(
                 androidContext = this,

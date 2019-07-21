@@ -18,8 +18,6 @@ import io.reactivex.Observable
 
 interface AuthenticationService{
 
-    fun createUserWithEmailAndPassword(email: String, password: String)
-
     fun signInWithEmailAndPassword(email: String, password: String):Observable<AuthenticationResult>
 
     fun signInWithGoogle(activity: Activity)
@@ -30,7 +28,7 @@ interface AuthenticationService{
 
     fun handleFacebookLogin(token: AccessToken): Observable<AuthenticationResult>
 
-    val currentUser: FirebaseUser?
+    fun getCurrentUser(): FirebaseUser?
 }
 
 class RealAuthenticationService(
@@ -39,8 +37,9 @@ class RealAuthenticationService(
 
 ): AuthenticationService{
 
-    override val currentUser: FirebaseUser?
-        get() = authentication.currentUser
+    override fun getCurrentUser(): FirebaseUser? {
+        return authentication.currentUser
+    }
 
 
     override fun signInWithGoogle(activity: Activity) {
@@ -69,22 +68,6 @@ class RealAuthenticationService(
                     }
         }
 
-    }
-
-    override fun createUserWithEmailAndPassword(email: String, password: String) {
-        authentication.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener{ task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = authentication.currentUser
-                       // sendEmailVerification(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        //Toast.makeText(applicationContext, "Failed to register user " + task.exception!!.toString(), Toast.LENGTH_LONG).show()
-                    }
-
-                    // ...
-                }
     }
 
     override fun handleGoogleLogin(data: Intent?): Observable<AuthenticationResult> {
