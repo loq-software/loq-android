@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 
 import com.loq.buggadooli.loq2.loqer.LockService
 import com.loq.buggadooli.loq2.models.Loq
@@ -55,7 +56,7 @@ class DashboardFragment : Fragment() {
         initLockBlock()
         initLoqList()
         startLockService()
-        btnAddToLoq.setOnClickListener { safeActivity.addFragment(fragment = SetupFragment()) }
+        btnAddToLoq.setOnClickListener { safeActivity.addFragment(fragment = EasyLoqFragment()) }
         btnQuickAdd.setOnClickListener { safeActivity.addFragment(fragment = QuickLoqFragment()) }
     }
 
@@ -114,7 +115,8 @@ class DashboardFragment : Fragment() {
             Utils.INSTANCE.editLoq = loq
             val fragment = EditLoqFragment()
                     .apply {
-                        arguments?.putInt(Constants.LOQ_INDEX,index)
+                        val bundle = bundleOf(Constants.LOQ_INDEX to index)
+                        arguments = bundle
                     }
             safeActivity.addFragment(fragment = fragment)
         }

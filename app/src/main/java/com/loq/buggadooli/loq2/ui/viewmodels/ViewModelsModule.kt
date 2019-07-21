@@ -11,4 +11,8 @@ val viewModelsModule = module {
     single {
         LoginViewModel(get())
     }
+
+    single {
+        EasyLoqViewModel(get())
+    }
 }
