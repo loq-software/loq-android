@@ -30,7 +30,7 @@ class SetupFragment : Fragment() {
                 R.array.popular_apps, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        appSelectGroup!!.setOnCheckedChangeListener { group, checkedId ->
+        appSelectGroup.setOnCheckedChangeListener { group, checkedId ->
             if (checkedId == R.id.radioBtnPopular) {
                 chooseApps = false
                 spinner.visibility = View.VISIBLE
@@ -41,7 +41,6 @@ class SetupFragment : Fragment() {
         }
 
         btnNext!!.setOnClickListener {
-
             val fragment = LockFragment().apply {
                 arguments?.putBoolean("chooseApps", chooseApps)
             }

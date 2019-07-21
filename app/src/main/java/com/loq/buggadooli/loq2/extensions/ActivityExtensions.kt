@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.loq.buggadooli.loq2.R
 
@@ -48,3 +49,9 @@ fun Activity?.replaceFragment(
                 commit()
             }
 }
+
+fun Activity?.popAllInBackStack(){
+    val compatActivity = this as? AppCompatActivity ?: return
+    compatActivity.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}
+

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.extensions.inflateTo
+import com.loq.buggadooli.loq2.extensions.popAllInBackStack
 import com.loq.buggadooli.loq2.extensions.replaceFragment
 import com.loq.buggadooli.loq2.extensions.safeActivity
 import com.loq.buggadooli.loq2.utils.Utils
@@ -34,6 +35,7 @@ class ChildLockFragment : Fragment() {
             if (!pinCode.isEmpty()) {
                 Utils.INSTANCE.saveChildLoqPin(safeActivity, pinCode)
             }
+            safeActivity.popAllInBackStack()
             safeActivity.replaceFragment(fragment = CongratsFragment())
         } else {
             Toast.makeText(safeActivity,
