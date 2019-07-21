@@ -54,7 +54,6 @@ class EasyLoqFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 choosenAppName = parent.getItemAtPosition(pos) as String
-                Log.d("test", choosenAppName)
             }
 
         }
