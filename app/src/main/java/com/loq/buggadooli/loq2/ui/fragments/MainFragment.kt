@@ -48,87 +48,9 @@ class MainFragment : Fragment() {
 
     private fun updateUi() {
         if (mainViewModel.user == null) {
-            launchLogin()
+            safeActivity.replaceFragment( fragment = LoginFragment())
         } else {
             safeActivity.replaceFragment(fragment = DashboardFragment())
         }
     }
-
-    private fun launchLogin() {
-        safeActivity.replaceFragment( fragment = LoginFragment())
-    }
-
-    /*private void initTracker(Bundle savedInstanceState) {
-        tracker = new SelectionTracker.Builder<>(
-                "activity-uri-selection",
-                appSelector,
-                new StableIdKeyProvider(appSelector),
-                new AppSelectionLookup(appSelector),
-                StorageStrategy.createLongStorage())
-                .withSelectionPredicate(SelectionPredicates.<Long>createSelectAnything())
-                .build();
-
-        if(savedInstanceState != null)
-            tracker.onRestoreInstanceState(savedInstanceState);
-
-        addTrackerObserver();
-        adapter.setTracker(tracker);
-    }
-
-    private void addTrackerObserver() {
-        tracker.addObserver(new SelectionTracker.SelectionObserver<Long>() {
-            @Override
-            public void onSelectionChanged() {
-                int nItems = tracker.getSelection().size();
-                if(nItems > 0) {
-
-                    // Change title and color of action bar
-
-                    String title = Integer.toString(nItems) + " Items items selected";
-                    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(
-                            Color.parseColor("#ef6c00")));
-                    setTitle(title);
-                } else {
-                   String  title = "Loq";
-                    getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.colorPrimary)));
-                    setTitle(title);
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if(outState != null)
-            tracker.onSaveInstanceState(outState);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private boolean isAccessGranted() {
-        try {
-            PackageManager packageManager = getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
-            AppOpsManager appOpsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
-            int mode = 0;
-            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
-                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                        applicationInfo.uid, applicationInfo.packageName);
-            }
-            return (mode == AppOpsManager.MODE_ALLOWED);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
-
-    public void lockBtnClicked(View view) {
-        if(!isAccessGranted()) {
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivity(intent);
-        }
-        startService(new Intent(this, LockService.class));
-    }*/
 }
