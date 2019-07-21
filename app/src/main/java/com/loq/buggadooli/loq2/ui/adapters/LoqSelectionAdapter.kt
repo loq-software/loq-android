@@ -12,11 +12,11 @@ import com.loq.buggadooli.loq2.ui.listeners.LoqSelectionEditListener
 
 class LoqSelectionAdapter(private val mDataset: List<Loq>) : RecyclerView.Adapter<LoqViewHolder>() {
 
-    var listener: LoqSelectionEditListener? = null
+    var loqSelectionListener: LoqSelectionEditListener? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): LoqViewHolder {
         val viewBinding = viewGroup.inflateWithBinding<LoqItemBinding>(R.layout.loq_item)
-        return LoqViewHolder(viewBinding, listener)
+        return LoqViewHolder(viewBinding, loqSelectionListener)
     }
 
     override fun onBindViewHolder(loqViewHolder: LoqViewHolder, index: Int) {
@@ -28,17 +28,19 @@ class LoqSelectionAdapter(private val mDataset: List<Loq>) : RecyclerView.Adapte
         return mDataset.size
     }
 
-    class LoqViewHolder(
+    class LoqViewHolder constructor(
             private val binding: LoqItemBinding,
-            private val listener: LoqSelectionEditListener?
+            private val loqSelectionListener: LoqSelectionEditListener?
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loq: Loq) {
             binding.loq = loq
-            binding.btnEdit.setOnClickListener {
-                listener?.onLoqSelectionEditListenerClicked(loq, adapterPosition)
-            }
+
             binding.executePendingBindings()
+
+            binding.btnEdit.setOnClickListener {
+                loqSelectionListener?.onLoqSelectionEditListenerClicked(loq, adapterPosition)
+            }
         }
 
     }
