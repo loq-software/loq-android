@@ -146,9 +146,9 @@
             android:id="@+id/btnStartTime"
             android:layout_width="80dp"
             android:layout_height="20dp"
-            android:layout_below="@id/textView14"
             android:background="@drawable/back_button_2"
-            android:text="Start Time"
+            android:hint="Start Time"
+            android:textColorHint="#FFFFFF"
             android:textAllCaps="false"
             android:textColor="#FFFFFF" />
 
@@ -156,9 +156,7 @@
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_alignTop="@id/btnStartTime"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/btnStartTime"
+            android:layout_marginStart="30dp"
             android:fontFamily="@font/roboto_bold"
             android:text="To"
             android:textColor="#FFFFFF" />
@@ -167,11 +165,10 @@
             android:id="@+id/btnEndTime"
             android:layout_width="80dp"
             android:layout_height="20dp"
-            android:layout_below="@id/textView14"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/textView17"
+            android:layout_marginStart="30dp"
             android:background="@drawable/back_button_2"
-            android:text="End Time"
+            android:hint="End Time"
+            android:textColorHint="#FFFFFF"
             android:textAllCaps="false"
             android:textColor="#FFFFFF" />
     </LinearLayout>

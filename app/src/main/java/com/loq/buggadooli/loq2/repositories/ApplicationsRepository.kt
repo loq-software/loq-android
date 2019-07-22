@@ -62,17 +62,24 @@ class RealApplicationsRepository(private val context: Application): Applications
                         val packageManager = context.packageManager
                         for (installedApplication in installedApplications){
                             val installedApplicationName = installedApplication.loadLabel(packageManager).toString()
-                            if (installedApplicationName.contentEquals(applicationName)){
+                            if (installedApplicationName.contains(applicationName, true)){
                                 val selectedDays = ArrayList<String>()
+                                var dayString = ""
                                 for (day in days){
                                     if (day.isChecked){
-                                        selectedDays.add(day.text.toString())
+                                        val dayText = "${day.text}"
+                                        dayString += "$dayText "
+
+                                        selectedDays.add(dayText)
                                     }
                                 }
+
                                 val loq = Loq()
                                 loq.appName = applicationName
                                 loq.packageName = installedApplication.packageName
                                 loq.days = selectedDays
+                                loq.daysStr = dayString
+
                                 loq.startTime = startTime
                                 loq.endTime = endTime
                                 loq.rawStartMinute = rawStartMinute
@@ -97,7 +104,7 @@ class RealApplicationsRepository(private val context: Application): Applications
                     Observable.create<Boolean> { emitter ->
                        for (application in applications){
                            val name = application.loadLabel(context.packageManager).toString()
-                           if (name.contentEquals(appName)){
+                           if (name.contains(appName, true)){
                                emitter.onNext(true)
                                return@create
                            }

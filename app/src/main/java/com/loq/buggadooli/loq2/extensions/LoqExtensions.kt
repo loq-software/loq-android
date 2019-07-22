@@ -1,5 +1,6 @@
 package com.loq.buggadooli.loq2.extensions
 
+import android.widget.CheckBox
 import com.loq.buggadooli.loq2.models.Loq
 import org.json.JSONArray
 import org.json.JSONException
@@ -61,3 +62,13 @@ fun Loq.toJson(): String{
     }
 
     return jsonObj.toString()}
+
+fun List<CheckBox>.hasSelection(): Boolean{
+    for (item in this){
+        if (item.isChecked){
+            return true
+        }
+    }
+
+    return false
+}

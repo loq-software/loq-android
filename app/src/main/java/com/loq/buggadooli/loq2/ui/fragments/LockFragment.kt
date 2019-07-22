@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import com.loq.buggadooli.loq2.loqer.CheckForLoqService
 import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
+import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.addFragment
 import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.safeActivity
@@ -83,7 +84,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val chooseAppName = arguments?.getString("chooseApps", "")?: ""
+        val chooseAppName = arguments?.getString(Constants.APP_NAME, "")?: ""
         this.chooseAppName = chooseAppName
     }
 

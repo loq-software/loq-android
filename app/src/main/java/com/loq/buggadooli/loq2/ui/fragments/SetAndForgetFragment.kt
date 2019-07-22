@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.constants.Constants
-import com.loq.buggadooli.loq2.extensions.inflateTo
-import com.loq.buggadooli.loq2.extensions.safeActivity
+import com.loq.buggadooli.loq2.extensions.*
 import com.loq.buggadooli.loq2.ui.viewmodels.SetAndForgetViewModel
 import kotlinx.android.synthetic.main.fragment_set_or_forget.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -55,21 +55,36 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         btnFinished.setOnClickListener {
             val startTime = btnStartTime.text.toString()
             val endTime = btnEndTime.text.toString()
-            if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                viewModel.finishButtonClicked(
-                        applicationName,
-                        btnStartTime!!.text.toString(),
-                        btnEndTime!!.text.toString(),
-                        rawStartMinute,
-                        rawEndMinute,
-                        rawStartHour,
-                        rawEndHour,
-                        this)
+            if (viewModel.days.hasSelection()) {
+                if (startTime.isNotBlank() && endTime.isNotBlank()) {
+                    viewModel.finishButtonClicked(
+                            applicationName,
+                            btnStartTime!!.text.toString(),
+                            btnEndTime!!.text.toString(),
+                            rawStartMinute,
+                            rawEndMinute,
+                            rawStartHour,
+                            rawEndHour,
+                            this)
+                }
+                else {
+                    Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
+
+                }
             }
             else{
-                Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
+                Toast.makeText(safeActivity, "You must select a day(s)", Toast.LENGTH_LONG).show()
+
             }
         }
+
+        viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
+            val application = event.getContentIfNotHandled()
+            if (application != null){
+                safeActivity.popAllInBackStack()
+                safeActivity.replaceFragment(fragment = DashboardFragment())
+            }
+        })
     }
 
     private fun setupDays() {
