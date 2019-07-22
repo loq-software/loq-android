@@ -37,7 +37,7 @@
             android:label="RestartServiceWhenStopped" />
 
         <service
-            android:name=".loqer.LockService"
+            android:name=".loqer.CheckForLoqService"
             android:enabled="true"
             android:exported="true" />
 

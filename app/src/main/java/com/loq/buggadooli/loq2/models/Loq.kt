@@ -3,7 +3,7 @@ package com.loq.buggadooli.loq2.models
 data class Loq(
         @kotlin.jvm.JvmField
         var appName: String? = null,
-        @kotlin.jvm.JvmField var Days: List<String>? = null,
+        @kotlin.jvm.JvmField var days: List<String>? = null,
         @kotlin.jvm.JvmField var daysStr: String? = null,
         @kotlin.jvm.JvmField var startTime: String? = null,
         @kotlin.jvm.JvmField var endTime: String? = null,

@@ -10,6 +10,6 @@ public class LockServiceBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(LockServiceBroadcastReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
-        context.startService(new Intent(context, LockService.class));;
+        context.startService(new Intent(context, CheckForLoqService.class));;
     }
 }

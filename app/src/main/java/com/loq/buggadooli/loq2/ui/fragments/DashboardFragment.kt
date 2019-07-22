@@ -16,7 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 
-import com.loq.buggadooli.loq2.loqer.LockService
+import com.loq.buggadooli.loq2.loqer.CheckForLoqService
 import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.constants.Constants
@@ -36,7 +36,7 @@ class DashboardFragment : Fragment() {
     private lateinit var loqAdapter: LoqSelectionAdapter
     private var initialized = false
     private var lockPin: String? = null
-    private var mLockService: LockService? = null
+    private var mLockService: CheckForLoqService? = null
     private var mServiceIntent: Intent? = null
 
     override fun onCreateView(
@@ -73,7 +73,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun startLockService() {
-        mLockService = LockService()
+        mLockService = CheckForLoqService()
         if (isMyServiceRunning(mLockService!!.javaClass)) {
             safeActivity.stopService(Intent(safeActivity, mLockService!!.javaClass))
             safeActivity.startService(Intent(safeActivity, mLockService!!.javaClass))
@@ -99,7 +99,7 @@ class DashboardFragment : Fragment() {
 
     private fun initLoqList() {
         val currentLoqs = Utils.INSTANCE.readLoqsFromFile(safeActivity)
-        if (!currentLoqs.isEmpty()) {
+        if (currentLoqs.isNotEmpty()) {
             layoutManager = LinearLayoutManager(safeActivity)
             listCurrentLoqs.layoutManager = layoutManager
             loqAdapter = LoqSelectionAdapter(currentLoqs)

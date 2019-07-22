@@ -1,15 +1,12 @@
 package com.loq.buggadooli.loq2.ui.fragments
 
 import android.app.TimePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 
@@ -83,9 +80,9 @@ class EditLoqFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         thisLoq!!.endTime = btnEndTime!!.text.toString()
         val selectedDays = selectedDays
         if (!selectedDays.isEmpty()) {
-            thisLoq!!.Days = selectedDays
+            thisLoq!!.days = selectedDays
             var days = ""
-            for (day in thisLoq!!.Days!!) {
+            for (day in thisLoq!!.days!!) {
                 days += "$day "
             }
             thisLoq!!.daysStr = days
@@ -101,10 +98,10 @@ class EditLoqFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private fun initLoq() {
         thisLoq = Utils.INSTANCE.editLoq
         var day: String
-        if (thisLoq!!.Days != null) {
+        if (thisLoq!!.days != null) {
             for (chkDay in days) {
                 day = chkDay.text.toString()
-                if (thisLoq!!.Days!!.contains(day)) {
+                if (thisLoq!!.days!!.contains(day)) {
                     chkDay.isChecked = true
                 }
             }

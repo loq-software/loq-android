@@ -31,21 +31,9 @@ public enum Utils {
     private Loq editLoq;
     private List<Loq> currentLoqs;
 
-    public void setAppInfo(List<ApplicationInfo> appInfo) {
-        this.appInfos = appInfo;
-    }
-
     public void addAppInfo(ApplicationInfo appInfo) {
         appInfos.add(appInfo);
         packageNames.add(appInfo.packageName);
-    }
-
-    public List<ApplicationInfo> getAppInfo() {
-        return appInfos;
-    }
-
-    public List<String> getPackageNames() {
-        return packageNames;
     }
 
     public void saveLoqsToFile(Context context, String json) {
@@ -124,8 +112,8 @@ public enum Utils {
                 JSONObject loqObj = loqData.getJSONObject(i);
                 Loq lock = new Loq();
                 lock.appName = loqObj.getString("AppName");
-                lock.daysStr = loqObj.getString("Days");
-                lock.Days = Arrays.asList(lock.daysStr.split(" "));
+                lock.daysStr = loqObj.getString("days");
+                lock.days = Arrays.asList(lock.daysStr.split(" "));
                 lock.startTime = loqObj.getString("StartTime");
                 lock.endTime = loqObj.getString("EndTime");
                 lock.packageName = loqObj.getString("PackageName");
@@ -167,7 +155,7 @@ public enum Utils {
             JSONObject obj = new JSONObject();
             try {
                 obj.put("AppName", loq.appName);
-                obj.put("Days", loq.daysStr);
+                obj.put("days", loq.daysStr);
                 obj.put("PackageName", loq.packageName);
                 obj.put("StartTime", loq.startTime);
                 obj.put("EndTime", loq.endTime);
