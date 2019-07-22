@@ -1,6 +1,10 @@
 package com.loq.buggadooli.loq2.extensions
 
+import android.widget.CheckBox
 import com.loq.buggadooli.loq2.models.Loq
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.*
 
 inline fun List<Loq>.isAppLocked(app: String): Boolean {
@@ -29,5 +33,42 @@ inline fun isLockTime(loq: Loq): Boolean {
             return false
         return !(hour == endHour && minute > endMinute)
     }
+    return false
+}
+
+fun Loq.toJson(): String{
+    val jsonObj = JSONObject()
+    val jsonArr = JSONArray()
+    val obj = JSONObject()
+    try {
+        obj.put("AppName", appName)
+        obj.put("days", daysStr)
+        obj.put("PackageName", packageName)
+        obj.put("StartTime", startTime)
+        obj.put("EndTime", endTime)
+        obj.put("EndHour", rawEndHour)
+        obj.put("EndMinute", rawEndMinute)
+        obj.put("StartHour", rawStartHour)
+        obj.put("StartMinute", rawStartMinute)
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+
+    jsonArr.put(obj)
+    try {
+        jsonObj.put("Loqs", jsonArr)
+    } catch (e: JSONException) {
+        e.printStackTrace()
+    }
+
+    return jsonObj.toString()}
+
+fun List<CheckBox>.hasSelection(): Boolean{
+    for (item in this){
+        if (item.isChecked){
+            return true
+        }
+    }
+
     return false
 }

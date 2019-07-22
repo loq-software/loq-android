@@ -15,4 +15,8 @@ val viewModelsModule = module {
     single {
         EasyLoqViewModel(get())
     }
+
+    single {
+        SetAndForgetViewModel(get())
+    }
 }

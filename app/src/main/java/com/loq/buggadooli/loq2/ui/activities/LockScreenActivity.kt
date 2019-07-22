@@ -160,7 +160,7 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
     }
 
     override fun onRewardedVideoCompleted() {
-        /*mLockService = new LockService(getApplicationContext());
+        /*mLockService = new CheckForLoqService(getApplicationContext());
         if (isMyServiceRunning(mLockService.getClass()))
             stopService(new Intent(getApplicationContext(), mLockService.getClass()));
 

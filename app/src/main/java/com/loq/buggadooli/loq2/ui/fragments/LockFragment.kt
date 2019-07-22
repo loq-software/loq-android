@@ -21,9 +21,10 @@ import android.widget.CheckBox
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 
-import com.loq.buggadooli.loq2.loqer.LockService
+import com.loq.buggadooli.loq2.loqer.CheckForLoqService
 import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
+import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.addFragment
 import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.safeActivity
@@ -36,7 +37,6 @@ import org.json.JSONException
 import org.json.JSONObject
 
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.Calendar
 
 class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDialog.OnTimeSetListener {
@@ -46,7 +46,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
     private var isStartTime = false
     private var apps: List<ApplicationInfo>? = null
     private var days: MutableList<CheckBox> = ArrayList()
-    private var mLockService: LockService? = null
+    private var mLockService: CheckForLoqService? = null
     private var mServiceIntent: Intent? = null
     private var rawStartHour: String? = null
     private var rawStartMinute: String? = null
@@ -84,7 +84,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val chooseAppName = arguments?.getString("chooseApps", "")?: ""
+        val chooseAppName = arguments?.getString(Constants.APP_NAME, "")?: ""
         this.chooseAppName = chooseAppName
     }
 
@@ -223,7 +223,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
                 val loq = Loq()
                 loq.appName = appName
                 loq.packageName = appInfo.packageName
-                loq.Days = selectedDays
+                loq.days = selectedDays
                 loq.startTime = btnStartTime!!.text.toString()
                 loq.endTime = btnEndTime!!.text.toString()
                 loq.rawEndHour = rawEndHour
@@ -241,7 +241,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
         var textVal = ""
         for (loq in newLoqs) {
             var days = ""
-            for (day in loq.Days!!) {
+            for (day in loq.days!!) {
                 days += "$day "
             }
             loq.daysStr = days
@@ -257,7 +257,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
             val obj = JSONObject()
             try {
                 obj.put("AppName", AppName)
-                obj.put("Days", daysStr)
+                obj.put("days", daysStr)
                 obj.put("PackageName", packageName)
                 obj.put("StartTime", startTime)
                 obj.put("EndTime", endTime)
@@ -282,7 +282,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
     }
 
     private fun startLockService() {
-        mLockService = LockService()
+        mLockService = CheckForLoqService()
         if (isMyServiceRunning(mLockService!!.javaClass)) {
             //stop and restart
         } else {

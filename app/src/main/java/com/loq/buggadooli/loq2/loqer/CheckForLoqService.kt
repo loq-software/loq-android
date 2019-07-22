@@ -7,7 +7,7 @@ import com.loq.buggadooli.loq2.notifications.Notifications
 
 import org.koin.android.ext.android.inject
 
-class LockService : Service() {
+class CheckForLoqService : Service() {
 
     private val notifications by inject<Notifications>()
     private val loqerManager by inject<LoqerManager>()
