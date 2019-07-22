@@ -50,17 +50,15 @@ class SetAndForgetViewModel(private val repository: ApplicationsRepository):View
                             rawEndHour: String,
                             owner: Fragment) {
 
-        if (days.hasSelection()){
-            repository.saveApplication(applicationName, days, startTime, endTime, rawStartMinute, rawEndMinute, rawStartHour, rawEndHour)
-                    .ioToMain()
-                    .subscribeForOutcome { outcome ->
-                        when(outcome){
-                            is Outcome.Success ->{
-                                _onLockedApplicationSaved.postValue(Event(outcome.data))
-                            }
+        repository.saveApplication(applicationName, days, startTime, endTime, rawStartMinute, rawEndMinute, rawStartHour, rawEndHour)
+                .ioToMain()
+                .subscribeForOutcome { outcome ->
+                    when(outcome){
+                        is Outcome.Success ->{
+                            _onLockedApplicationSaved.postValue(Event(outcome.data))
                         }
                     }
-                    .attachLifecycle(owner)
-        }
+                }
+                .attachLifecycle(owner)
     }
 }
