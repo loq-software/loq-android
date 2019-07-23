@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.loq.buggadooli.loq2.extensions.disposeOnDetach
 import com.loq.buggadooli.loq2.extensions.ioToMain
 import com.loq.buggadooli.loq2.extensions.subscribeForOutcome
-import com.loq.buggadooli.loq2.models.CustomLoqItem
 import com.loq.buggadooli.loq2.network.Outcome
 import com.loq.buggadooli.loq2.repositories.ApplicationsRepository
 import com.loq.buggadooli.loq2.utils.Event
@@ -17,10 +16,6 @@ class CustomLoqViewModel(private val repository: ApplicationsRepository): ViewMo
 
     val onApplicationsLoaded: LiveData<Event<List<ApplicationInfo>>> get() = _onApplicationsLoaded
     private val _onApplicationsLoaded = MutableLiveData<Event<List<ApplicationInfo>>>()
-
-    fun onNextButtonClicked(applicationItems: List<CustomLoqItem>) {
-
-    }
 
     fun loadApplications(view: View) {
         repository.getInstalledApps()

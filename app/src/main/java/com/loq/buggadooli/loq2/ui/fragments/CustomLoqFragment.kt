@@ -31,9 +31,6 @@ class CustomLoqFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        nextButton.setOnClickListener {
-           viewModel.onNextButtonClicked(loqAdapter.applicationItems)
-        }
 
         loqAdapter = CustomLoqAdapter()
         loqAdapter.checkboxListener = checkboxListener
