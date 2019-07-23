@@ -30,7 +30,8 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:layout_marginBottom="15dp"
-        android:text="Select which apps you want to loq. All using the same dates and times."/>
+        android:layout_gravity="center_horizontal"
+        android:text="Select which apps you want to loq."/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
