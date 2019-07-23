@@ -69,7 +69,7 @@ class EasyLoqFragment : Fragment() {
                 R.id.radioBtnPopular -> {
                     val appName = choosenAppName
                     if (appName.isNotBlank() && ! appName.contentEquals("See apps")){
-                        viewModel.checkIfUserHasAppOnDevice(appName, this)// todo: Get ApplicationInfo object instead.
+                        viewModel.checkIfUserHasAppOnDevice(appName, this)
                     }
                     else{
                         Toast.makeText(safeActivity, "Please select an app from the list", Toast.LENGTH_SHORT).show()
