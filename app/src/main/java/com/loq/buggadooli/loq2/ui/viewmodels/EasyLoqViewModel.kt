@@ -9,12 +9,13 @@ import com.loq.buggadooli.loq2.extensions.ioToMain
 import com.loq.buggadooli.loq2.extensions.subscribeForOutcome
 import com.loq.buggadooli.loq2.network.Outcome
 import com.loq.buggadooli.loq2.repositories.ApplicationsRepository
+import com.loq.buggadooli.loq2.repositories.HasApplicationResult
 import com.loq.buggadooli.loq2.utils.Event
 
 class EasyLoqViewModel(private val repository: ApplicationsRepository): ViewModel() {
 
-    val onUserHasApplication: LiveData<Event<Boolean>> get() = __onUserHasApplication
-    private val __onUserHasApplication = MutableLiveData<Event<Boolean>>()
+    val onUserHasApplication: LiveData<Event<HasApplicationResult>> get() = __onUserHasApplication
+    private val __onUserHasApplication = MutableLiveData<Event<HasApplicationResult>>()
 
     fun checkIfUserHasAppOnDevice(appName: String, lifecycleOwner: LifecycleOwner){
         repository.getHasApplicationInstalled(appName)
@@ -29,5 +30,4 @@ class EasyLoqViewModel(private val repository: ApplicationsRepository): ViewMode
                 }
                 .attachLifecycle(lifecycleOwner)
     }
-
 }

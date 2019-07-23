@@ -22,7 +22,9 @@ interface ApplicationsRepository{
     fun getInstalledApps(): Observable<List<ApplicationInfo>>
 
     fun getForegroundApp(): String
-    fun getHasApplicationInstalled(appName: String): Observable<Boolean>
+
+    fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult>
+
     fun saveApplication(
             applicationName: String,
             days: List<CheckBox>,
@@ -98,18 +100,19 @@ class RealApplicationsRepository(private val context: Application): Applications
                 }
     }
 
-    override fun getHasApplicationInstalled(appName: String): Observable<Boolean> {
+    override fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult> {
         return getInstalledApps()
                 .switchMap { applications ->
-                    Observable.create<Boolean> { emitter ->
+                    Observable.create<HasApplicationResult> { emitter ->
                        for (application in applications){
                            val name = application.loadLabel(context.packageManager).toString()
                            if (name.contains(appName, true)){
-                               emitter.onNext(true)
+                               val response = HasApplicationResult(application, true)
+                               emitter.onNext(response)
                                return@create
                            }
                        }
-                        emitter.onNext(false)
+                        emitter.onNext(HasApplicationResult())
                     }
                 }
     }
@@ -159,3 +162,5 @@ class RealApplicationsRepository(private val context: Application): Applications
     }
 
 }
+
+data class HasApplicationResult(val info: ApplicationInfo? = null, val hasResult: Boolean = false)

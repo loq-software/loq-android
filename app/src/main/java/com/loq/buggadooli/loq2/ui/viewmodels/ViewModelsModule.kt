@@ -19,4 +19,8 @@ val viewModelsModule = module {
     single {
         SetAndForgetViewModel(get())
     }
+
+    single {
+        CustomLoqViewModel(get())
+    }
 }

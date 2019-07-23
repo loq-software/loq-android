@@ -1,11 +1,14 @@
 package com.loq.buggadooli.loq2.extensions
 
+import android.content.pm.ApplicationInfo
 import android.widget.CheckBox
+import com.loq.buggadooli.loq2.models.CustomLoqItem
 import com.loq.buggadooli.loq2.models.Loq
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 inline fun List<Loq>.isAppLocked(app: String): Boolean {
     for (loq in this) {
@@ -71,4 +74,13 @@ fun List<CheckBox>.hasSelection(): Boolean{
     }
 
     return false
+}
+
+fun List<ApplicationInfo>.toCustomLoqItems(): List<CustomLoqItem>{
+    val list = ArrayList<CustomLoqItem>()
+    for (info in this){
+        val item = CustomLoqItem(info)
+        list.add(item)
+    }
+    return list
 }
