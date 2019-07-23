@@ -1,5 +1,6 @@
 package com.loq.buggadooli.loq2.ui.fragments
 
+import android.content.pm.ApplicationInfo
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -76,25 +77,26 @@ class EasyLoqFragment : Fragment() {
                 }
 
                 R.id.radioBtnCustom -> {
-                    //safeActivity.addFragment(fragment = SetAndForgetFragment())// todo: Start CustomLoqFragment
-                    Toast.makeText(safeActivity, "Coming soon", Toast.LENGTH_LONG).show()
+                    safeActivity.addFragment(fragment = CustomLoqFragment())
                 }
 
                 else -> {
                     Toast.makeText(safeActivity, "Please make a selection", Toast.LENGTH_LONG).show()
-
                 }
 
             }
         }
 
         viewModel.onUserHasApplication.observe(this, Observer { event ->
-            val hasApplication = event.getContentIfNotHandled()
-            hasApplication?.let {
+            val item = event.getContentIfNotHandled()
+            item?.let {
                 val name = choosenAppName
-                if (it){
+                val info = it.info
+                if (it.hasResult && info != null){
+                    val list: MutableList<ApplicationInfo> = ArrayList()
+                    list.add(info)
                     val fragment = SetAndForgetFragment()
-                    val bundle = bundleOf(Constants.APP_NAME to name)
+                    val bundle = bundleOf(Constants.APP_NAME to list)
                     fragment.arguments = bundle
                     safeActivity.addFragment(fragment = fragment)
                 }

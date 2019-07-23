@@ -1,6 +1,7 @@
 package com.loq.buggadooli.loq2.ui.fragments
 
 import android.app.TimePickerDialog
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import java.util.*
 
 class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
+    private var selectedApplications: List<ApplicationInfo> = emptyList()
     private lateinit var applicationName: String
     private val viewModel by sharedViewModel<SetAndForgetViewModel>()
 
@@ -32,7 +34,8 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applicationName = arguments?.getString(Constants.APP_NAME, "")?: ""
+        selectedApplications = arguments?.getParcelableArrayList(Constants.APP_NAME)?: emptyList()
+        applicationName = selectedApplications.firstOrNull()?.loadLabel(safeActivity.packageManager)?.toString()?: ""
     }
 
     override fun onCreateView(

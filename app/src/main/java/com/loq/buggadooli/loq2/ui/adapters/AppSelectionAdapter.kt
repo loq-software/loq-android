@@ -35,7 +35,7 @@ class AppSelectionAdapter(private val listItems:List<ApplicationInfo>,
     override fun getItemCount(): Int = listItems.size
 
     override fun onBindViewHolder(p0: AppSelectionViewHolder, p1: Int) {
-        p0.name.text = listItems[p1].loadLabel(context.packageManager).toString();
+        p0.name.text = listItems[p1].loadLabel(context.packageManager).toString()
         val parent = p0.name.parent as LinearLayout
         if(tracker!!.isSelected(p1.toLong())) {
             Utils.INSTANCE.addAppInfo(listItems[p1]);

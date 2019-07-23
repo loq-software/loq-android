@@ -1,5 +1,6 @@
 package com.loq.buggadooli.loq2.ui.bindings
 
+import android.content.pm.ApplicationInfo
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.loq.buggadooli.loq2.utils.Utils
@@ -10,4 +11,9 @@ fun setLoqItemTime(textView: TextView,
                    endTime: String?){
     if (startTime == null || endTime == null) return
     textView.text = Utils.makeLoqItemTimeString(startTime, endTime)
+}
+
+@BindingAdapter("label")
+fun loadLabel(view: TextView, info: ApplicationInfo){
+    view.text = info.loadLabel(view.context.packageManager)
 }
