@@ -56,7 +56,6 @@ class CustomLoqFragment: Fragment() {
         }
 
         nextButton.setOnClickListener {
-            //todo: Pass in Selected apps.
             val bundle = bundleOf(Constants.APP_NAME to loqAdapter.applicationItems.getSelectedApplicationInformationList())
             val fragment = SetAndForgetFragment().apply {
                 arguments = bundle

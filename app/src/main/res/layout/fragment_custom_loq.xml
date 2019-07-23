@@ -43,12 +43,16 @@
 
     <Button
         android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_margin="16dp"
         android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
         android:text="Next"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_bold"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/green"
         android:textAllCaps="false"/>
 
 </LinearLayout>
