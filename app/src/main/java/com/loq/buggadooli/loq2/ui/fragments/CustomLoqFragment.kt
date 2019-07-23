@@ -1,6 +1,5 @@
 package com.loq.buggadooli.loq2.ui.fragments
 
-import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
