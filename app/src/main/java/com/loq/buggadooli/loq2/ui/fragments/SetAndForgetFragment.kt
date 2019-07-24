@@ -7,6 +7,8 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,13 +16,24 @@ import androidx.lifecycle.Observer
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.*
+import com.loq.buggadooli.loq2.models.BlockTime
+import com.loq.buggadooli.loq2.models.BlockedDay
 import com.loq.buggadooli.loq2.ui.viewmodels.SetAndForgetViewModel
+import com.loq.buggadooli.loq2.utils.BlockedDayUtilities.buildDay
 import kotlinx.android.synthetic.main.fragment_set_or_forget.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
+import kotlin.collections.HashMap
 
 class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
+    private var isStartTimeForDifferent: Boolean = false
+    private var differentDaysEndMinute: Int = -1
+    private var differentDaysEndHour: Int = -1
+    private var differentDaysStartMinute: Int = -1
+    private var differentDaysStartHour: Int = -1
+    private var currentDayForDifferentDaysSetting: BlockedDay? = null
+    private val selectedDaysForDifferentDaysSetting = HashMap<String,BlockedDay>()
     private var selectedApplications: List<ApplicationInfo> = emptyList()
     private lateinit var applicationName: String
     private val viewModel by sharedViewModel<SetAndForgetViewModel>()
@@ -47,6 +60,32 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDays()
+
+        val adapter = ArrayAdapter.createFromResource(safeActivity, R.array.days, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        daysSpinner.adapter = adapter
+        daysSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                differentDaysStartHour = -1
+                differentDaysStartMinute = -1
+                differentDaysEndHour = -1
+                differentDaysEndMinute = -1
+
+                val item = adapter.getItem(position)?: ""
+                if (! item.toString().contentEquals("Select Day")) {
+                    currentDayForDifferentDaysSetting = buildDay(item.toString())
+                }
+                else{
+                    currentDayForDifferentDaysSetting = null
+                }
+            }
+
+        }
+
         btnStartTime!!.setOnClickListener {
             isStartTime = true
             showTimePicker()
@@ -55,29 +94,71 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
             isStartTime = false
             showTimePicker()
         }
-        btnFinished.setOnClickListener {
-            val startTime = btnStartTime.text.toString()
-            val endTime = btnEndTime.text.toString()
-            if (viewModel.days.hasSelection()) {
-                if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                    viewModel.finishButtonClicked(
-                            applicationName,
-                            btnStartTime!!.text.toString(),
-                            btnEndTime!!.text.toString(),
-                            rawStartMinute,
-                            rawEndMinute,
-                            rawStartHour,
-                            rawEndHour,
-                            this)
-                }
-                else {
-                    Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
 
-                }
+        btnStartTimeDifferent.setOnClickListener {
+            isStartTimeForDifferent = true
+            showTimePicker()
+        }
+        btnEndTimeDifferent.setOnClickListener {
+            isStartTimeForDifferent = false
+            showTimePicker()
+        }
+
+        addDayButton.setOnClickListener {
+            val day = currentDayForDifferentDaysSetting
+
+            if (day == null){
+                Toast.makeText(safeActivity, "You must select a day", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(safeActivity, "You must select a day(s)", Toast.LENGTH_LONG).show()
+                if (differentDaysEndHour <=0 || differentDaysEndMinute <= 0 || differentDaysStartHour <= 0 || differentDaysStartMinute <= 0){
+                    Toast.makeText(safeActivity, "You must enter a start/end time", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    day.time = BlockTime(differentDaysStartHour, differentDaysStartMinute, differentDaysEndHour, differentDaysEndMinute)
+                    selectedDaysForDifferentDaysSetting[day.dayOfWeek] = day
+                }
+            }
+        }
+        btnFinished.setOnClickListener {
+            when(radioButtonGroup.checkedRadioButtonId){
+                R.id.differentDaysRadioButton ->{
+                    if (selectedDaysForDifferentDaysSetting.isEmpty()){
+                        Toast.makeText(safeActivity, "You must enter a day", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        //todo: add days to BlockedApplications
+                        viewModel.finishButtonClicked(selectedApplications, selectedDaysForDifferentDaysSetting.values)
+                    }
+                }
 
+                R.id.sameTimesRadioButton -> {
+                    val startTime = btnStartTime.text.toString()
+                    val endTime = btnEndTime.text.toString()
+                    if (viewModel.days.hasSelection()) {
+                        if (startTime.isNotBlank() && endTime.isNotBlank()) {
+                            viewModel.finishButtonClickedOld(
+                                    applicationName,
+                                    btnStartTime!!.text.toString(),
+                                    btnEndTime!!.text.toString(),
+                                    rawStartMinute,
+                                    rawEndMinute,
+                                    rawStartHour,
+                                    rawEndHour,
+                                    this)
+                        } else {
+                            Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
+
+                        }
+                    } else {
+                        Toast.makeText(safeActivity, "You must select a day(s)", Toast.LENGTH_LONG).show()
+
+                    }
+                }
+                else -> {
+                    Toast.makeText(safeActivity, "Please select an option", Toast.LENGTH_LONG).show()
+
+                }
             }
         }
 
@@ -127,14 +208,29 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
         val hourStr = hourOfDay.toString()
         val minuteStr = minute.toString()
-        if (isStartTime) {
-            rawStartHour = rawHour.toString()
-            rawStartMinute = minute.toString()
-            btnStartTime!!.text = "$hourStr:$minuteStr $timeOfDay"
-        } else {
-            rawEndHour = rawHour.toString()
-            rawEndMinute = minute.toString()
-            btnEndTime!!.text = "$hourStr:$minuteStr $timeOfDay"
-        }    }
+
+        if (radioButtonGroup.checkedRadioButtonId == R.id.sameTimesRadioButton){
+            if (isStartTime) {
+                rawStartHour = rawHour.toString()
+                rawStartMinute = minute.toString()
+                btnStartTime!!.text = "$hourStr:$minuteStr $timeOfDay"
+            } else {
+                rawEndHour = rawHour.toString()
+                rawEndMinute = minute.toString()
+                btnEndTime!!.text = "$hourStr:$minuteStr $timeOfDay"
+            }
+        }
+        else{
+            if (isStartTimeForDifferent){
+                differentDaysStartHour = hour
+                differentDaysStartMinute = minute
+            }
+            else{
+                differentDaysEndHour = hour
+                differentDaysEndMinute = minute
+            }
+        }
+
+    }
 
 }

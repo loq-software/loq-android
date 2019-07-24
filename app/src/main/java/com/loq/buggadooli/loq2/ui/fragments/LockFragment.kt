@@ -177,8 +177,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
 
-        val dialog = TimePickerDialog(safeActivity, this, hour, minute,
-                DateFormat.is24HourFormat(safeActivity))
+        val dialog = TimePickerDialog(safeActivity, this, hour, minute, DateFormat.is24HourFormat(safeActivity))
         dialog.show()
     }
 
