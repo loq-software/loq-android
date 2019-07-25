@@ -6,171 +6,286 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_with_icon">
 
-    <ImageView
-        android:id="@+id/logoView5"
-        android:layout_width="209dp"
-        android:layout_height="91dp"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/logo" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logoView5"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto"
-        android:gravity="center"
-        android:inputType="textMultiLine"
-        android:text="Select what days, and times you want to Loq your selected apps"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/roboto"
-        android:text="Days Of Week"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-        <CheckBox
-            android:id="@+id/chkSunday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:textSize="12sp"
-            android:text="Sunday"
-            android:textColor="#FFFFFF" />
-
-        <CheckBox
-            android:id="@+id/chkMonday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:textSize="12sp"
-            android:text="Monday"
-            android:textColor="#FFFFFF" />
-
-        <CheckBox
-            android:id="@+id/chkTuesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:text="Tuesday"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF" />
-
-        <CheckBox
-            android:id="@+id/chkWednesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:text="Wednesday"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/chkThursday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:text="Thursday"
-            android:textColor="#FFFFFF" />
-
-        <CheckBox
-            android:id="@+id/chkFriday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:textSize="12sp"
-            android:text="Friday"
-            android:textColor="#FFFFFF" />
-
-        <CheckBox
-            android:id="@+id/chkSaturday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-            android:fontFamily="@font/roboto"
-            android:text="Saturday"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/roboto"
-        android:text="TimeFrame To Loq"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnStartTime"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:background="@drawable/back_button_2"
-            android:hint="Start Time"
-            android:textColorHint="#FFFFFF"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+        <ImageView
+            android:id="@+id/logoView5"
+            android:layout_width="209dp"
+            android:layout_height="91dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/logo" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/textView10"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="To"
-            android:textColor="#FFFFFF" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="Select what days, and times you want to Loq your selected apps"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+        <RadioGroup
+            android:id="@+id/radioButtonGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnEndTime"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="30dp"
-            android:background="@drawable/back_button_2"
-            android:hint="End Time"
-            android:textColorHint="#FFFFFF"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
+            <RadioButton
+                android:id="@+id/sameTimesRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:textColor="@android:color/white"
+                android:text="@string/same_time_radio_button_text"/>
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Days Of Week"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chkSunday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="12sp"
+                    android:text="Sunday"
+                    android:textColor="#FFFFFF" />
+
+                <CheckBox
+                    android:id="@+id/chkMonday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="12sp"
+                    android:text="Monday"
+                    android:textColor="#FFFFFF" />
+
+                <CheckBox
+                    android:id="@+id/chkTuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:text="Tuesday"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF" />
+
+                <CheckBox
+                    android:id="@+id/chkWednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:text="Wednesday"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/chkThursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:text="Thursday"
+                    android:textColor="#FFFFFF" />
+
+                <CheckBox
+                    android:id="@+id/chkFriday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="12sp"
+                    android:text="Friday"
+                    android:textColor="#FFFFFF" />
+
+                <CheckBox
+                    android:id="@+id/chkSaturday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+                    android:fontFamily="@font/roboto"
+                    android:text="Saturday"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="TimeFrame To Loq"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnStartTime"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/back_button_2"
+                    android:hint="Start Time"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="To"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnEndTime"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/back_button_2"
+                    android:hint="End Time"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/differentDaysRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:text="Different days need different time frame"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/daysSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/spinner_dropdown_background"
+                    android:prompt="@string/see_apps"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center_vertical">
+
+                </Spinner>
+
+                <Button
+                    android:id="@+id/addDayButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Add Day"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="@color/green"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="TimeFrame To Loq"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnStartTimeDifferent"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/back_button_2"
+                    android:hint="Start Time"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="To"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnEndTimeDifferent"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/back_button_2"
+                    android:hint="End Time"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+        </RadioGroup>
+
     </LinearLayout>
 
     <Button

@@ -12,4 +12,8 @@ val networkModule = module {
     single {
         FirebaseAuth.getInstance()
     }
+
+    single {
+        RealLoqService()
+    }
 }

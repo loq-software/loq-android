@@ -20,7 +20,7 @@ import com.loq.buggadooli.loq2.extensions.addFragment
 import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.safeActivity
 import com.loq.buggadooli.loq2.ui.viewmodels.EasyLoqViewModel
-import kotlinx.android.synthetic.main.fragment_setup.*
+import kotlinx.android.synthetic.main.fragment_easy_loq.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EasyLoqFragment : Fragment() {
@@ -33,7 +33,7 @@ class EasyLoqFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View = inflater.inflateTo(R.layout.fragment_setup, container)
+    ): View = inflater.inflateTo(R.layout.fragment_easy_loq, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -8,4 +8,6 @@
     <string name="see_apps">See apps</string>
     <string name="facebook_app_id">2345716189034287</string>
     <string name="fb_login_protocol_scheme">fb2345716189034287</string>
+    <string name="select_day">Select Day</string>
+    <string name="same_time_radio_button_text">Same time(s) for the selected days</string>
 </resources>
