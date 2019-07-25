@@ -125,10 +125,10 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
             when(radioButtonGroup.checkedRadioButtonId){
                 R.id.differentDaysRadioButton ->{
                     if (selectedDaysForDifferentDaysSetting.isEmpty()){
-                        Toast.makeText(safeActivity, "You must enter a day", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(safeActivity, "You must add a day", Toast.LENGTH_SHORT).show()
                     }
                     else{
-                        viewModel.finishButtonClicked(selectedApplications, selectedDaysForDifferentDaysSetting.values)
+                        viewModel.finishButtonClicked(selectedApplications, selectedDaysForDifferentDaysSetting.values, view)
                     }
                 }
 

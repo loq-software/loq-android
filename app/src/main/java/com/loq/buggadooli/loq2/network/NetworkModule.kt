@@ -15,5 +15,5 @@ val networkModule = module {
 
     single {
         RealLoqService()
-    }
+    } bind LoqService::class
 }
