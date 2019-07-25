@@ -1,4 +1,4 @@
-package com.loq.buggadooli.loq2.network
+package com.loq.buggadooli.loq2.network.api
 
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -35,7 +35,7 @@ class RealAuthenticationService(
         private val authentication: FirebaseAuth,
         private val options: GoogleSignInOptions
 
-): AuthenticationService{
+): AuthenticationService {
 
     override fun getCurrentUser(): FirebaseUser? {
         return authentication.currentUser

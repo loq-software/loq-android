@@ -12,8 +12,9 @@ import com.loq.buggadooli.loq2.extensions.*
 import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.models.BlockedDay
 import com.loq.buggadooli.loq2.models.Loq
-import com.loq.buggadooli.loq2.network.LoqService
+import com.loq.buggadooli.loq2.network.api.LoqService
 import com.loq.buggadooli.loq2.network.Outcome
+import com.loq.buggadooli.loq2.network.api.AuthenticationService
 import com.loq.buggadooli.loq2.repositories.ApplicationsRepository
 import com.loq.buggadooli.loq2.utils.Event
 import java.util.ArrayList
@@ -21,13 +22,19 @@ import java.util.ArrayList
 class SetAndForgetViewModel(
         private val repository: ApplicationsRepository,
         private val loqService: LoqService,
-        private val manager: PackageManager
+        private val manager: PackageManager,
+        private val authentication: AuthenticationService
 ):ViewModel(){
 
     var days: MutableList<CheckBox> = ArrayList()
 
     val onLockedApplicationSaved: LiveData<Event<Loq>> get() = _onLockedApplicationSaved
     private val _onLockedApplicationSaved = MutableLiveData<Event<Loq>>()
+
+    val onLockedApplicationsSaved: LiveData<Event<List<BlockedApplication>>> get() = _onLockedApplicationsSaved
+    private val _onLockedApplicationsSaved = MutableLiveData<Event<List<BlockedApplication>>>()
+
+    private val _errorAddingLoq = MutableLiveData<Event<Throwable>>()
 
     fun setupDays(
             sunday: CheckBox,
@@ -83,16 +90,23 @@ class SetAndForgetViewModel(
             days: MutableCollection<BlockedDay>,
             view: View
     ){
-
+        val user = authentication.getCurrentUser()?: return
         val applications = ArrayList<BlockedApplication>()
         for (infoItem in info){
-            val blockedApplication = BlockedApplication(infoItem.getAppName(manager), infoItem.packageName, days.toList())
+            val blockedApplication = BlockedApplication(user.uid, infoItem.getAppName(manager), infoItem.packageName, days.toList())
             applications.add(blockedApplication)
         }
         loqService.addLoqs(applications)
                 .ioToMain()
                 .subscribeForOutcome { outcome ->
-
+                    when(outcome){
+                        is Outcome.Success ->{
+                            _onLockedApplicationsSaved.postValue(Event(outcome.data))
+                        }
+                        is Outcome.ApiError ->{
+                            _errorAddingLoq.postValue(Event(outcome.e))
+                        }
+                    }
                 }
                 .disposeOnDetach(view)
     }

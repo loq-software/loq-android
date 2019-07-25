@@ -12,8 +12,8 @@ import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.attachLifecycle
 import com.loq.buggadooli.loq2.extensions.ioToMain
 import com.loq.buggadooli.loq2.extensions.subscribeForOutcome
-import com.loq.buggadooli.loq2.network.AuthenticationResult
-import com.loq.buggadooli.loq2.network.AuthenticationService
+import com.loq.buggadooli.loq2.network.api.AuthenticationResult
+import com.loq.buggadooli.loq2.network.api.AuthenticationService
 import com.loq.buggadooli.loq2.network.Outcome
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
