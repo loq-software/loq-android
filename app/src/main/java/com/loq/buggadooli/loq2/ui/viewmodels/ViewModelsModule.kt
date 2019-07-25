@@ -17,7 +17,7 @@ val viewModelsModule = module {
     }
 
     single {
-        SetAndForgetViewModel(get(), get())
+        SetAndForgetViewModel(get(), get(), get())
     }
 
     single {

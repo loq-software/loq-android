@@ -117,6 +117,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 else{
                     day.time = BlockTime(differentDaysStartHour, differentDaysStartMinute, differentDaysEndHour, differentDaysEndMinute)
                     selectedDaysForDifferentDaysSetting[day.dayOfWeek] = day
+                    Toast.makeText(safeActivity, "Lock for ${day.dayOfWeek} set", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -127,7 +128,6 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                         Toast.makeText(safeActivity, "You must enter a day", Toast.LENGTH_SHORT).show()
                     }
                     else{
-                        //todo: add days to BlockedApplications
                         viewModel.finishButtonClicked(selectedApplications, selectedDaysForDifferentDaysSetting.values)
                     }
                 }
@@ -224,10 +224,13 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
             if (isStartTimeForDifferent){
                 differentDaysStartHour = hour
                 differentDaysStartMinute = minute
+                btnStartTimeDifferent!!.text = "$hourStr:$minuteStr $timeOfDay"
+
             }
             else{
                 differentDaysEndHour = hour
                 differentDaysEndMinute = minute
+                btnEndTimeDifferent!!.text = "$hourStr:$minuteStr $timeOfDay"
             }
         }
 

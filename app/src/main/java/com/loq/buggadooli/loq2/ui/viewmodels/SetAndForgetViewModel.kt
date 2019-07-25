@@ -2,6 +2,7 @@ package com.loq.buggadooli.loq2.ui.viewmodels
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.view.View
 import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -11,12 +12,17 @@ import com.loq.buggadooli.loq2.extensions.*
 import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.models.BlockedDay
 import com.loq.buggadooli.loq2.models.Loq
+import com.loq.buggadooli.loq2.network.LoqService
 import com.loq.buggadooli.loq2.network.Outcome
 import com.loq.buggadooli.loq2.repositories.ApplicationsRepository
 import com.loq.buggadooli.loq2.utils.Event
 import java.util.ArrayList
 
-class SetAndForgetViewModel(private val repository: ApplicationsRepository, private val manager: PackageManager):ViewModel(){
+class SetAndForgetViewModel(
+        private val repository: ApplicationsRepository,
+        private val loqService: LoqService,
+        private val manager: PackageManager
+):ViewModel(){
 
     var days: MutableList<CheckBox> = ArrayList()
 
@@ -74,12 +80,20 @@ class SetAndForgetViewModel(private val repository: ApplicationsRepository, priv
 
     fun finishButtonClicked(
             info: List<ApplicationInfo>,
-            days: MutableCollection<BlockedDay>
+            days: MutableCollection<BlockedDay>,
+            view: View
     ){
 
+        val applications = ArrayList<BlockedApplication>()
         for (infoItem in info){
             val blockedApplication = BlockedApplication(infoItem.getAppName(manager), infoItem.packageName, days.toList())
-
+            applications.add(blockedApplication)
         }
+        loqService.addLoqs(applications)
+                .ioToMain()
+                .subscribeForOutcome { outcome ->
+
+                }
+                .disposeOnDetach(view)
     }
 }

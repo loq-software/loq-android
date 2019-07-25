@@ -8,9 +8,18 @@ interface LoqService{
     fun getLoqs(): Observable<BlockedApplication>
 
     fun addLoq(loq: BlockedApplication): Observable<BlockedApplication>
+
+    fun addLoqs(loqs: List<BlockedApplication>): Observable<BlockedApplication>
+
 }
 
 class RealLoqService: LoqService {
+
+    override fun addLoqs(loqs: List<BlockedApplication>): Observable<BlockedApplication> {
+        return Observable.create { emitter ->
+
+        }
+    }
 
     override fun getLoqs(): Observable<BlockedApplication> {
         return Observable.create { emitter ->
