@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_with_icon"
-    tools:context=".ui.fragments.ChildLockFragment">
+    tools:context=".ui.fragments.ChildLockFragment"
+    android:clickable="true"
+    android:focusable="true">
 
     <EditText
         android:id="@+id/txtPinCode2"

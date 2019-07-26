@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.replaceFragment
 import com.loq.buggadooli.loq2.extensions.safeActivity
+import com.loq.buggadooli.loq2.extensions.toast
 import com.loq.buggadooli.loq2.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -42,15 +44,33 @@ class MainFragment : Fragment() {
                 }
 
             }
-            updateUi()
+
+            if (mainViewModel.user == null) {
+                safeActivity.replaceFragment( fragment = LoginFragment())
+            } else {
+                mainViewModel.loadLoqs(view)
+            }
+
         }).start()
+
+        mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
+            val loqs = event.getContentIfNotHandled()
+            loqs?.let {
+                if (loqs.isEmpty()){
+                    safeActivity.replaceFragment(fragment = EasyLoqFragment())
+                    return@Observer
+                }
+                safeActivity.replaceFragment(fragment = DashboardFragment())
+            }
+
+        })
+
+        mainViewModel.showError.observe(this, Observer { event ->
+            val message = event.getContentIfNotHandled()
+            message?.let {
+                safeActivity.toast(it)
+            }
+        })
     }
 
-    private fun updateUi() {
-        if (mainViewModel.user == null) {
-            safeActivity.replaceFragment( fragment = LoginFragment())
-        } else {
-            safeActivity.replaceFragment(fragment = DashboardFragment())
-        }
-    }
 }

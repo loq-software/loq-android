@@ -56,49 +56,51 @@ class EditLoqFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getDayCheckboxes()
-        btnStartTime!!.setOnClickListener {
+        btnStartTime.setOnClickListener {
             isStartTime = true
             showTimePicker()
         }
-        btnEndTime!!.setOnClickListener {
+        btnEndTime.setOnClickListener {
             isStartTime = false
             showTimePicker()
         }
         initLoq()
-        btnSaveChanges!!.setOnClickListener {
+        btnSaveChanges.setOnClickListener {
             saveEditedLoqs()
             safeActivity.onBackPressed()
         }
     }
 
     private fun saveEditedLoqs() {
-        thisLoq!!.startTime = btnStartTime!!.text.toString()
-        thisLoq!!.rawStartHour = rawStartHour
-        thisLoq!!.rawStartMinute = rawStartMinute
-        thisLoq!!.rawEndHour = rawEndHour
-        thisLoq!!.rawEndMinute = rawEndMinute
-        thisLoq!!.endTime = btnEndTime!!.text.toString()
+        thisLoq?.startTime = btnStartTime!!.text.toString()
+        thisLoq?.rawStartHour = rawStartHour
+        thisLoq?.rawStartMinute = rawStartMinute
+        thisLoq?.rawEndHour = rawEndHour
+        thisLoq?.rawEndMinute = rawEndMinute
+        thisLoq?.endTime = btnEndTime!!.text.toString()
         val selectedDays = selectedDays
         if (!selectedDays.isEmpty()) {
-            thisLoq!!.days = selectedDays
+            thisLoq?.days = selectedDays
             var days = ""
-            for (day in thisLoq!!.days!!) {
+            val thisLoqDays = thisLoq?.days?: return
+            for (day in thisLoqDays) {
                 days += "$day "
             }
-            thisLoq!!.daysStr = days
+            thisLoq?.daysStr = days
         }
-        val loqs = Utils.INSTANCE.currentLoqs
+       /* val loqs = Utils.INSTANCE.currentLoqs
         loqs.removeAt(loqIndex)
         loqs.add(loqIndex, thisLoq)
         Utils.INSTANCE.currentLoqs = loqs
         val json = Utils.INSTANCE.convertLoqsToJson(loqs)
-        Utils.INSTANCE.saveLoqsToFile(safeActivity, json)
+        Utils.INSTANCE.saveLoqsToFile(safeActivity, json)*/ //todo: 7/25/19 Handle this
     }
 
     private fun initLoq() {
-        thisLoq = Utils.INSTANCE.editLoq
+       // thisLoq = Utils.INSTANCE.editLoq //todo: 7/25/19 Handle this
         var day: String
-        if (thisLoq!!.days != null) {
+        val thisLoqDays = thisLoq?.days
+        if (thisLoqDays != null) {
             for (chkDay in days) {
                 day = chkDay.text.toString()
                 if (thisLoq!!.days!!.contains(day)) {

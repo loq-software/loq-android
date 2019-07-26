@@ -5,11 +5,11 @@ import org.koin.dsl.module.module
 val viewModelsModule = module {
 
     single {
-        MainViewModel(get())
+        MainViewModel(get(), get())
     }
 
     single {
-        LoginViewModel(get())
+        LoginViewModel(get(), get())
     }
 
     single {
@@ -22,5 +22,9 @@ val viewModelsModule = module {
 
     single {
         CustomLoqViewModel(get())
+    }
+
+    single {
+        DashboardViewModel(get(), get())
     }
 }

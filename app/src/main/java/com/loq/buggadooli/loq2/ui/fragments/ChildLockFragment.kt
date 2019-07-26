@@ -33,7 +33,7 @@ class ChildLockFragment : Fragment() {
         val pinCode2 = txtPinCode2!!.text.toString()
         if (pinCode == pinCode2) {
             if (!pinCode.isEmpty()) {
-                Utils.INSTANCE.saveChildLoqPin(safeActivity, pinCode)
+               // Utils.INSTANCE.saveChildLoqPin(safeActivity, pinCode)//todo: 7/25/19 handle this
             }
             safeActivity.popAllInBackStack()
             safeActivity.replaceFragment(fragment = CongratsFragment())

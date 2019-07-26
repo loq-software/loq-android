@@ -167,7 +167,7 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         mLockService.allowUsage(60000);
         startService(new Intent(getApplicationContext(), mLockService.getClass()));*/
         setVisible(false)
-        Utils.INSTANCE.createPauseFile(applicationContext)
+       // Utils.INSTANCE.createPauseFile(applicationContext) todo: 7/25/19 handle whatever this is for
         finish()
     }
 

@@ -49,11 +49,11 @@ class RealLoqerManager(
         scheduler.scheduleAtFixedRate(Runnable {
             if (launched[0]) return@Runnable
             launched[0] = true
-            loqs = Utils.INSTANCE.readLoqsFromFile(context)
+        /*    loqs = Utils.INSTANCE.readLoqsFromFile(context)
             if (Utils.INSTANCE.shouldPause(context))
                 allowUsage(60000)
 
-            checkRunningApps()
+            checkRunningApps()*/ // Todo: Pull apps from firebase
             //}
         }, 1000, 3000, TimeUnit.MILLISECONDS)
     }

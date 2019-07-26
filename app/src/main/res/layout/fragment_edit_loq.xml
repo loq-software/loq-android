@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_with_icon"
-    tools:context=".ui.fragments.EditLoqFragment">
+    android:focusable="true"
+    android:clickable="true">
 
     <TextView
         android:id="@+id/txtAppName"

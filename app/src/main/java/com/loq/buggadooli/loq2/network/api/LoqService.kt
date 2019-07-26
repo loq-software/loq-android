@@ -9,7 +9,7 @@ import io.reactivex.Observable
 
 interface LoqService{
 
-    fun getLoqs(): Observable<List<BlockedApplication>>
+    fun getLoqs(userId: String): Observable<List<BlockedApplication>>
 
     fun addLoq(loq: BlockedApplication): Observable<BlockedApplication>
 
@@ -32,10 +32,10 @@ class RealLoqService(private val database: DatabaseReference): LoqService {
         }
     }
 
-    override fun getLoqs(): Observable<List<BlockedApplication>> {
+    override fun getLoqs(userId: String): Observable<List<BlockedApplication>> {
         return Observable.create { emitter ->
             val applications = ArrayList<BlockedApplication>()
-            database.addListenerForSingleValueEvent(object : ValueEventListener {
+            database.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapShot in dataSnapshot.children){
                         val application = snapShot?.getValue(BlockedApplication::class.java)?: continue
