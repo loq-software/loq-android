@@ -11,7 +11,7 @@ interface LoqService{
 
     fun getLoqs(userId: String): Observable<List<BlockedApplication>>
 
-    fun addLoq(loq: BlockedApplication): Observable<BlockedApplication>
+    fun addLoq(userId: String, loq: BlockedApplication): Observable<BlockedApplication>
 
     fun addLoqs(loqs: List<BlockedApplication>): Observable<List<BlockedApplication>>
 
@@ -52,14 +52,26 @@ class RealLoqService(private val database: DatabaseReference): LoqService {
         }
     }
 
-    override fun addLoq(loq: BlockedApplication): Observable<BlockedApplication> {
-        return Observable.create { emitter ->
-            var key = loq.id
-            if (key.isBlank()) {
-                key = database.push().key.toString()
-            }
-            database.child(key).setValue(loq)
-            emitter.onNext(loq)
-        }
+    override fun addLoq(userId: String, loq: BlockedApplication): Observable<BlockedApplication> {
+
+        return getLoqs(userId)
+                .switchMap { applications ->
+                    for (application in applications){
+                        if (application.packageName.contentEquals(loq.packageName)){
+                            loq.id = application.id
+                        }
+                    }
+
+                    Observable.create<BlockedApplication> { emitter ->
+                        var key = loq.id
+                        if (key.isBlank()) {
+                            key = database.push().key.toString()
+                            loq.id = key
+                        }
+                        database.child(key).setValue(loq)
+                        emitter.onNext(loq)
+                    }
+
+                }
     }
 }

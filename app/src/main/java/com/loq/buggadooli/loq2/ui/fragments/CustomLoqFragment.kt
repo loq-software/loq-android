@@ -52,11 +52,16 @@ class CustomLoqFragment: Fragment() {
         }
 
         nextButton.setOnClickListener {
-            val bundle = bundleOf(Constants.APP_NAME to loqAdapter.applicationItems.getSelectedApplicationInformationList())
-            val fragment = SetAndForgetFragment().apply {
-                arguments = bundle
+            val selectedItems = loqAdapter.applicationItems.getSelectedApplicationInformationList()
+            if (selectedItems.isNotEmpty()) {
+                val bundle = bundleOf(Constants.APP_NAME to selectedItems)
+                val fragment = SetAndForgetFragment().apply {
+                    arguments = bundle
+                }
+                safeActivity.addFragment(fragment = fragment)
+                return@setOnClickListener
             }
-            safeActivity.addFragment(fragment = fragment)
+            safeActivity.toast("Please select applications to block")
         }
 
         viewModel.onApplicationsLoaded.observe(this, Observer { event ->
