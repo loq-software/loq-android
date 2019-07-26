@@ -87,6 +87,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         }
 
         btnStartTime!!.setOnClickListener {
+
             isStartTime = true
             showTimePicker()
         }
@@ -231,7 +232,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 btnEndTime!!.text = "$hourStr:$minuteStr $timeOfDay"
             }
         }
-        else{
+        else if (radioButtonGroup.checkedRadioButtonId == R.id.differentDaysRadioButton){
             if (isStartTimeForDifferent){
                 differentDaysStartHour = hour
                 differentDaysStartMinute = minute
@@ -243,6 +244,9 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 differentDaysEndMinute = minute
                 btnEndTimeDifferent!!.text = "$hourStr:$minuteStr $timeOfDay"
             }
+        }
+        else{
+            safeActivity.toast("Please select an option")
         }
 
     }
