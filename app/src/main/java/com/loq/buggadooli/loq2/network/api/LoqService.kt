@@ -34,6 +34,7 @@ class RealLoqService(private val database: DatabaseReference): LoqService {
                             var key = loq.id
                             if (key.isBlank()) {
                                 key = database.push().key.toString()
+                                loq.id = key
                             }
                             database.child(key).setValue(loq)
                         }
