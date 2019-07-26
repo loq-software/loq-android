@@ -113,7 +113,7 @@ class SetAndForgetViewModel(
             val blockedApplication = BlockedApplication("", user.uid, infoItem.getAppName(manager), infoItem.packageName, days.toList())
             applications.add(blockedApplication)
         }
-        loqService.addLoqs(applications)
+        loqService.addLoqs(user.uid, applications)
                 .ioToMain()
                 .subscribeForOutcome { outcome ->
                     when(outcome){
