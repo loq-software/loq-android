@@ -166,7 +166,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
             val application = event.getContentIfNotHandled()
             if (application != null){
-                safeActivity.toast("Application saved")
+                safeActivity.toast("Application(s) saved")
                 safeActivity.popAllInBackStack()
                 safeActivity.replaceFragment(fragment = DashboardFragment())
             }
