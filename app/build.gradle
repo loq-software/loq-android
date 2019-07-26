@@ -6,22 +6,35 @@ apply plugin: "kotlin-kapt"
 apply from: '../dependencies.gradle'
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias = 'loqkeyalias'
+            storeFile file('/home/derrick/loqKey.jks')
+            storePassword 'loq_tech'
+            keyPassword 'loq_tech'
+        }
+        release {
+            keyAlias = 'loqkeyalias'
+            storePassword 'loq_tech'
+            storeFile file('/home/derrick/loqKey.jks')
+            keyPassword 'loq_tech'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId 'com.loq.buggadooli.loq2'
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 17
-        versionName '2.6'
+        versionCode 18
+        versionName '1.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-    }
-    productFlavors {
     }
 
     dataBinding {
@@ -65,6 +78,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:18.0.1'
 
     implementation 'com.facebook.android:facebook-android-sdk:4.6.0'
+
+    implementation 'testfairy:testfairy-android-sdk:1.+@aar'
 
     //google
     implementation 'com.google.android.gms:play-services-ads:18.1.0'

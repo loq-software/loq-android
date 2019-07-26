@@ -50,12 +50,13 @@ class LoginFragment: Fragment() {
             event?: return@Observer
             val user = event.user
             if (user != null){
+                progressLayout.show()
                 loginViewModel.loadLoqs(view)
             }
             else{
+                progressLayout.hide()
                 Toast.makeText(safeActivity, "Invalid email or password", Toast.LENGTH_LONG).show()
             }
-            progressLayout.hide()
         })
 
         loginViewModel.signInError.observe(this, Observer { errorEvent ->
@@ -76,6 +77,7 @@ class LoginFragment: Fragment() {
                     safeActivity.replaceFragment(fragment = EasyLoqFragment())
                 }
             }
+            progressLayout.hide()
         })
 
         loginViewModel.showErrorMessage.observe(this, Observer { event ->
@@ -83,6 +85,7 @@ class LoginFragment: Fragment() {
             message?.let {
                 safeActivity.toast(message)
             }
+            progressLayout.hide()
         })
     }
 }

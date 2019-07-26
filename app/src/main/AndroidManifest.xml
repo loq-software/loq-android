@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.loq.buggadooli.loq2">
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -18,17 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".LoqApplication">
-
-        <activity android:name=".ui.fragments.ChildLockFragment"></activity>
-        <activity android:name=".ui.fragments.EditLoqFragment" />
-        <activity android:name=".ui.fragments.QuickLoqFragment" />
-        <activity android:name=".ui.activities.LockScreenActivity" />
-        <activity android:name=".ui.fragments.DashboardFragment" />
-        <activity android:name=".ui.fragments.CongratsFragment" />
-        <activity android:name=".ui.fragments.EasyLoqFragment" />
-        <activity android:name=".ui.fragments.RegistrationFragment" />
-        <activity android:name=".ui.fragments.LoginFragment" />
-        <activity android:name=".ui.fragments.LockFragment" />
 
         <receiver
             android:name=".loqer.LockServiceBroadcastReceiver"

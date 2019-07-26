@@ -87,7 +87,7 @@ class SetAndForgetViewModel(
         val user = authentication.getCurrentUser()?: return
         val blockedDays = days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
         val loq = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, blockedDays)
-        loqService.addLoq(loq)
+        loqService.addLoq(user.uid, loq)
                 .ioToMain()
                 .subscribeForOutcome { outcome ->
                     when(outcome){

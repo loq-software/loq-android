@@ -63,7 +63,7 @@ class EasyLoqFragment : Fragment() {
         }
 
 
-        btnNext!!.setOnClickListener {
+        btnNext.setOnClickListener {
 
             when(appSelectGroup.checkedRadioButtonId){
                 R.id.radioBtnPopular -> {

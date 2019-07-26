@@ -9,6 +9,7 @@ import com.loq.buggadooli.loq2.network.networkModule
 import com.loq.buggadooli.loq2.notifications.notificationsModule
 import com.loq.buggadooli.loq2.repositories.repositoriesModule
 import com.loq.buggadooli.loq2.ui.viewmodels.viewModelsModule
+import com.testfairy.TestFairy
 import org.koin.android.ext.android.startKoin
 
 class LoqApplication: Application() {
@@ -32,5 +33,7 @@ class LoqApplication: Application() {
 
         FacebookSdk.sdkInitialize(this)
         AppEventsLogger.activateApp(this)
+
+        TestFairy.begin(this, "SDK-eTDNMh8y");
     }
 }

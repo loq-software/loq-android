@@ -29,7 +29,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto"
-            android:gravity="center"
             android:text="Select what days, and times you want to Loq your selected apps"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
@@ -42,6 +41,8 @@
                 android:id="@+id/sameTimesRadioButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
                 android:buttonTint="@android:color/white"
                 android:textColor="@android:color/white"
                 android:text="@string/same_time_radio_button_text"/>
@@ -50,7 +51,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="Days Of Week"
@@ -59,6 +60,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
 
@@ -196,6 +199,8 @@
                 android:id="@+id/differentDaysRadioButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
                 android:buttonTint="@android:color/white"
                 android:textColor="@android:color/white"
                 android:layout_marginTop="16dp"
@@ -292,12 +297,11 @@
 
     <Button
         android:id="@+id/btnFinished"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/green"
         android:text="Finished"
         android:textAllCaps="false"
         android:textColor="#FFFFFF" />
