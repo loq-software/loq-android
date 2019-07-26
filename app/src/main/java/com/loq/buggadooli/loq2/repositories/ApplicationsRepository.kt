@@ -25,80 +25,9 @@ interface ApplicationsRepository{
 
     fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult>
 
-    fun saveApplication(
-            applicationName: String,
-            days: List<CheckBox>,
-            startTime: String,
-            endTime: String,
-            rawStartMinute: String,
-            rawEndMinute: String,
-            rawStartHour: String,
-            rawEndHour: String
-    ): Observable<Loq>
-
-    fun saveBlockedApp(blockedApp: Loq): Observable<Loq>
-
 }
 
 class RealApplicationsRepository(private val context: Application): ApplicationsRepository{
-
-    override fun saveBlockedApp(blockedApp: Loq): Observable<Loq> {
-        return Observable.create { emitter ->
-            Utils.INSTANCE.saveLoqsToFile(context, blockedApp.toJson())// Todo: Get rid of this. Use Firebase to hold a users blocked apps.
-            emitter.onNext(blockedApp)
-        }
-    }
-
-    override fun saveApplication(applicationName: String,
-                                 days: List<CheckBox>,
-                                 startTime: String,
-                                 endTime: String,
-                                 rawStartMinute: String,
-                                 rawEndMinute: String,
-                                 rawStartHour: String,
-                                 rawEndHour: String): Observable<Loq> {
-
-        return getInstalledApps()
-                .switchMap { installedApplications ->
-                    Observable.create<Loq> { emitter ->
-                        val packageManager = context.packageManager
-                        for (installedApplication in installedApplications){
-                            val installedApplicationName = installedApplication.loadLabel(packageManager).toString()
-                            if (installedApplicationName.contains(applicationName, true)){
-                                val selectedDays = ArrayList<String>()
-                                var dayString = ""
-                                for (day in days){
-                                    if (day.isChecked){
-                                        val dayText = "${day.text}"
-                                        dayString += "$dayText "
-
-                                        selectedDays.add(dayText)
-                                    }
-                                }
-
-                                val loq = Loq()
-                                loq.appName = applicationName
-                                loq.packageName = installedApplication.packageName
-                                loq.days = selectedDays
-                                loq.daysStr = dayString
-
-                                loq.startTime = startTime
-                                loq.endTime = endTime
-                                loq.rawStartMinute = rawStartMinute
-                                loq.rawEndMinute = rawEndMinute
-                                loq.rawStartHour = rawStartHour
-                                loq.rawEndHour = rawEndHour
-
-                                emitter.onNext(loq)
-                                return@create
-                            }
-                        }
-                    }
-                }
-                .switchMap { loqToSave ->
-                    saveBlockedApp(loqToSave)
-                }
-    }
 
     override fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult> {
         return getInstalledApps()

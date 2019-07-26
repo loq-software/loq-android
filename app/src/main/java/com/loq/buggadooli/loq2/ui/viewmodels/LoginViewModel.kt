@@ -3,6 +3,7 @@ package com.loq.buggadooli.loq2.ui.viewmodels
 import android.app.Activity
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,18 +13,22 @@ import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.attachLifecycle
 import com.loq.buggadooli.loq2.extensions.ioToMain
 import com.loq.buggadooli.loq2.extensions.subscribeForOutcome
-import com.loq.buggadooli.loq2.network.AuthenticationResult
-import com.loq.buggadooli.loq2.network.AuthenticationService
+import com.loq.buggadooli.loq2.network.api.AuthenticationResult
+import com.loq.buggadooli.loq2.network.api.AuthenticationService
 import com.loq.buggadooli.loq2.network.Outcome
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.FacebookCallback
 import com.facebook.login.LoginManager
+import com.loq.buggadooli.loq2.extensions.disposeOnDetach
+import com.loq.buggadooli.loq2.models.BlockedApplication
+import com.loq.buggadooli.loq2.network.api.LoqService
 import com.loq.buggadooli.loq2.utils.Event
 
 
 class LoginViewModel(
-        private val authenticationService: AuthenticationService
+        private val authenticationService: AuthenticationService,
+        private val loqService: LoqService
 ): ViewModel() {
 
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
@@ -33,6 +38,12 @@ class LoginViewModel(
 
     val signInError: LiveData<Event<String>> get() = _signInError
     private val _signInError = MutableLiveData<Event<String>>()
+
+    val onLoqsLoaded: LiveData<Event<List<BlockedApplication>>> get() = _onLoqsLoaded
+    private val _onLoqsLoaded = MutableLiveData<Event<List<BlockedApplication>>>()
+
+    private val _showErrorMessage = MutableLiveData<Event<String>>()
+    val showErrorMessage: LiveData<Event<String>> get() = _showErrorMessage
 
     fun loginWithGmail(activity: Activity){
         authenticationService.signInWithGoogle(activity)
@@ -104,5 +115,28 @@ class LoginViewModel(
         else{
             callbackManager.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun loadLoqs(view: View) {
+        val id = authenticationService.getCurrentUser()?.uid?: return
+       loqService.getLoqs(id)
+               .ioToMain()
+               .subscribeForOutcome { outcome ->
+                   when(outcome){
+                       is Outcome.Success ->{
+                         _onLoqsLoaded.postValue(Event(outcome.data))
+                       }
+                       is Outcome.ApiError -> {
+                           outcome.e.printStackTrace()
+                          _showErrorMessage.postValue(Event("Network error"))
+                       }
+                       is Outcome.Failure -> {
+                           outcome.e.printStackTrace()
+                           _showErrorMessage.postValue(Event("Error"))
+                       }
+                   }
+               }
+               .disposeOnDetach(view)
+
     }
 }

@@ -111,13 +111,13 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 Toast.makeText(safeActivity, "You must select a day", Toast.LENGTH_SHORT).show()
             }
             else{
-                if (differentDaysEndHour <=0 || differentDaysEndMinute <= 0 || differentDaysStartHour <= 0 || differentDaysStartMinute <= 0){
+                if (differentDaysEndHour <0 || differentDaysEndMinute < 0 || differentDaysStartHour < 0 || differentDaysStartMinute < 0){
                     Toast.makeText(safeActivity, "You must enter a start/end time", Toast.LENGTH_SHORT).show()
                 }
                 else{
                     day.time = BlockTime(differentDaysStartHour, differentDaysStartMinute, differentDaysEndHour, differentDaysEndMinute)
                     selectedDaysForDifferentDaysSetting[day.dayOfWeek] = day
-                    Toast.makeText(safeActivity, "Lock for ${day.dayOfWeek} set", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(safeActivity, "Lock for ${day.dayOfWeek} added", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -137,15 +137,16 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                     val endTime = btnEndTime.text.toString()
                     if (viewModel.days.hasSelection()) {
                         if (startTime.isNotBlank() && endTime.isNotBlank()) {
+                            val application = selectedApplications.first()
                             viewModel.finishButtonClickedOld(
-                                    applicationName,
+                                    application,
                                     btnStartTime!!.text.toString(),
                                     btnEndTime!!.text.toString(),
                                     rawStartMinute,
                                     rawEndMinute,
                                     rawStartHour,
                                     rawEndHour,
-                                    this)
+                                    view)
                         } else {
                             Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
 
@@ -165,6 +166,16 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
             val application = event.getContentIfNotHandled()
             if (application != null){
+                safeActivity.toast("Application saved")
+                safeActivity.popAllInBackStack()
+                safeActivity.replaceFragment(fragment = DashboardFragment())
+            }
+        })
+
+        viewModel.onLockedApplicationsSaved.observe(this, Observer { event ->
+            val applications = event.getContentIfNotHandled()
+            applications?.let {
+                safeActivity.toast("Applications saved")
                 safeActivity.popAllInBackStack()
                 safeActivity.replaceFragment(fragment = DashboardFragment())
             }

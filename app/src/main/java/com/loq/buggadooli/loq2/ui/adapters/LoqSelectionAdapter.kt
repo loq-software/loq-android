@@ -7,10 +7,11 @@ import com.loq.buggadooli.loq2.models.Loq
 import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.databinding.LoqItemBinding
 import com.loq.buggadooli.loq2.extensions.inflateWithBinding
+import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.ui.adapters.LoqSelectionAdapter.LoqViewHolder
 import com.loq.buggadooli.loq2.ui.listeners.LoqSelectionEditListener
 
-class LoqSelectionAdapter(private val mDataset: List<Loq>) : RecyclerView.Adapter<LoqViewHolder>() {
+class LoqSelectionAdapter(private val mDataset: List<BlockedApplication>) : RecyclerView.Adapter<LoqViewHolder>() {
 
     var loqSelectionListener: LoqSelectionEditListener? = null
 
@@ -33,7 +34,7 @@ class LoqSelectionAdapter(private val mDataset: List<Loq>) : RecyclerView.Adapte
             private val loqSelectionListener: LoqSelectionEditListener?
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(loq: Loq) {
+        fun bind(loq: BlockedApplication) {
             binding.loq = loq
 
             binding.executePendingBindings()

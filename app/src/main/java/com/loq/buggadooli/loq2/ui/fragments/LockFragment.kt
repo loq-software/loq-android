@@ -151,7 +151,7 @@ class LockFragment : Fragment(), MultiSpinner.MultiSpinnerListener, TimePickerDi
 
     private fun saveLoqs(): Boolean {
         val jsonLoqs = convertLoqsToJson()
-        Utils.INSTANCE.saveLoqsToFile(safeActivity, jsonLoqs)
+        //Utils.INSTANCE.saveLoqsToFile(safeActivity, jsonLoqs)//todo: 7/25/19 Handle this
         return true
     }
 

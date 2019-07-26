@@ -6,7 +6,7 @@
     <data>
         <variable
             name="loq"
-            type="com.loq.buggadooli.loq2.models.Loq" />
+            type="com.loq.buggadooli.loq2.models.BlockedApplication" />
 
     </data>
 
@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{loq.appName}" />
+            android:text="@{loq.applicationName}" />
 
         <TextView
             android:id="@+id/txtDays"
@@ -28,15 +28,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="@{loq.daysStr}" />
+            app:daysString="@{loq.blockBlockedDays}" />
 
         <TextView
             android:id="@+id/txtTime"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:loqItemStartTime="@{loq.startTime}"
-            app:loqItemEndTime="@{loq.endTime}"/>
+            app:loqTimes="@{loq.blockBlockedDays}"/>
 
         <ImageButton
             android:id="@+id/btnEdit"
