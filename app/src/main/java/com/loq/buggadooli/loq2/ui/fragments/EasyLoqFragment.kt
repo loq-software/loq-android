@@ -1,14 +1,11 @@
 package com.loq.buggadooli.loq2.ui.fragments
 
-import android.content.pm.ApplicationInfo
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -25,8 +22,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EasyLoqFragment : Fragment() {
 
-    private var choosenAppName = ""
-    private var checkboxSelected = false
     private val viewModel by viewModel<EasyLoqViewModel>()
 
     override fun onCreateView(
@@ -45,35 +40,17 @@ class EasyLoqFragment : Fragment() {
 
             if (checkedId == R.id.radioBtnPopular) {
                 spinner.visibility = View.VISIBLE
-            } else if (checkedId == R.id.radioBtnCustom) {
+            }
+            else {
                 spinner.visibility = View.INVISIBLE
             }
-            checkboxSelected = true
         }
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                choosenAppName = parent.getItemAtPosition(pos) as String
-            }
-
-        }
-
 
         btnNext.setOnClickListener {
 
             when(appSelectGroup.checkedRadioButtonId){
                 R.id.radioBtnPopular -> {
-                    val appName = choosenAppName
-                    if (appName.isNotBlank() && ! appName.contentEquals("See apps")){
-                        viewModel.checkIfUserHasAppOnDevice(appName, this)
-                    }
-                    else{
-                        Toast.makeText(safeActivity, "Please select an app from the list", Toast.LENGTH_SHORT).show()
-                    }
+                  viewModel.buttonNextForPopularClicked(view)
                 }
 
                 R.id.radioBtnCustom -> {
@@ -83,28 +60,17 @@ class EasyLoqFragment : Fragment() {
                 else -> {
                     Toast.makeText(safeActivity, "Please make a selection", Toast.LENGTH_LONG).show()
                 }
-
             }
         }
 
-        viewModel.onUserHasApplication.observe(this, Observer { event ->
-            val item = event.getContentIfNotHandled()
-            item?.let {
-                val name = choosenAppName
-                val info = it.info
-                if (it.hasResult && info != null){
-                    val list: MutableList<ApplicationInfo> = ArrayList()
-                    list.add(info)
-                    val fragment = SetAndForgetFragment()
-                    val bundle = bundleOf(Constants.APP_NAME to list)
-                    fragment.arguments = bundle
-                    safeActivity.addFragment(fragment = fragment)
-                }
-                else{
-                    Toast.makeText(safeActivity, "You don't have $name installed", Toast.LENGTH_LONG).show()
-                }
+        viewModel.installedPopularApplications.observe(this, Observer { event ->
+            val popularApplications = event.getContentIfNotHandled()
+            popularApplications?.let {
+                val fragment = SetAndForgetFragment()
+                val bundle = bundleOf(Constants.APP_NAME to it)
+                fragment.arguments = bundle
+                safeActivity.addFragment(fragment = fragment)
             }
-
         })
     }
 
