@@ -86,6 +86,8 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
         }
 
+        sameTimesRadioButton.isChecked = true
+
         btnStartTime!!.setOnClickListener {
 
             isStartTime = true
