@@ -5,6 +5,6 @@ import org.koin.dsl.module.module
 val loqerModule = module {
 
     single {
-        RealLoqerManager(get(), get())
+        RealLoqerManager(get(), get(), get(), get())
     } bind LoqerManager::class
 }

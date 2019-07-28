@@ -2,6 +2,7 @@ package com.loq.buggadooli.loq2.extensions
 
 import android.content.pm.ApplicationInfo
 import android.widget.CheckBox
+import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.models.CustomLoqItem
 import com.loq.buggadooli.loq2.models.Loq
 import org.json.JSONArray
@@ -10,10 +11,10 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
-inline fun List<Loq>.isAppLocked(app: String): Boolean {
+inline fun List<BlockedApplication>.isLocked(packageName: String): Boolean {
     for (loq in this) {
-        if (loq.appName!!.equals(app, ignoreCase = true)
-                || loq.packageName!!.equals(app, ignoreCase = true)) {
+        if (loq.packageName.equals(packageName, ignoreCase = true)
+                || loq.packageName.equals(packageName, ignoreCase = true)) {
             if (isLockTime(loq))
                 return true
         }
@@ -21,20 +22,26 @@ inline fun List<Loq>.isAppLocked(app: String): Boolean {
     return false
 }
 
-inline fun isLockTime(loq: Loq): Boolean {
+inline fun isLockTime(loq: BlockedApplication): Boolean {
     val date = Date()   // given date
     val calendar = GregorianCalendar.getInstance() // creates a new calendar instance
     calendar.time = date   // assigns calendar to given date
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
-    val startHour = Integer.parseInt(loq.rawStartHour!!)
-    val endHour = Integer.parseInt(loq.rawEndHour!!)
-    val startMintute = Integer.parseInt(loq.rawStartMinute!!)
-    val endMinute = Integer.parseInt(loq.rawEndMinute!!)
-    if (hour in startHour..endHour) {
-        if (hour == startHour && minute < startMintute)
-            return false
-        return !(hour == endHour && minute > endMinute)
+
+    for (day in loq.blockBlockedDays) {
+        val startHour = day.time?.startHour?: 0
+        val endHour = day.time?.endHour?: 0
+        val startMintute = day.time?.startMinute?: 0
+        val endMinute = day.time?.endMinute?: 0
+        if (hour in startHour..endHour) {
+            /*if (hour == startHour && minute < startMintute)
+                return false
+            return !(hour == endHour && minute > endMinute)*/
+            if (minute in startMintute..endMinute){
+                return true
+            }
+        }
     }
     return false
 }
