@@ -68,6 +68,7 @@ class RealLoqService(private val database: DatabaseReference): LoqService {
 
         return getLoqs(userId)
                 .switchMap { applications ->
+
                     for (application in applications){
                         if (application.packageName.contentEquals(loq.packageName)){
                             loq.id = application.id

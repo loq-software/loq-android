@@ -56,43 +56,27 @@ class SetAndForgetViewModel(
         days.add(saturday)
     }
 
-    fun finishButtonClickedOld(application: ApplicationInfo,
-                               startTime: String,
-                               endTime: String,
+    fun finishButtonClickedOld(info: List<ApplicationInfo>,
                                rawStartMinute: String,
                                rawEndMinute: String,
                                rawStartHour:String,
                                rawEndHour: String,
                                view: View) {
 
-     /*   repository.saveApplication(
-                applicationName,
-                days,
-                startTime,
-                endTime,
-                rawStartMinute,
-                rawEndMinute,
-                rawStartHour,
-                rawEndHour
-        )
-                .ioToMain()
-                .subscribeForOutcome { outcome ->
-                    when(outcome){
-                        is Outcome.Success ->{
-                            _onLockedApplicationSaved.postValue(Event(outcome.data))
-                        }
-                    }
-                }
-                .attachLifecycle(owner)*/
         val user = authentication.getCurrentUser()?: return
-        val blockedDays = days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
-        val loq = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, blockedDays)
-        loqService.addLoq(user.uid, loq)
+
+        val applications = ArrayList<BlockedApplication>()
+        for (application in info){
+            val blockedDays = days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
+            val loq = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, blockedDays)
+            applications.add(loq)
+        }
+        loqService.addLoqs(user.uid, applications)
                 .ioToMain()
                 .subscribeForOutcome { outcome ->
                     when(outcome){
                         is Outcome.Success ->{
-                            _onLockedApplicationSaved.postValue(Event(outcome.data))
+                            _onLockedApplicationsSaved.postValue(Event(outcome.data))
                         }
                         is Outcome.ApiError ->{
                             _errorAddingLoq.postValue(Event(outcome.e))

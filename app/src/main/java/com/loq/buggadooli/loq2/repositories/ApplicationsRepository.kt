@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.widget.CheckBox
+import com.loq.buggadooli.loq2.extensions.getAppName
 import com.loq.buggadooli.loq2.extensions.safeActivity
 import com.loq.buggadooli.loq2.extensions.toJson
 import com.loq.buggadooli.loq2.models.Loq
@@ -25,9 +26,28 @@ interface ApplicationsRepository{
 
     fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult>
 
+    fun getInstalledPopularApps(popularApps: Array<String>): Observable<List<ApplicationInfo>>
 }
 
 class RealApplicationsRepository(private val context: Application): ApplicationsRepository{
+
+    override fun getInstalledPopularApps(popularApps: Array<String>): Observable<List<ApplicationInfo>> {
+        return getInstalledApps()
+                .switchMap { applications ->
+                    Observable.create<List<ApplicationInfo>> { emitter ->
+                        val installedPopularApps = ArrayList<ApplicationInfo>()
+                        val packageManager = context.packageManager
+                        for (application in applications) {
+                            for (popularApp in popularApps) {
+                                if (application.getAppName(packageManager).contains(popularApp)) {
+                                    installedPopularApps.add(application)
+                                }
+                            }
+                        }
+                        emitter.onNext(installedPopularApps)
+                    }
+                }
+    }
 
     override fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult> {
         return getInstalledApps()
