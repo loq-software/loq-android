@@ -65,6 +65,7 @@ class CustomLoqFragment: Fragment() {
         }
 
         viewModel.onApplicationsLoaded.observe(this, Observer { event ->
+            progressLayout.hide()
             val data = event.getContentIfNotHandled()
             data?.let {
                 val customLoqItems = it.toCustomLoqItems()
@@ -75,6 +76,7 @@ class CustomLoqFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressLayout.show()
         viewModel.loadApplications(view)
     }
 
