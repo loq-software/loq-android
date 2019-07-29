@@ -7,14 +7,8 @@ import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.widget.CheckBox
 import com.loq.buggadooli.loq2.extensions.getAppName
-import com.loq.buggadooli.loq2.extensions.safeActivity
-import com.loq.buggadooli.loq2.extensions.toJson
-import com.loq.buggadooli.loq2.models.Loq
-import com.loq.buggadooli.loq2.utils.Utils
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_lock.*
 import java.util.*
 import kotlin.collections.ArrayList
 

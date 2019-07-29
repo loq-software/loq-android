@@ -5,10 +5,7 @@ import android.widget.CheckBox
 import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.models.CustomLoqItem
-import com.loq.buggadooli.loq2.models.Loq
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -63,44 +60,47 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
             val endHour = day.time?.endHour ?: 0
             val startMintute = day.time?.startMinute ?: 0
             val endMinute = day.time?.endMinute ?: 0
-            if (hour in startHour..endHour) {
+
+            val startString = "$startHour:$startMintute:00"
+            val time1 = SimpleDateFormat("HH:mm:ss").parse(startString)
+            val startCalendar = Calendar.getInstance()
+            startCalendar.time = time1
+
+            val endString = "$endHour:$endMinute:00"
+            val time2 = SimpleDateFormat("HH:mm:ss").parse(endString)
+            val endCalendar = Calendar.getInstance()
+            endCalendar.time = time2
+
+            val currentTimsString = "$hour:$minute:00"
+            val d = SimpleDateFormat("HH:mm:ss").parse(currentTimsString)
+            val calendar3 = Calendar.getInstance()
+            calendar3.time = d
+
+         /*   if (hour in startHour..endHour) {
                 if (hour == startHour && minute < startMintute)
                     continue
                 if (hour == endHour && minute > endMinute)
                     continue
+                return true
+            }*/
+
+            if (time2.compareTo(d) < 0)
+            {
+                endCalendar.add(Calendar.DATE, 1);
+                calendar3.add(Calendar.DATE, 1);
+            }
+
+            val actualTime = calendar3.getTime();
+            if ((d.after(startCalendar.getTime()) ||
+                            actualTime.compareTo(startCalendar.getTime()) == 0) &&
+                    actualTime.before(endCalendar.getTime()))
+            {
                 return true
             }
         }
     }
     return false
 }
-
-fun Loq.toJson(): String{
-    val jsonObj = JSONObject()
-    val jsonArr = JSONArray()
-    val obj = JSONObject()
-    try {
-        obj.put("AppName", appName)
-        obj.put("days", daysStr)
-        obj.put("PackageName", packageName)
-        obj.put("StartTime", startTime)
-        obj.put("EndTime", endTime)
-        obj.put("EndHour", rawEndHour)
-        obj.put("EndMinute", rawEndMinute)
-        obj.put("StartHour", rawStartHour)
-        obj.put("StartMinute", rawStartMinute)
-    } catch (e: JSONException) {
-        e.printStackTrace()
-    }
-
-    jsonArr.put(obj)
-    try {
-        jsonObj.put("Loqs", jsonArr)
-    } catch (e: JSONException) {
-        e.printStackTrace()
-    }
-
-    return jsonObj.toString()}
 
 fun List<CheckBox>.hasSelection(): Boolean{
     for (item in this){
