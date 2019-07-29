@@ -39,7 +39,8 @@ class RealApplicationsRepository(private val context: Application): Applications
                         val packageManager = context.packageManager
                         for (application in applications) {
                             for (popularApp in popularApps) {
-                                if (application.getAppName(packageManager).contains(popularApp)) {
+                                val appName = application.getAppName(packageManager)
+                                if (appName.contains(popularApp)) {
                                     installedPopularApps.add(application)
                                 }
                             }
