@@ -72,14 +72,11 @@ class RealApplicationsRepository(private val context: Application): Applications
         val packageManager = context.packageManager
         return Observable.create { emitter ->
             val apps = ArrayList<ApplicationInfo>()
-            val flags = PackageManager.GET_META_DATA or
-                    PackageManager.GET_SHARED_LIBRARY_FILES or
-                    PackageManager.GET_UNINSTALLED_PACKAGES
+            val flags = PackageManager.GET_META_DATA
 
             val applications = packageManager.getInstalledApplications(flags)
             for (appInfo in applications) {
-                if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-                } else {
+                if (packageManager.getLaunchIntentForPackage(appInfo.packageName) != null) {
                     apps.add(appInfo)
                 }
             }
