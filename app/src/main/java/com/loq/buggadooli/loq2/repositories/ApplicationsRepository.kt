@@ -39,7 +39,8 @@ class RealApplicationsRepository(private val context: Application): Applications
                         val packageManager = context.packageManager
                         for (application in applications) {
                             for (popularApp in popularApps) {
-                                if (application.getAppName(packageManager).contains(popularApp)) {
+                                val appName = application.getAppName(packageManager)
+                                if (appName.contains(popularApp) || appName.equals(popularApp,true)) {
                                     installedPopularApps.add(application)
                                 }
                             }
@@ -71,14 +72,11 @@ class RealApplicationsRepository(private val context: Application): Applications
         val packageManager = context.packageManager
         return Observable.create { emitter ->
             val apps = ArrayList<ApplicationInfo>()
-            val flags = PackageManager.GET_META_DATA or
-                    PackageManager.GET_SHARED_LIBRARY_FILES or
-                    PackageManager.GET_UNINSTALLED_PACKAGES
+            val flags = PackageManager.GET_META_DATA
 
             val applications = packageManager.getInstalledApplications(flags)
             for (appInfo in applications) {
-                if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
-                } else {
+                if (packageManager.getLaunchIntentForPackage(appInfo.packageName) != null) {
                     apps.add(appInfo)
                 }
             }
