@@ -68,19 +68,21 @@ class RealApplicationsRepository(private val context: Application): Applications
 
     override fun getInstalledApps(): Observable<List<ApplicationInfo>> {
 
+        val packageManager = context.packageManager
         return Observable.create { emitter ->
             val apps = ArrayList<ApplicationInfo>()
             val flags = PackageManager.GET_META_DATA or
                     PackageManager.GET_SHARED_LIBRARY_FILES or
                     PackageManager.GET_UNINSTALLED_PACKAGES
 
-            val applications = context.packageManager.getInstalledApplications(flags)
+            val applications = packageManager.getInstalledApplications(flags)
             for (appInfo in applications) {
                 if (appInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
                 } else {
                     apps.add(appInfo)
                 }
             }
+            Collections.sort(apps, ApplicationInfo.DisplayNameComparator(packageManager))
 
             emitter.onNext(apps)
         }
