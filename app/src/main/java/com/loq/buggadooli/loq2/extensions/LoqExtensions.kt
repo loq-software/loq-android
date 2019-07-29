@@ -2,6 +2,7 @@ package com.loq.buggadooli.loq2.extensions
 
 import android.content.pm.ApplicationInfo
 import android.widget.CheckBox
+import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.models.BlockedApplication
 import com.loq.buggadooli.loq2.models.CustomLoqItem
 import com.loq.buggadooli.loq2.models.Loq
@@ -28,21 +29,47 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
     calendar.time = date   // assigns calendar to given date
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
+    val calenderDay = calendar.get(Calendar.DAY_OF_WEEK)
+    val currentDay: String = when(calenderDay){
+        Constants.MONDAY -> {
+            "Monday"
+        }
+        Constants.TUESDAY -> {
+            "Tuesday"
+        }
+        Constants.WEDNESDAY -> {
+            "Wednesday"
+        }
+        Constants.THURSDAY -> {
+            "Thursday"
+        }
+        Constants.FRIDAY -> {
+            "Friday"
+        }
+        Constants.SATURDAY -> {
+           "Saturday"
+        }
+        Constants.SUNDAY -> {
+            "Sunday"
+        }
+        else -> {
+            "Unknown"
+        }
+    }
 
     for (day in loq.blockBlockedDays) {
-        val startHour = day.time?.startHour?: 0
-        val endHour = day.time?.endHour?: 0
-        val startMintute = day.time?.startMinute?: 0
-        val endMinute = day.time?.endMinute?: 0
-        if (hour in startHour..endHour) {
-            /*if (hour == startHour && minute < startMintute)
-                return false
-            return !(hour == endHour && minute > endMinute)*/
-
-            /*if (minute in startMintute..endMinute){
+        if (day.dayOfWeek.contentEquals(currentDay)) {
+            val startHour = day.time?.startHour ?: 0
+            val endHour = day.time?.endHour ?: 0
+            val startMintute = day.time?.startMinute ?: 0
+            val endMinute = day.time?.endMinute ?: 0
+            if (hour in startHour..endHour) {
+                if (hour == startHour && minute < startMintute)
+                    continue
+                if (hour == endHour && minute > endMinute)
+                    continue
                 return true
-            }*/
-            return true
+            }
         }
     }
     return false

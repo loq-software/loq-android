@@ -33,7 +33,7 @@ class RealLoqerManager(
         private val loqService: LoqService,
         private val authenticationService: AuthenticationService
 ): LoqerManager{
-    val scheduler = Executors
+    private val scheduler = Executors
             .newSingleThreadScheduledExecutor()
 
     private var allowUsage = false

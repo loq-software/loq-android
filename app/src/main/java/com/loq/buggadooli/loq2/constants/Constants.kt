@@ -6,12 +6,12 @@ object Constants{
     const val LOQ_INDEX = "loqIndex"
     const val GOOGLE_LOGIN_REQUEST = 222
 
-    const val MONDAY = "Monday"
-    const val TUESDAY = "Tuesday"
-    const val WEDNESDAY = "Wednesday"
-    const val THURSDAY = "Thursday"
-    const val FRIDAY = "Friday"
-    const val SATURDAY = "Saturday"
-    const val SUNDAY = "Sunday"
+    const val MONDAY = 2
+    const val TUESDAY = 3
+    const val WEDNESDAY = 4
+    const val THURSDAY = 5
+    const val FRIDAY = 6
+    const val SATURDAY = 7
+    const val SUNDAY = 1
 
 }
