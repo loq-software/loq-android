@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 inline fun List<BlockedApplication>.isLocked(packageName: String): Boolean {
     for (loq in this) {
-        if (loq.packageName.equals(packageName, ignoreCase = true)
+        if (loq.applicationName.equals(packageName, ignoreCase = true)
                 || loq.packageName.equals(packageName, ignoreCase = true)) {
             if (isLockTime(loq))
                 return true
@@ -38,9 +38,11 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
             /*if (hour == startHour && minute < startMintute)
                 return false
             return !(hour == endHour && minute > endMinute)*/
-            if (minute in startMintute..endMinute){
+
+            /*if (minute in startMintute..endMinute){
                 return true
-            }
+            }*/
+            return true
         }
     }
     return false

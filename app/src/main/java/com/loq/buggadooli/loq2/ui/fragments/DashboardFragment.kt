@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 
@@ -23,6 +25,7 @@ import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.*
 import com.loq.buggadooli.loq2.models.BlockedApplication
+import com.loq.buggadooli.loq2.ui.activities.MainActivity
 import com.loq.buggadooli.loq2.utils.Utils
 import com.loq.buggadooli.loq2.ui.adapters.LoqSelectionAdapter
 import com.loq.buggadooli.loq2.ui.listeners.LoqSelectionEditListener
@@ -78,6 +81,19 @@ class DashboardFragment : Fragment() {
                 safeActivity.toast(it)
             }
         })
+
+        val hasStatsPermission = (safeActivity as MainActivity).permissionsManager.hasUsageStatsPermission()
+        if (!hasStatsPermission){
+            val builder = AlertDialog.Builder(safeActivity)
+            builder.setMessage("Make sure Usage Access is granted to Loq for the app to work!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK") { p0, p1 ->
+                        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                        startActivity(intent)
+                    }
+            val alert = builder.create()
+            alert.show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

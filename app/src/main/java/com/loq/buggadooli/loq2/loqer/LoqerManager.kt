@@ -1,5 +1,6 @@
 package com.loq.buggadooli.loq2.loqer
 
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
@@ -21,7 +22,7 @@ interface LoqerManager{
 
     fun checkRunningApps()
 
-    fun scheduleMethod(owner: LifecycleOwner)
+    fun scheduleMethod(service: Service, owner: LifecycleOwner)
 
     fun onDestroy()
 }
@@ -53,7 +54,7 @@ class RealLoqerManager(
         }*/
     }
 
-    override fun scheduleMethod(owner: LifecycleOwner) {
+    override fun scheduleMethod(service: Service,owner: LifecycleOwner) {
         scheduler.scheduleAtFixedRate(Runnable {
             val userId = authenticationService.getCurrentUser()?.uid?: return@Runnable
             loqService.getLoqs(userId)
@@ -64,9 +65,9 @@ class RealLoqerManager(
                                 val loqs = outcome.data
                                 val activityOnTop = applicationsRepository.getForegroundApp()
                                 if (loqs.isLocked(activityOnTop)){
-                                    val dialogIntent = Intent(context, LockScreenActivity::class.java)
+                                    val dialogIntent = Intent(service, LockScreenActivity::class.java)
                                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    context.startActivity(dialogIntent)
+                                    service.startActivity(dialogIntent)
                                 }
                             }
                         }

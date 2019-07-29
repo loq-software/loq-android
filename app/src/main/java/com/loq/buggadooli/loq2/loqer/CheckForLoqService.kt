@@ -23,7 +23,7 @@ class CheckForLoqService : Service(), LifecycleOwner {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        loqerManager.scheduleMethod(this)
+        loqerManager.scheduleMethod(this@CheckForLoqService, this)
         startForeground(1, notifications.buildNotification(this))
         return START_STICKY
     }
@@ -40,8 +40,7 @@ class CheckForLoqService : Service(), LifecycleOwner {
 
     companion object {
 
-        fun getIntent(activity: Activity): Intent {
-
+        fun getIntent(activity: Activity): Intent? {
             return Intent(activity, CheckForLoqService::class.java)
         }
     }
