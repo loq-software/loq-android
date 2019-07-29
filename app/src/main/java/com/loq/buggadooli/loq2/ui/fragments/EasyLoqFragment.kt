@@ -11,14 +11,19 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 
-import com.loq.buggadooli.loq2.R
 import com.loq.buggadooli.loq2.constants.Constants
 import com.loq.buggadooli.loq2.extensions.addFragment
 import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.safeActivity
+import com.loq.buggadooli.loq2.ui.activities.MainActivity
 import com.loq.buggadooli.loq2.ui.viewmodels.EasyLoqViewModel
 import kotlinx.android.synthetic.main.fragment_easy_loq.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
+import android.content.Intent
+import androidx.appcompat.app.AlertDialog
+import com.loq.buggadooli.loq2.R
+
 
 class EasyLoqFragment : Fragment() {
 
@@ -72,6 +77,19 @@ class EasyLoqFragment : Fragment() {
                 safeActivity.addFragment(fragment = fragment)
             }
         })
+
+        val hasStatsPermission = (safeActivity as MainActivity).permissionsManager.hasUsageStatsPermission()
+        if (!hasStatsPermission){
+            val builder = AlertDialog.Builder(safeActivity)
+            builder.setMessage("Make sure Usage Access is granted to Loq for the app to work!")
+                    .setCancelable(false)
+                    .setPositiveButton("OK") { p0, p1 ->
+                        val intent = Intent(ACTION_USAGE_ACCESS_SETTINGS);
+                        startActivity(intent)
+                    }
+            val alert = builder.create()
+            alert.show()
+        }
     }
 
 }

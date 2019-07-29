@@ -13,6 +13,7 @@ import com.loq.buggadooli.loq2.extensions.inflateTo
 import com.loq.buggadooli.loq2.extensions.replaceFragment
 import com.loq.buggadooli.loq2.extensions.safeActivity
 import com.loq.buggadooli.loq2.extensions.toast
+import com.loq.buggadooli.loq2.ui.activities.MainActivity
 import com.loq.buggadooli.loq2.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -48,6 +49,7 @@ class MainFragment : Fragment() {
             if (mainViewModel.user == null) {
                 safeActivity.replaceFragment( fragment = LoginFragment())
             } else {
+                val hasStatsPermission = (safeActivity as MainActivity).permissionsManager.hasUsageStatsPermission()
                 mainViewModel.loadLoqs(view)
             }
 

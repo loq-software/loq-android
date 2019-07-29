@@ -23,26 +23,24 @@ import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.loq.buggadooli.loq2.R
-import com.loq.buggadooli.loq2.utils.Utils
 
 import org.json.JSONException
 import org.json.JSONObject
 
 class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
-    private var mRewardedVideoAd: RewardedVideoAd? = null
-    private var imgAd: ImageView? = null
+    private lateinit var mRewardedVideoAd: RewardedVideoAd
+    private lateinit var imgAd: ImageView
     internal var inAppBillingService: IInAppBillingService? = null
     private var btnPay: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lock_screen)
-        supportActionBar!!.hide()
         initAd()
         imgAd = findViewById(R.id.imgAd)
-        imgAd!!.setOnClickListener {
-            if (mRewardedVideoAd!!.isLoaded) {
-                mRewardedVideoAd!!.show()
+        imgAd.setOnClickListener {
+            if (mRewardedVideoAd.isLoaded) {
+                mRewardedVideoAd.show()
                 finish()
             }
         }
@@ -57,7 +55,9 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         // Bind the service.
         val serviceIntent = Intent("com.android.vending.billing.InAppBillingService.BIND")
         serviceIntent.setPackage("com.android.vending")
-        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        serviceConnection?.let {
+            bindService(serviceIntent, it, Context.BIND_AUTO_CREATE)
+        }
     }
 
     private fun buyItem(productID: String) {
@@ -111,7 +111,7 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         // Use an activity context to get the rewarded video instance.
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
         loadRewardedVideoAd()
-        mRewardedVideoAd!!.rewardedVideoAdListener = this
+        mRewardedVideoAd.rewardedVideoAdListener = this
     }
 
     private fun loadRewardedVideoAd() {
@@ -171,7 +171,7 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         finish()
     }
 
-    private val serviceConnection = object : ServiceConnection {
+    private var serviceConnection:ServiceConnection? = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName) {
             inAppBillingService = null
         }
@@ -179,6 +179,12 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             inAppBillingService = IInAppBillingService.Stub.asInterface(service)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindService(serviceConnection)
+        serviceConnection = null
     }
 
     companion object {
