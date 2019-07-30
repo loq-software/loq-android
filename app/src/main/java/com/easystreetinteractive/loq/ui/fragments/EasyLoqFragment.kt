@@ -17,12 +17,12 @@ import com.easystreetinteractive.loq.extensions.inflateTo
 import com.easystreetinteractive.loq.extensions.safeActivity
 import com.easystreetinteractive.loq.ui.activities.MainActivity
 import com.easystreetinteractive.loq.ui.viewmodels.EasyLoqViewModel
-import kotlinx.android.synthetic.main.fragment_easy_loq.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import com.easystreetinteractive.loq.R
+import kotlinx.android.synthetic.main.fragment_easy_loq.*
 
 class EasyLoqFragment : Fragment() {
 
@@ -66,6 +66,8 @@ class EasyLoqFragment : Fragment() {
                 }
             }
         }
+
+        btnBack.setOnClickListener { safeActivity.onBackPressed() }
 
         viewModel.installedPopularApplications.observe(this, Observer { event ->
             val popularApplications = event.getContentIfNotHandled()
