@@ -6,7 +6,7 @@
     <data>
         <variable
             name="loq"
-            type="com.loq.buggadooli.loq2.models.BlockedApplication" />
+            type="com.easystreetinteractive.loq.models.BlockedApplication" />
 
     </data>
 
