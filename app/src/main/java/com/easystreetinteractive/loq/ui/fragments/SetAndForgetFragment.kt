@@ -218,7 +218,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         }
 
         val hourStr = hourOfDay.toString()
-        val minuteStr = minute.toString()
+        val minuteStr = if(minute < 10) "0$minute" else minute.toString()
 
         if (radioButtonGroup.checkedRadioButtonId == R.id.sameTimesRadioButton){
             if (isStartTime) {
