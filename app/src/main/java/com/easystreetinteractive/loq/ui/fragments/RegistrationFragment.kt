@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.easystreetinteractive.loq.extensions.inflateTo
 import com.easystreetinteractive.loq.extensions.safeActivity
+import com.easystreetinteractive.loq.extensions.toast
 import kotlinx.android.synthetic.main.fragment_registration.*
 
 class RegistrationFragment : Fragment() {
@@ -54,17 +55,11 @@ class RegistrationFragment : Fragment() {
         mAuth!!.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        //Log.d(TAG, "createUserWithEmail:success");
                         val user = mAuth!!.currentUser
                         sendEmailVerification(user)
                     } else {
-                        // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(safeActivity, "Failed to register user " + task.exception!!.toString(), Toast.LENGTH_LONG).show()
+                        safeActivity.toast("You've already created an account with this email address")
                     }
-
-                    // ...
                 }
     }
 
@@ -77,7 +72,6 @@ class RegistrationFragment : Fragment() {
                                 Toast.LENGTH_SHORT).show()
                         safeActivity.onBackPressed()
                     } else {
-                        //Log.e(TAG, "sendEmailVerification", task.getException());
                         Toast.makeText(safeActivity,
                                 "Failed to send verification email.",
                                 Toast.LENGTH_SHORT).show()
