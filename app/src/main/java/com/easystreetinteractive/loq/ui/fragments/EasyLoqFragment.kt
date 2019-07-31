@@ -12,9 +12,6 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 
 import com.easystreetinteractive.loq.constants.Constants
-import com.easystreetinteractive.loq.extensions.addFragment
-import com.easystreetinteractive.loq.extensions.inflateTo
-import com.easystreetinteractive.loq.extensions.safeActivity
 import com.easystreetinteractive.loq.ui.activities.MainActivity
 import com.easystreetinteractive.loq.ui.viewmodels.EasyLoqViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +19,7 @@ import android.provider.Settings.ACTION_USAGE_ACCESS_SETTINGS
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import com.easystreetinteractive.loq.R
+import com.easystreetinteractive.loq.extensions.*
 import kotlinx.android.synthetic.main.fragment_easy_loq.*
 
 class EasyLoqFragment : Fragment() {
@@ -40,6 +38,7 @@ class EasyLoqFragment : Fragment() {
                 R.array.popular_apps, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        appSelectGroup.check(R.id.radioBtnPopular)
         appSelectGroup.setOnCheckedChangeListener { group, checkedId ->
 
             if (checkedId == R.id.radioBtnPopular) {
@@ -54,7 +53,8 @@ class EasyLoqFragment : Fragment() {
 
             when(appSelectGroup.checkedRadioButtonId){
                 R.id.radioBtnPopular -> {
-                  viewModel.buttonNextForPopularClicked(view)
+                    progressLayout.show()
+                    viewModel.buttonNextForPopularClicked(view)
                 }
 
                 R.id.radioBtnCustom -> {
@@ -72,6 +72,7 @@ class EasyLoqFragment : Fragment() {
         viewModel.installedPopularApplications.observe(this, Observer { event ->
             val popularApplications = event.getContentIfNotHandled()
             popularApplications?.let {
+                progressLayout.hide()
                 val fragment = SetAndForgetFragment()
                 val bundle = bundleOf(Constants.APP_NAME to it)
                 fragment.arguments = bundle
