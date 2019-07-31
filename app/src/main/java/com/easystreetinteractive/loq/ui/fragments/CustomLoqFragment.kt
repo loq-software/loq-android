@@ -67,9 +67,9 @@ class CustomLoqFragment: Fragment() {
         backButton.setOnClickListener { safeActivity.onBackPressed() }
 
         viewModel.onApplicationsLoaded.observe(this, Observer { event ->
-            progressLayout.hide()
             val data = event.getContentIfNotHandled()
             data?.let {
+                progressLayout.hide()
                 val customLoqItems = it.toCustomLoqItems()
                 loqAdapter.updateData(customLoqItems)
             }

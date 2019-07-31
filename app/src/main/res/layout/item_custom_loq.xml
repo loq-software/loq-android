@@ -20,7 +20,6 @@
             android:id="@+id/selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:buttonTint="@android:color/white"
             android:checked="@{item.selected}"/>
 
