@@ -38,7 +38,6 @@ class EasyLoqFragment : Fragment() {
                 R.array.popular_apps, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-       // appSelectGroup.check(R.id.radioBtnPopular)
         appSelectGroup.setOnCheckedChangeListener { group, checkedId ->
 
             if (checkedId == R.id.radioBtnPopular) {
