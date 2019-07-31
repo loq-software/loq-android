@@ -20,7 +20,7 @@ import com.easystreetinteractive.loq.models.BlockTime
 import com.easystreetinteractive.loq.models.BlockedDay
 import com.easystreetinteractive.loq.ui.viewmodels.SetAndForgetViewModel
 import com.easystreetinteractive.loq.utils.BlockedDayUtilities.buildDay
-import kotlinx.android.synthetic.main.fragment_set_or_forget.*
+import kotlinx.android.synthetic.main.fragment_set_and_forget.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 import kotlin.collections.HashMap
@@ -55,7 +55,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View = inflater.inflateTo(R.layout.fragment_set_or_forget, container)
+    ): View = inflater.inflateTo(R.layout.fragment_set_and_forget, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -162,6 +162,8 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 }
             }
         }
+
+        btnBack.setOnClickListener { safeActivity.onBackPressed() }
 
         viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
             val application = event.getContentIfNotHandled()
