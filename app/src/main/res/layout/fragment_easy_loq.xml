@@ -34,55 +34,56 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="normal" />
 
-        <RadioGroup
-            android:id="@+id/appSelectGroup"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/appSelectGroup"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioBtnPopular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:buttonTint="#FFFFFF"
-                    android:checked="false"
+                    android:checked="true"
                     android:fontFamily="@font/roboto"
                     android:text="@string/use_the_20_most_popular_apps"
                     android:textColor="#FFFFFF"
-                    android:layout_weight="1"
                     android:textSize="14sp" />
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="100dp"
+                <RadioButton
+                    android:id="@+id/radioBtnCustom"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/spinner_dropdown_background"
-                    android:prompt="@string/see_apps"
-                    android:visibility="visible" />
+                    android:layout_marginTop="10dp"
+                    android:buttonTint="#FFFFFF"
+                    android:fontFamily="@font/roboto"
+                    android:text="Let me select which apps to Loq"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
+            </RadioGroup>
 
-            </LinearLayout>
-
-            <RadioButton
-                android:id="@+id/radioBtnCustom"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:buttonTint="#FFFFFF"
-                android:checked="false"
-                android:fontFamily="@font/roboto"
-                android:text="Let me select which apps to Loq"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </RadioGroup>
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@android:drawable/spinner_dropdown_background"
+                android:prompt="@string/see_apps"
+                android:visibility="visible" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

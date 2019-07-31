@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="@font/roboto"
                     android:text="Days Of Week"
                     android:textColor="#FFFFFF" />
@@ -66,7 +67,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <CheckBox
@@ -114,7 +114,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="12dp"
                     android:orientation="horizontal">
 
                     <CheckBox
@@ -148,18 +148,6 @@
                         android:textColor="#FFFFFF" />
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="TimeFrame To Loq"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -214,47 +202,15 @@
 
                 <Spinner
                     android:id="@+id/daysSpinner"
-                    android:layout_width="100dp"
+                    android:layout_width="112dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@android:drawable/spinner_dropdown_background"
                     android:prompt="@string/see_apps"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_gravity="center_vertical">
 
                 </Spinner>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="TimeFrame To Loq"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/addDayButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_gravity="center_vertical"
-                        android:text="Add Day"
-                        android:textColor="@android:color/white"
-                        android:textAllCaps="false"
-                        android:background="@drawable/rounded_background"
-                        android:backgroundTint="@color/green"/>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -294,6 +250,19 @@
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/addDayButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Add Day"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:background="@drawable/rounded_background"
+                    android:backgroundTint="@color/green"/>
 
             </RadioGroup>
 

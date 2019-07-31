@@ -38,7 +38,6 @@ class EasyLoqFragment : Fragment() {
                 R.array.popular_apps, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        appSelectGroup.check(R.id.radioBtnPopular)
         appSelectGroup.setOnCheckedChangeListener { group, checkedId ->
 
             if (checkedId == R.id.radioBtnPopular) {
@@ -72,11 +71,11 @@ class EasyLoqFragment : Fragment() {
         viewModel.installedPopularApplications.observe(this, Observer { event ->
             val popularApplications = event.getContentIfNotHandled()
             popularApplications?.let {
-                progressLayout.hide()
                 val fragment = SetAndForgetFragment()
                 val bundle = bundleOf(Constants.APP_NAME to it)
                 fragment.arguments = bundle
                 safeActivity.addFragment(fragment = fragment)
+                progressLayout.hide()
             }
         })
 
