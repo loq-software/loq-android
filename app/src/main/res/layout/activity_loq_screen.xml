@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_with_icon">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/logoView"
+            android:layout_width="164dp"
+            android:layout_height="86dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto"
+            android:text="You have a Loq on this app at this time."
+            android:textAlignment="center"
+            android:textColor="#FDFDFD"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="If you would still like to continue using this application, please select one of the two Penalty options"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto"
+            android:layout_marginBottom="16dp"
+            android:text="Watch a 30 second video"
+            android:textAlignment="center"
+            android:textColor="#FDFDFD"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imgAd"
+            android:layout_width="212dp"
+            android:layout_height="124dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/loq_crop" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Or"
+            android:textColor="#FFFEFE"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_background"
+            android:text="Pay $0.99 for 1 minute of use. "
+            android:backgroundTint="@color/green"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+</FrameLayout>

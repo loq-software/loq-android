@@ -40,7 +40,7 @@ class MainActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-      /*  try {
+        try {
             val intent = CheckForLoqService.getIntent(this)
             intent?.let {
                 stopService(intent)
@@ -48,12 +48,12 @@ class MainActivity: AppCompatActivity() {
         }
         catch (exception: Exception){
             exception.printStackTrace()
-        }*/
+        }
     }
 
     override fun onPause() {
         super.onPause()
-     /*   try {
+        try {
             val intent = CheckForLoqService.getIntent(this)
             intent?.let {
                 application.startService(intent)
@@ -61,7 +61,7 @@ class MainActivity: AppCompatActivity() {
         }
         catch (exception: Exception){
             exception.printStackTrace()
-        }*/
+        }
     }
 
     override fun onDestroy() {
