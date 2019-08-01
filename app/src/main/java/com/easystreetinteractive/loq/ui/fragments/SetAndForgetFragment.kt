@@ -218,6 +218,9 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         if (hourOfDay > 12) {
             hourOfDay -= 12
         }
+        else if(hourOfDay == 0){
+            hourOfDay = 12
+        }
 
         val hourStr = hourOfDay.toString()
         val minuteStr = if(minute < 10) "0$minute" else minute.toString()

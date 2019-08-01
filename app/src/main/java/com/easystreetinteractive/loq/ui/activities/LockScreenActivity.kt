@@ -35,7 +35,7 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lock_screen)
+        setContentView(R.layout.activity_loq_screen)
         initAd()
         imgAd = findViewById(R.id.imgAd)
         imgAd.setOnClickListener {
