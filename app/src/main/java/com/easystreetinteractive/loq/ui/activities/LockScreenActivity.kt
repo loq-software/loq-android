@@ -18,11 +18,14 @@ import android.widget.Toast
 
 import com.android.vending.billing.IInAppBillingService
 import com.easystreetinteractive.loq.R
-import com.google.android.gms.ads.AdRequest
+import com.easystreetinteractive.loq.extensions.hide
+import com.easystreetinteractive.loq.extensions.show
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import kotlinx.android.synthetic.main.activity_loq_screen.*
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -41,12 +44,32 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         imgAd.setOnClickListener {
             if (mRewardedVideoAd.isLoaded) {
                 mRewardedVideoAd.show()
-                finish()
+                //finish()
+            }
+            else{
+                //loadRewardedVideoAd()
             }
         }
         initBilling()
         btnPay = findViewById(R.id.btnPay)
         btnPay!!.setOnClickListener { buyItem(UNLOCK_PURCHASE_PRODUCT) }
+    }
+
+    private fun initAd() {
+       /* // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")*/
+        // Use an activity context to get the rewarded video instance.
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        mRewardedVideoAd.rewardedVideoAdListener = this
+        loadRewardedVideoAd()
+    }
+
+    private fun loadRewardedVideoAd() {
+        progressLayout.show()
+        mRewardedVideoAd.loadAd(resources.getString(R.string.ad_video_link),
+                PublisherAdRequest.Builder()
+                        .addTestDevice("6498DCA9BBB5CA9E79ECDA603C8A440F")
+                        .build())
     }
 
     private fun initBilling() {
@@ -104,21 +127,6 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         }
     }
 
-
-    private fun initAd() {
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")
-        // Use an activity context to get the rewarded video instance.
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
-        loadRewardedVideoAd()
-        mRewardedVideoAd.rewardedVideoAdListener = this
-    }
-
-    private fun loadRewardedVideoAd() {
-        mRewardedVideoAd!!.loadAd("ca-app-pub-3940256099942544/5224354917",
-                AdRequest.Builder().build())
-    }
-
     private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -132,31 +140,43 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
     }
 
     override fun onRewardedVideoAdLoaded() {
-
+        Log.d("test", "onRewardedVideoAdLoaded()")
+        progressLayout.hide()
     }
 
     override fun onRewardedVideoAdOpened() {
+        Log.d("test", "onRewardedVideoAdOpened()")
 
     }
 
     override fun onRewardedVideoStarted() {
+        Log.d("test", "onRewardedVideoStarted()")
 
     }
 
     override fun onRewardedVideoAdClosed() {
-
+        Log.d("test", "onRewardedVideoAdClosed()")
+        if (! mRewardedVideoAd.isLoaded) {
+            loadRewardedVideoAd()
+        }
     }
 
     override fun onRewarded(rewardItem: RewardItem) {
+        Log.d("test", "onRewarded()")
 
     }
 
     override fun onRewardedVideoAdLeftApplication() {
+        Log.d("test", "onRewardedVideoAdLeftApplication()")
 
     }
 
-    override fun onRewardedVideoAdFailedToLoad(i: Int) {
-
+    override fun onRewardedVideoAdFailedToLoad(errorCode: Int) {
+        Log.d("test", "onRewardedVideoAdFailedToLoad() - $errorCode")
+        progressLayout.hide()
+        if (errorCode == 0){
+            loadRewardedVideoAd()
+        }
     }
 
     override fun onRewardedVideoCompleted() {
@@ -166,9 +186,10 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
 
         mLockService.allowUsage(60000);
         startService(new Intent(getApplicationContext(), mLockService.getClass()));*/
-        setVisible(false)
+        //setVisible(false)
        // Utils.INSTANCE.createPauseFile(applicationContext) todo: 7/25/19 handle whatever this is for
-        finish()
+        //finish()
+        Log.d("test", "onRewardedVideoCompleted")
     }
 
     private var serviceConnection:ServiceConnection? = object : ServiceConnection {
@@ -181,10 +202,21 @@ class LockScreenActivity : AppCompatActivity(), RewardedVideoAdListener {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        mRewardedVideoAd.pause(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mRewardedVideoAd.resume(this)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        unbindService(serviceConnection)
-        serviceConnection = null
+        mRewardedVideoAd.destroy(this)
+     /*   unbindService(serviceConnection)
+        serviceConnection = null*/
     }
 
     companion object {
