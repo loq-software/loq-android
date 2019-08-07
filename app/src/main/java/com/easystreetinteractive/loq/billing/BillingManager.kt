@@ -83,9 +83,6 @@ class RealBillingManager(private val context: Context): BillingManager{
     private fun handlePurchase(purchase: Purchase) {
         val purchaseState = purchase.purchaseState
         if (purchaseState == Purchase.PurchaseState.PURCHASED) {
-            // Grant entitlement to the user.
-
-            // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
                         .setPurchaseToken(purchase.purchaseToken)

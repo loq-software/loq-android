@@ -44,7 +44,11 @@ class LockScreenActivity : AppCompatActivity() {
 
         viewModel.isConnected.observe(this, Observer { connected ->
             if (!connected){
+                btnPay.isEnabled = false
                 viewModel.connectBilling()
+            }
+            else{
+                btnPay.isEnabled = true
             }
         })
 
