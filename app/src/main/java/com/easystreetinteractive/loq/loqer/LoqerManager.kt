@@ -1,29 +1,25 @@
 package com.easystreetinteractive.loq.loqer
 
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.os.CountDownTimer
 import androidx.lifecycle.LifecycleOwner
 import com.easystreetinteractive.loq.extensions.attachLifecycle
-import com.easystreetinteractive.loq.extensions.isLocked
+import com.easystreetinteractive.loq.extensions.isLockTime
 import com.easystreetinteractive.loq.extensions.subscribeForOutcome
-import com.easystreetinteractive.loq.models.Loq
+import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.network.Outcome
 import com.easystreetinteractive.loq.network.api.AuthenticationService
 import com.easystreetinteractive.loq.network.api.LoqService
+import com.easystreetinteractive.loq.preferences.PreferenceManager
 import com.easystreetinteractive.loq.repositories.ApplicationsRepository
 import com.easystreetinteractive.loq.ui.activities.LockScreenActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.ArrayList
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 interface LoqerManager{
-
-    fun checkRunningApps()
 
     fun scheduleMethod(service: Service, owner: LifecycleOwner)
 
@@ -31,31 +27,13 @@ interface LoqerManager{
 }
 
 class RealLoqerManager(
-        private val context: Context,
+        private val preferenceManager: PreferenceManager,
         private val applicationsRepository: ApplicationsRepository,
         private val loqService: LoqService,
         private val authenticationService: AuthenticationService
 ): LoqerManager {
     private val scheduler = Executors
             .newSingleThreadScheduledExecutor()
-
-    private var allowUsage = false
-    private var loqs: List<Loq> = ArrayList()
-
-    override fun checkRunningApps() {
-
-        if (allowUsage)
-            return
-
-        val activityOnTop = applicationsRepository.getForegroundApp()
-
-       /* // Provide the packagename(s) of apps here, you want to show password activity
-        if (loqs.isAppLocked(activityOnTop)) { // you can make this check even better {
-            val dialogIntent = Intent(context, LockScreenActivity::class.java)
-            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(dialogIntent)
-        }*/
-    }
 
     override fun scheduleMethod(service: Service,owner: LifecycleOwner) {
 
@@ -70,7 +48,7 @@ class RealLoqerManager(
                         is Outcome.Success -> {
                             val loqs = outcome.data
                             val activityOnTop = applicationsRepository.getForegroundApp()
-                            if (loqs.isLocked(activityOnTop)){
+                            if (isLocked(loqs, activityOnTop)){
                                 val dialogIntent = Intent(service, LockScreenActivity::class.java)
                                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                 service.startActivity(dialogIntent)
@@ -81,20 +59,24 @@ class RealLoqerManager(
                 .attachLifecycle(owner)
     }
 
-    override fun onDestroy() {
-        scheduler.shutdown()
+    private fun isLocked(blockedApplications: List<BlockedApplication>, packageName: String): Boolean {
+        for (loq in blockedApplications) {
+            if (loq.applicationName.equals(packageName, ignoreCase = true)
+                    || loq.packageName.equals(packageName, ignoreCase = true)) {
+                if (isLockTime(loq) && !hasTemporaryUnlock())
+                    return true
+            }
+        }
+        return false
     }
 
-    private fun allowUsage(timeInMillis: Long) {
-        allowUsage = true
-        object : CountDownTimer(timeInMillis, 10000) {
-            override fun onTick(millisUntilFinished: Long) {
+    private fun hasTemporaryUnlock(): Boolean {
+        val unlockTime = preferenceManager.temporaryUnlockTime
+        val currentTime = System.currentTimeMillis()
+        return currentTime - unlockTime < 60000
+    }
 
-            }
-
-            override fun onFinish() {
-                allowUsage = false
-            }
-        }.start()
+    override fun onDestroy() {
+        scheduler.shutdown()
     }
 }

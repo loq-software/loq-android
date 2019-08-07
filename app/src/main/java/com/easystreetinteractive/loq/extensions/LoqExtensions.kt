@@ -8,16 +8,6 @@ import com.easystreetinteractive.loq.models.CustomLoqItem
 import java.util.*
 import kotlin.collections.ArrayList
 
-inline fun List<BlockedApplication>.isLocked(packageName: String): Boolean {
-    for (loq in this) {
-        if (loq.applicationName.equals(packageName, ignoreCase = true)
-                || loq.packageName.equals(packageName, ignoreCase = true)) {
-            if (isLockTime(loq))
-                return true
-        }
-    }
-    return false
-}
 
 inline fun isLockTime(loq: BlockedApplication): Boolean {
     val date = Date()   // given date
@@ -69,6 +59,9 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
                 else if (hour < endHour){
                    return true
                 }
+                else if (hour > startHour){
+                    return true
+                }
             }
             else{
                 if (hour == startHour && hour < endHour){
@@ -89,11 +82,6 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
                 else if (hour > startHour && hour < endHour){
                     return true
                 }
-              /*  if (hour >= startHour && hour <= endHour){
-                    if (minute >= startMinute && minute <= endMinute) {
-                        return true
-                    }
-                }*/
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.easystreetinteractive.loq
 
 import android.app.Application
+import com.easystreetinteractive.loq.ads.adModule
+import com.easystreetinteractive.loq.billing.billingModule
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 import com.easystreetinteractive.loq.loqer.loqerModule
@@ -27,7 +29,9 @@ class LoqApplication: Application() {
                 notificationsModule,
                 repositoriesModule,
                 loqerModule,
-                permissionsModule
+                permissionsModule,
+                adModule,
+                billingModule
         )
         startKoin(
                 androidContext = this,
