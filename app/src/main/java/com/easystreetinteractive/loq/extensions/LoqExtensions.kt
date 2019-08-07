@@ -5,20 +5,9 @@ import android.widget.CheckBox
 import com.easystreetinteractive.loq.constants.Constants
 import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.models.CustomLoqItem
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-inline fun List<BlockedApplication>.isLocked(packageName: String): Boolean {
-    for (loq in this) {
-        if (loq.applicationName.equals(packageName, ignoreCase = true)
-                || loq.packageName.equals(packageName, ignoreCase = true)) {
-            if (isLockTime(loq))
-                return true
-        }
-    }
-    return false
-}
 
 inline fun isLockTime(loq: BlockedApplication): Boolean {
     val date = Date()   // given date
@@ -58,44 +47,41 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
         if (day.dayOfWeek.contentEquals(currentDay)) {
             val startHour = day.time?.startHour ?: 0
             val endHour = day.time?.endHour ?: 0
-            val startMintute = day.time?.startMinute ?: 0
+            val startMinute = day.time?.startMinute ?: 0
             val endMinute = day.time?.endMinute ?: 0
 
-            val startString = "$startHour:$startMintute:00"
-            val time1 = SimpleDateFormat("HH:mm:ss").parse(startString)
-            val startCalendar = Calendar.getInstance()
-            startCalendar.time = time1
-
-            val endString = "$endHour:$endMinute:00"
-            val time2 = SimpleDateFormat("HH:mm:ss").parse(endString)
-            val endCalendar = Calendar.getInstance()
-            endCalendar.time = time2
-
-            val currentTimsString = "$hour:$minute:00"
-            val d = SimpleDateFormat("HH:mm:ss").parse(currentTimsString)
-            val calendar3 = Calendar.getInstance()
-            calendar3.time = d
-
-         /*   if (hour in startHour..endHour) {
-                if (hour == startHour && minute < startMintute)
-                    continue
-                if (hour == endHour && minute > endMinute)
-                    continue
-                return true
-            }*/
-
-            if (time2.compareTo(d) < 0)
-            {
-                endCalendar.add(Calendar.DATE, 1);
-                calendar3.add(Calendar.DATE, 1);
+            if (startHour > endHour){
+                if (hour == endHour){
+                    if (minute >= startMinute && minute <= endMinute) {
+                        return true
+                    }
+                }
+                else if (hour < endHour){
+                   return true
+                }
+                else if (hour > startHour){
+                    return true
+                }
             }
-
-            val actualTime = calendar3.getTime();
-            if ((d.after(startCalendar.getTime()) ||
-                            actualTime.compareTo(startCalendar.getTime()) == 0) &&
-                    actualTime.before(endCalendar.getTime()))
-            {
-                return true
+            else{
+                if (hour == startHour && hour < endHour){
+                    if (minute >= startMinute){
+                        return true
+                    }
+                }
+                else if(hour == startHour && hour == endHour){
+                    if (minute >= startMinute && hour <= endMinute){
+                        return true
+                    }
+                }
+                else if (hour == endHour && hour > startHour){
+                    if (minute <= endMinute){
+                        return true
+                    }
+                }
+                else if (hour > startHour && hour < endHour){
+                    return true
+                }
             }
         }
     }
