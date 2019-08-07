@@ -73,6 +73,7 @@ class RealBillingManager(private val context: Context): BillingManager{
 
     private fun loadSkuDetails(listener: SkuDetailsResponseListener) {
         val skuList = ArrayList<String>()
+        //Todo: Add items from our google play account.
         skuList.add("premium_upgrade")
         skuList.add("gas")
         val params = SkuDetailsParams.newBuilder()
