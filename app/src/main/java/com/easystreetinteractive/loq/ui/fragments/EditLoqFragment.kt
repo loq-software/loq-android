@@ -75,6 +75,17 @@ class EditLoqFragment: Fragment() {
             }
         })
 
+        mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
+            val loqs = event.getContentIfNotHandled()?: return@Observer
+            val currentLoqId = loq.id
+            for(loq in loqs){
+               if (loq.id.contentEquals(currentLoqId)) {
+                   this.loq = loq
+                   editLoqAdapter.updateData(loq.blockBlockedDays)
+                   return@Observer
+               }
+            }
+        })
     }
 
     private val deleteTimeListener = object : OnLoqTimeDeleteListener {

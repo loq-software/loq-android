@@ -177,15 +177,6 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
         btnBack.setOnClickListener { safeActivity.onBackPressed() }
 
-        viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
-            val application = event.getContentIfNotHandled()
-            if (application != null){
-                safeActivity.toast("Application(s) saved")
-                safeActivity.popAllInBackStack()
-                safeActivity.replaceFragment(fragment = DashboardFragment())
-            }
-        })
-
         mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
             val loqs = event.peekContent()
             currentLoqs.clear()
@@ -197,6 +188,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
             val applications = event.getContentIfNotHandled()
             applications?.let {
                 safeActivity.toast("Applications saved")
+                mainViewModel.loadLoqs(this)
                 if (loqToEdit != null){
                     safeActivity.onBackPressed()
                     return@Observer

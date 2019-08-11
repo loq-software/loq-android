@@ -25,9 +25,6 @@ class SetAndForgetViewModel(
 
     var days: MutableList<CheckBox> = ArrayList()
 
-    val onLockedApplicationSaved: LiveData<Event<BlockedApplication>> get() = _onLockedApplicationSaved
-    private val _onLockedApplicationSaved = MutableLiveData<Event<BlockedApplication>>()
-
     val onLockedApplicationsSaved: LiveData<Event<List<BlockedApplication>>> get() = _onLockedApplicationsSaved
     private val _onLockedApplicationsSaved = MutableLiveData<Event<List<BlockedApplication>>>()
 
