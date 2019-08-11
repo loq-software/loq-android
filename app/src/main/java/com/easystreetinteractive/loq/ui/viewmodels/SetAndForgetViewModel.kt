@@ -49,7 +49,7 @@ class SetAndForgetViewModel(
         days.add(saturday)
     }
 
-    fun finishButtonClickedOld(
+    fun finishButtonClicked(
             loqToEdit: BlockedApplication?,
             info: List<ApplicationInfo>,
             currentLoqs: List<BlockedApplication>,
@@ -59,64 +59,8 @@ class SetAndForgetViewModel(
             rawEndHour: String,
             view: View) {
 
-        val user = authentication.getCurrentUser()?: return
-
-        val applications = ArrayList<BlockedApplication>()
         val blockedDays = days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
-
-        var found: Boolean
-
-        if (loqToEdit == null){
-            for (application in info){
-                found = false
-
-                for(loq in currentLoqs){
-                    found = application.getAppName(view.context.packageManager).contentEquals(loq.applicationName)
-                    if (found){
-                        loq.blockBlockedDays.clear()
-                        loq.blockBlockedDays.addAll(blockedDays)
-                        applications.add(loq)
-                    }
-                }
-
-                if (! found){
-                    val newLoq = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, blockedDays)
-                    applications.add(newLoq)
-                }
-
-            }
-        }
-        else{
-            val days = loqToEdit.blockBlockedDays
-            for(selectedDay in blockedDays){
-                found = false
-                for (day in days){
-                    found = day.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
-                    if (found){
-                        day.time = selectedDay.time
-                    }
-                }
-                if (!found){
-                    days.add(selectedDay)
-                }
-            }
-            applications.add(loqToEdit)
-        }
-
-
-        loqService.addLoqs(user.uid, applications)
-                .ioToMain()
-                .subscribeForOutcome { outcome ->
-                    when(outcome){
-                        is Outcome.Success ->{
-                            _onLockedApplicationsSaved.postValue(Event(outcome.data))
-                        }
-                        is Outcome.ApiError ->{
-                            _errorAddingLoq.postValue(Event(outcome.e))
-                        }
-                    }
-                }
-                .disposeOnDetach(view)
+        addLoqs(loqToEdit, info, currentLoqs, blockedDays, view)
     }
 
     fun finishButtonClicked(
@@ -126,18 +70,27 @@ class SetAndForgetViewModel(
             days: MutableCollection<BlockedDay>,
             view: View
     ){
+        addLoqs(loqToEdit, info, currentLoqs, days, view)
+    }
 
-        var found: Boolean
-
+    private fun addLoqs(
+            loqToEdit: BlockedApplication?,
+            info: List<ApplicationInfo>,
+            currentLoqs: List<BlockedApplication>,
+            days: MutableCollection<BlockedDay>,
+            view: View
+    ){
         val user = authentication.getCurrentUser()?: return
         val applications = ArrayList<BlockedApplication>()
+        var found: Boolean
+
 
         if (loqToEdit == null) {
 
-            for (infoItem in info) {
+            for (application in info) {
                 found = false
                 for (loq in currentLoqs) {
-                    found = infoItem.getAppName(view.context.packageManager).contentEquals(loq.applicationName)
+                    found = application.getAppName(view.context.packageManager).contentEquals(loq.applicationName)
                     if (found) {
                         loq.blockBlockedDays.clear()
                         loq.blockBlockedDays.addAll(days)
@@ -145,7 +98,7 @@ class SetAndForgetViewModel(
                     }
                 }
                 if (!found) {
-                    val blockedApplication = BlockedApplication("", user.uid, infoItem.getAppName(manager), infoItem.packageName, days.toMutableList())
+                    val blockedApplication = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, days.toMutableList())
                     applications.add(blockedApplication)
                 }
 

@@ -150,7 +150,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                     val endTime = btnEndTime.text.toString()
                     if (viewModel.days.hasSelection()) {
                         if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                            viewModel.finishButtonClickedOld(
+                            viewModel.finishButtonClicked(
                                     loqToEdit,
                                     selectedApplications,
                                     currentLoqs,
