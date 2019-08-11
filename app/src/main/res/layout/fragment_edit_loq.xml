@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_with_icon"
+    android:clickable="true"
     android:focusable="true"
-    android:clickable="true">
-
-    <TextView
-        android:id="@+id/txtAppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView19"
-        android:layout_alignParentLeft="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto"
-        android:gravity="center"
-        android:inputType="textMultiLine"
-        android:text="App Name"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    android:background="@drawable/background_with_icon">
 
     <ImageView
         android:id="@+id/logoView5"
         android:layout_width="209dp"
         android:layout_height="91dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/logo" />
 
@@ -36,163 +20,94 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logoView5"
-        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/roboto"
         android:gravity="center"
-        android:inputType="textMultiLine"
         android:text="Edit Loq"
         android:textColor="#FFFFFF"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:layout_gravity="center_horizontal"/>
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtAppName"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/roboto"
-        android:text="Days Of Week"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/orange">
 
-    <CheckBox
-        android:id="@+id/chkSaturday"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_horizontal"
+            android:text="Time"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/chkThursday"
-        android:layout_toRightOf="@id/chkFriday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Saturday"
-        android:textColor="#FFFFFF" />
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
 
-    <CheckBox
-        android:id="@+id/chkFriday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/chkThursday"
-        android:layout_toRightOf="@id/chkThursday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Friday"
-        android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_weight="1"
+            android:backgroundTint="@color/orange"
+            android:background="@drawable/rounded_background"/>
 
-    <CheckBox
-        android:id="@+id/chkThursday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chkSunday"
-        android:layout_alignStart="@id/chkSunday"
-        android:layout_toRightOf="@id/chkTuesday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Thursday"
-        android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/addTimeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/green"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:text="Add Time"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
 
-    <CheckBox
-        android:id="@+id/chkWednesday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView17"
-        android:layout_toRightOf="@id/chkTuesday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Wednesday"
-        android:textColor="#FFFFFF" />
+    </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/chkTuesday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView17"
-        android:layout_toRightOf="@id/chkMonday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Tuesday"
-        android:textColor="#FFFFFF" />
 
-    <CheckBox
-        android:id="@+id/chkMonday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView17"
-        android:layout_toRightOf="@id/chkSunday"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Monday"
-        android:textColor="#FFFFFF" />
 
-    <CheckBox
-        android:id="@+id/chkSunday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView17"
-        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
-        android:fontFamily="@font/roboto"
-        android:text="Sunday"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chkThursday"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/roboto"
-        android:text="TimeFrame To Loq"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnStartTime"
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:layout_below="@id/textView24"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/back_button_2"
-        android:text="Start Time"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_alignTop="@id/btnStartTime"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@id/btnStartTime"
-        android:fontFamily="@font/roboto_bold"
-        android:text="To"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnEndTime"
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:layout_below="@id/textView24"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/textView17"
-        android:background="@drawable/back_button_2"
-        android:text="End Time"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnSaveChanges"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/btnStartTime"
-        android:layout_alignParentBottom="false"
-        android:layout_centerInParent="false"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/submit_button"
-        android:text="Save Changes"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF" />
-
-</RelativeLayout>
+</LinearLayout>

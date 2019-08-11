@@ -17,7 +17,7 @@ val viewModelsModule = module {
     }
 
     single {
-        SetAndForgetViewModel(get(), get(), get(), get())
+        SetAndForgetViewModel(get(), get(), get())
     }
 
     single {
@@ -29,4 +29,6 @@ val viewModelsModule = module {
     }
 
     single { LoqScreenViewModel(get(), get(), get()) }
+
+    single { EditLoqViewModel(get(), get()) }
 }

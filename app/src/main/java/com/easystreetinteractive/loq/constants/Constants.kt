@@ -2,9 +2,9 @@ package com.easystreetinteractive.loq.constants
 
 object Constants{
 
+    const val LOQ = "loq"
     const val UNLOCK_TIME_KEY = "lastTimeKey"
     const val APP_NAME = "appName"
-    const val LOQ_INDEX = "loqIndex"
     const val GOOGLE_LOGIN_REQUEST = 222
 
     const val MONDAY = 2

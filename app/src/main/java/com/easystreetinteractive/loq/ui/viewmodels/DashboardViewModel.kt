@@ -1,9 +1,11 @@
 package com.easystreetinteractive.loq.ui.viewmodels
 
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.easystreetinteractive.loq.extensions.attachLifecycle
 import com.easystreetinteractive.loq.extensions.disposeOnDetach
 import com.easystreetinteractive.loq.extensions.ioToMain
 import com.easystreetinteractive.loq.extensions.subscribeForOutcome
@@ -21,7 +23,7 @@ class DashboardViewModel(private val service: LoqService, private val authentica
     val showToast: LiveData<Event<String>> get() = _showToast
     private val _showToast = MutableLiveData<Event<String>>()
 
-    fun getLoqs(view: View){
+    fun getLoqs(owner: LifecycleOwner){
         val userId = authenticationService.getCurrentUser()?.uid?: ""
         service.getLoqs(userId)
                 .ioToMain()
@@ -41,6 +43,6 @@ class DashboardViewModel(private val service: LoqService, private val authentica
                        }
                    }
                 }
-                .disposeOnDetach(view)
+                .attachLifecycle(owner)
     }
 }

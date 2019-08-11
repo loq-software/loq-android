@@ -10,41 +10,53 @@
 
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtAppName"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{loq.applicationName}" />
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <TextView
-            android:id="@+id/txtDays"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            app:daysString="@{loq.blockBlockedDays}" />
+            <TextView
+                android:id="@+id/txtAppName"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:text="@{loq.applicationName}" />
 
-        <TextView
-            android:id="@+id/txtTime"
-            android:layout_width="85dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:loqTimes="@{loq.blockBlockedDays}"/>
+            <TextView
+                android:id="@+id/txtDays"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                app:daysString="@{loq.blockBlockedDays}" />
 
-        <ImageButton
-            android:id="@+id/btnEdit"
-            android:layout_width="10dp"
-            android:layout_height="25dp"
-            android:layout_weight="1"
-            android:background="#0080CE2F"
-            android:scaleType="fitCenter"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                app:loqTimes="@{loq.blockBlockedDays}"/>
+
+            <ImageButton
+                android:id="@+id/btnEdit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="#0080CE2F"
+                android:scaleType="fitCenter"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
 
 </layout>

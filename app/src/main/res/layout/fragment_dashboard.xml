@@ -1,73 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_with_icon"
-    tools:context=".ui.fragments.DashboardFragment"
-    android:clickable="true"
-    android:focusable="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="209dp"
+            android:layout_height="91dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo" />
 
         <TextView
-            android:id="@+id/textView21"
-            android:layout_width="85dp"
-            android:layout_height="35dp"
-            android:layout_above="@id/listCurrentLoqs"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@id/textView20"
-            android:background="@drawable/back_button_2"
-            android:gravity="center"
-            android:text="Time(s)"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="85dp"
-            android:layout_height="35dp"
-            android:layout_above="@id/listCurrentLoqs"
-            android:layout_marginLeft="1dp"
-            android:layout_toRightOf="@id/textView19"
-            android:background="@drawable/back_button_2"
-            android:gravity="center"
-            android:text="Days"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_above="@id/listCurrentLoqs"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/back_button_2"
-            android:gravity="center"
-            android:text="App Name"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listCurrentLoqs"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/textView8"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="50dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Loq Dashboard"
@@ -75,71 +28,102 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/textView19"
-            android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginStart="15dp"
             android:text="Current Loq's"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:background="@color/orange">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App Name"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Days"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"
+                android:text="Time(s)"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            android:layout_weight="1">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
             android:id="@+id/btnQuickAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/btnAddToLoq"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:background="@null"
-            android:text="Add a quick one-time Loq"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF" />
-
-        <View
-            android:id="@+id/anchor"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true" />
+            android:text="Add a Quick One Time Loq"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"/>
 
         <Button
             android:id="@+id/btnAddToLoq"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/submit_button"
-            android:fontFamily="@font/roboto"
-            android:text="ADD TO LOQ"
-            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/green"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Add To Loq"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginBottom="16dp"/>
 
-        <ImageView
-            android:id="@+id/logoView7"
-            android:layout_width="209dp"
-            android:layout_height="91dp"
-            android:layout_above="@id/textView16"
-            android:layout_alignParentTop="false"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/logo" />
+    </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/childLock"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#94000000"
-            android:visibility="gone">
+    <FrameLayout
+        android:id="@+id/childLock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#94000000"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/txtPin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/btnUnlock"
-                android:layout_centerInParent="true"
                 android:elevation="5dp"
                 android:ems="10"
                 android:gravity="center"
@@ -152,12 +136,14 @@
                 android:id="@+id/btnUnlock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
                 android:elevation="5dp"
                 android:text="Unlock" />
-        </RelativeLayout>
 
-    </RelativeLayout>
+        </LinearLayout>
+
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/progressLayout"

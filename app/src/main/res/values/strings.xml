@@ -11,5 +11,9 @@
     <string name="select_day">Select Day</string>
     <string name="same_time_radio_button_text">Same time(s) for the selected days</string>
     <string name="ad_video_link">/21837809168/loq_video-ad</string>
+    <string name="delete_loq_time">Delete?</string>
+    <string name="delete_loq_time_message">Would you like to delete this day and time interval?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

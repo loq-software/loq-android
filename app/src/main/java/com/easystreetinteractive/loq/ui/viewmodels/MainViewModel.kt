@@ -1,9 +1,11 @@
 package com.easystreetinteractive.loq.ui.viewmodels
 
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.easystreetinteractive.loq.extensions.attachLifecycle
 import com.google.firebase.auth.FirebaseUser
 import com.easystreetinteractive.loq.extensions.disposeOnDetach
 import com.easystreetinteractive.loq.extensions.ioToMain
@@ -22,7 +24,7 @@ class MainViewModel(private val authenticationService: AuthenticationService, pr
     val showError: LiveData<Event<String>> get() = _showError
     private val _showError = MutableLiveData<Event<String>>()
 
-    fun loadLoqs(view: View) {
+    fun loadLoqs(owner: LifecycleOwner) {
         val id = authenticationService.getCurrentUser()?.uid?: return
         loqService.getLoqs(id)
                 .ioToMain()
@@ -39,7 +41,7 @@ class MainViewModel(private val authenticationService: AuthenticationService, pr
                         }
                     }
                 }
-                .disposeOnDetach(view)
+                .attachLifecycle(owner)
     }
 
 
