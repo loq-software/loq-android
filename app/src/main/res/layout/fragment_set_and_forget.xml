@@ -288,7 +288,7 @@
             android:backgroundTint="@color/orange"
             android:text="Back"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             android:textAllCaps="false"
             android:textColor="#FFFFFF" />
 
@@ -302,7 +302,7 @@
             android:backgroundTint="@color/green"
             android:text="Finished"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:layout_weight="1"/>

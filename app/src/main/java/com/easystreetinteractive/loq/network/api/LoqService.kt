@@ -15,6 +15,8 @@ interface LoqService{
 
     fun addLoqs(userId: String, loqs: List<BlockedApplication>): Observable<List<BlockedApplication>>
 
+    fun removeLoq(userId: String, loq: BlockedApplication): Observable<BlockedApplication>
+
 }
 
 class RealLoqService(private val database: DatabaseReference): LoqService {
@@ -86,5 +88,13 @@ class RealLoqService(private val database: DatabaseReference): LoqService {
                     }
 
                 }
+    }
+
+    override fun removeLoq(userId: String, loq: BlockedApplication): Observable<BlockedApplication> {
+        return Observable.create{ emitter ->
+            val child = database.child(loq.id)
+            child.removeValue()
+            emitter.onNext(loq)
+        }
     }
 }

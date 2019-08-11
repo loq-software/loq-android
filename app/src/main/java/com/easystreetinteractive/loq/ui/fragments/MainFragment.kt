@@ -30,8 +30,8 @@ class MainFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View = inflater.inflateTo(R.layout.main_fragment, container)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         Thread(Runnable {
             while (progressStatus < 100) {
                 progressStatus += 1
@@ -49,8 +49,7 @@ class MainFragment : Fragment() {
             if (mainViewModel.user == null) {
                 safeActivity.replaceFragment( fragment = LoginFragment())
             } else {
-                val hasStatsPermission = (safeActivity as MainActivity).permissionsManager.hasUsageStatsPermission()
-                mainViewModel.loadLoqs(view)
+                mainViewModel.loadLoqs(this)
             }
 
         }).start()

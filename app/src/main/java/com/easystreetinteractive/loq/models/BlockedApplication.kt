@@ -9,5 +9,5 @@ data class BlockedApplication(
         val userId: String = "",
         val applicationName: String = "",
         val packageName: String = "",
-        val blockBlockedDays: List<BlockedDay> = emptyList()
+        val blockBlockedDays: MutableList<BlockedDay> = ArrayList()
 ): Parcelable

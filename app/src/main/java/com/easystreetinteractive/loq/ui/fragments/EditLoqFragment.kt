@@ -1,45 +1,41 @@
 package com.easystreetinteractive.loq.ui.fragments
 
-import android.app.TimePickerDialog
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TimePicker
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.easystreetinteractive.loq.R
-
-import com.easystreetinteractive.loq.models.Loq
 import com.easystreetinteractive.loq.constants.Constants
+import com.easystreetinteractive.loq.extensions.addFragment
 import com.easystreetinteractive.loq.extensions.inflateTo
 import com.easystreetinteractive.loq.extensions.safeActivity
+import com.easystreetinteractive.loq.extensions.toast
+import com.easystreetinteractive.loq.models.BlockedApplication
+import com.easystreetinteractive.loq.models.BlockedDay
+import com.easystreetinteractive.loq.ui.adapters.EditLoqAdapter
+import com.easystreetinteractive.loq.ui.listeners.OnLoqTimeDeleteListener
+import com.easystreetinteractive.loq.ui.viewmodels.EditLoqViewModel
+import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_edit_loq.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.NullPointerException
 
-import java.util.ArrayList
-import java.util.Calendar
+class EditLoqFragment: Fragment() {
 
-class EditLoqFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
+    private lateinit var editLoqAdapter: EditLoqAdapter
+    private lateinit var loq: BlockedApplication
+    private val viewModel by viewModel<EditLoqViewModel>()
+    private val mainViewModel by viewModel<MainViewModel>()
 
-    private val days = ArrayList<CheckBox>()
-    private var thisLoq: Loq? = null
-    private var loqIndex: Int = 0
-    private var isStartTime = false
-    private var rawStartHour: String? = null
-    private var rawStartMinute: String? = null
-    private var rawEndHour: String? = null
-    private var rawEndMinute: String? = null
-
-    private val selectedDays: List<String>
-        get() {
-            val selectedDays = ArrayList<String>()
-            for (item in days) {
-                if (item.isChecked)
-                    selectedDays.add(item.text.toString())
-            }
-            return selectedDays
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loq = arguments?.getParcelable(Constants.LOQ)?: throw NullPointerException()
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -47,115 +43,75 @@ class EditLoqFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             savedInstanceState: Bundle?
     ): View = inflater.inflateTo(R.layout.fragment_edit_loq, container)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loqIndex = arguments?.getInt(Constants.LOQ_INDEX, 0)?: 0
-    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getDayCheckboxes()
-        btnStartTime.setOnClickListener {
-            isStartTime = true
-            showTimePicker()
+        editLoqAdapter = EditLoqAdapter().apply {
+            updateData(loq.blockBlockedDays)
+            deleteListener = deleteTimeListener
         }
-        btnEndTime.setOnClickListener {
-            isStartTime = false
-            showTimePicker()
+
+        recycler.apply {
+            layoutManager = LinearLayoutManager(safeActivity)
+            adapter = editLoqAdapter
         }
-        initLoq()
-        btnSaveChanges.setOnClickListener {
-            saveEditedLoqs()
+
+        addTimeButton.setOnClickListener {
+            val fragment = SetAndForgetFragment()
+            val bundle = bundleOf(Constants.LOQ to loq)
+            fragment.arguments = bundle
+            safeActivity.addFragment(fragment = fragment)
+        }
+
+        backButton.setOnClickListener {
             safeActivity.onBackPressed()
         }
-    }
 
-    private fun saveEditedLoqs() {
-        thisLoq?.startTime = btnStartTime!!.text.toString()
-        thisLoq?.rawStartHour = rawStartHour
-        thisLoq?.rawStartMinute = rawStartMinute
-        thisLoq?.rawEndHour = rawEndHour
-        thisLoq?.rawEndMinute = rawEndMinute
-        thisLoq?.endTime = btnEndTime!!.text.toString()
-        val selectedDays = selectedDays
-        if (!selectedDays.isEmpty()) {
-            thisLoq?.days = selectedDays
-            var days = ""
-            val thisLoqDays = thisLoq?.days?: return
-            for (day in thisLoqDays) {
-                days += "$day "
+        viewModel.loqUpdated.observe(this, Observer { event ->
+            val loq = event.getContentIfNotHandled()
+            loq?.let {
+                safeActivity.toast("Loq time deleted")
+                mainViewModel.loadLoqs(this)
+                if (loq.blockBlockedDays.isEmpty()){
+                    safeActivity.onBackPressed()
+                }
             }
-            thisLoq?.daysStr = days
-        }
-       /* val loqs = Utils.INSTANCE.currentLoqs
-        loqs.removeAt(loqIndex)
-        loqs.add(loqIndex, thisLoq)
-        Utils.INSTANCE.currentLoqs = loqs
-        val json = Utils.INSTANCE.convertLoqsToJson(loqs)
-        Utils.INSTANCE.saveLoqsToFile(safeActivity, json)*/ //todo: 7/25/19 Handle this
+        })
+
+        mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
+            val loqs = event.getContentIfNotHandled()?: return@Observer
+            val currentLoqId = loq.id
+            for(loq in loqs){
+               if (loq.id.contentEquals(currentLoqId)) {
+                   this.loq = loq
+                   editLoqAdapter.updateData(loq.blockBlockedDays)
+                   return@Observer
+               }
+            }
+        })
     }
 
-    private fun initLoq() {
-       // thisLoq = Utils.INSTANCE.editLoq //todo: 7/25/19 Handle this
-        var day: String
-        val thisLoqDays = thisLoq?.days
-        if (thisLoqDays != null) {
-            for (chkDay in days) {
-                day = chkDay.text.toString()
-                if (thisLoq!!.days!!.contains(day)) {
-                    chkDay.isChecked = true
+    private val deleteTimeListener = object : OnLoqTimeDeleteListener {
+        override fun onLoqTimeDeleteClicked(day: BlockedDay) {
+
+            if (loq.blockBlockedDays.contains(day)){
+                MaterialDialog(safeActivity).show {
+                    title(R.string.delete_loq_time)
+                    message(R.string.delete_loq_time_message)
+                    positiveButton(R.string.yes){
+                        loq.blockBlockedDays.remove(day)
+                        editLoqAdapter.updateData(loq.blockBlockedDays)
+                        if (loq.blockBlockedDays.isEmpty()){
+                            viewModel.removeLoq(this@EditLoqFragment, loq)
+                        }
+                        else {
+                            viewModel.updateLoq(this@EditLoqFragment, loq)
+                        }
+                    }
+                    negativeButton(R.string.no)
                 }
             }
         }
-
-        btnStartTime!!.text = thisLoq!!.startTime
-        btnEndTime!!.text = thisLoq!!.endTime
-        txtAppName!!.text = thisLoq!!.appName
     }
 
-    private fun showTimePicker() {
-        // Use the current time as the default values for the picker
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
-
-        val dialog = TimePickerDialog(safeActivity, this, hour, minute,
-                DateFormat.is24HourFormat(safeActivity))
-        dialog.show()
-    }
-
-    private fun getDayCheckboxes() {
-        days.add(chkSunday)
-        days.add(chkMonday)
-        days.add(chkTuesday)
-        days.add(chkWednesday)
-        days.add(chkThursday)
-        days.add(chkFriday)
-        days.add(chkSaturday)
-    }
-
-    override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        var hourOfDay = hourOfDay
-        val rawHour = hourOfDay
-        var timeOfDay = "AM"
-        if (hourOfDay > 11) {
-            timeOfDay = "PM"
-        }
-
-        if (hourOfDay > 12) {
-            hourOfDay -= 12
-        }
-
-        val hourStr = hourOfDay.toString()
-        val minuteStr = minute.toString()
-        if (isStartTime) {
-            rawStartHour = rawHour.toString()
-            rawStartMinute = minute.toString()
-            btnStartTime!!.text = "$hourStr:$minuteStr $timeOfDay"
-        } else {
-            rawEndHour = rawHour.toString()
-            rawEndMinute = minute.toString()
-            btnEndTime!!.text = "$hourStr:$minuteStr $timeOfDay"
-        }
-    }
 }

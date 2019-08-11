@@ -4,7 +4,7 @@ import android.widget.CheckBox
 import com.easystreetinteractive.loq.models.BlockTime
 import com.easystreetinteractive.loq.models.BlockedDay
 
-fun List<CheckBox>.dayCheckBoxesToBlockedDays(time: BlockTime): List<BlockedDay>{
+fun List<CheckBox>.dayCheckBoxesToBlockedDays(time: BlockTime): MutableList<BlockedDay>{
     val days = ArrayList<BlockedDay>()
     for (checkbox in this){
         if (checkbox.isChecked){

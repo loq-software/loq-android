@@ -10,7 +10,9 @@ import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.ui.adapters.LoqSelectionAdapter.LoqViewHolder
 import com.easystreetinteractive.loq.ui.listeners.LoqSelectionEditListener
 
-class LoqSelectionAdapter(private val mDataset: List<BlockedApplication>) : RecyclerView.Adapter<LoqViewHolder>() {
+class LoqSelectionAdapter() : RecyclerView.Adapter<LoqViewHolder>() {
+
+    private var loqs: List<BlockedApplication> = emptyList()
 
     var loqSelectionListener: LoqSelectionEditListener? = null
 
@@ -20,12 +22,17 @@ class LoqSelectionAdapter(private val mDataset: List<BlockedApplication>) : Recy
     }
 
     override fun onBindViewHolder(loqViewHolder: LoqViewHolder, index: Int) {
-        val loq = mDataset[index]
+        val loq = loqs[index]
         loqViewHolder.bind(loq)
     }
 
     override fun getItemCount(): Int {
-        return mDataset.size
+        return loqs.size
+    }
+
+    fun updateData(data: List<BlockedApplication>){
+        loqs = data
+        notifyDataSetChanged()
     }
 
     class LoqViewHolder constructor(

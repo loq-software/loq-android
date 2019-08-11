@@ -17,12 +17,15 @@ import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.constants.Constants
 import com.easystreetinteractive.loq.extensions.*
 import com.easystreetinteractive.loq.models.BlockTime
+import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.models.BlockedDay
+import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.SetAndForgetViewModel
 import com.easystreetinteractive.loq.utils.BlockedDayUtilities.buildDay
 import kotlinx.android.synthetic.main.fragment_set_and_forget.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
@@ -35,8 +38,10 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
     private var currentDayForDifferentDaysSetting: BlockedDay? = null
     private val selectedDaysForDifferentDaysSetting = HashMap<String, BlockedDay>()
     private var selectedApplications: List<ApplicationInfo> = emptyList()
-    private lateinit var applicationName: String
+    private var loqToEdit: BlockedApplication? = null
+    private val currentLoqs = ArrayList<BlockedApplication>()
     private val viewModel by sharedViewModel<SetAndForgetViewModel>()
+    private val mainViewModel by sharedViewModel<MainViewModel>()
 
     private var rawStartMinute = ""
     private var rawStartHour = ""
@@ -48,7 +53,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         selectedApplications = arguments?.getParcelableArrayList(Constants.APP_NAME)?: emptyList()
-        applicationName = selectedApplications.firstOrNull()?.loadLabel(safeActivity.packageManager)?.toString()?: ""
+        loqToEdit = arguments?.getParcelable(Constants.LOQ)
     }
 
     override fun onCreateView(
@@ -131,7 +136,12 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                         Toast.makeText(safeActivity, "You must add a day", Toast.LENGTH_SHORT).show()
                     }
                     else{
-                        viewModel.finishButtonClicked(selectedApplications, selectedDaysForDifferentDaysSetting.values, view)
+                        viewModel.finishButtonClicked(
+                                loqToEdit,
+                                selectedApplications,
+                                currentLoqs,
+                                selectedDaysForDifferentDaysSetting.values,
+                                view)
                     }
                 }
 
@@ -140,8 +150,10 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                     val endTime = btnEndTime.text.toString()
                     if (viewModel.days.hasSelection()) {
                         if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                            viewModel.finishButtonClickedOld(
+                            viewModel.finishButtonClicked(
+                                    loqToEdit,
                                     selectedApplications,
+                                    currentLoqs,
                                     rawStartMinute,
                                     rawEndMinute,
                                     rawStartHour,
@@ -165,19 +177,22 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
         btnBack.setOnClickListener { safeActivity.onBackPressed() }
 
-        viewModel.onLockedApplicationSaved.observe(this, Observer { event ->
-            val application = event.getContentIfNotHandled()
-            if (application != null){
-                safeActivity.toast("Application(s) saved")
-                safeActivity.popAllInBackStack()
-                safeActivity.replaceFragment(fragment = DashboardFragment())
-            }
+        mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
+            val loqs = event.peekContent()
+            currentLoqs.clear()
+            this.currentLoqs.addAll(loqs)
+
         })
 
         viewModel.onLockedApplicationsSaved.observe(this, Observer { event ->
             val applications = event.getContentIfNotHandled()
             applications?.let {
                 safeActivity.toast("Applications saved")
+                mainViewModel.loadLoqs(this)
+                if (loqToEdit != null){
+                    safeActivity.onBackPressed()
+                    return@Observer
+                }
                 safeActivity.popAllInBackStack()
                 safeActivity.replaceFragment(fragment = DashboardFragment())
             }
