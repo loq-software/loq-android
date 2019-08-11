@@ -72,6 +72,9 @@ class EditLoqFragment: Fragment() {
             loq?.let {
                 safeActivity.toast("Loq time deleted")
                 mainViewModel.loadLoqs(this)
+                if (loq.blockBlockedDays.isEmpty()){
+                    safeActivity.onBackPressed()
+                }
             }
         })
 
