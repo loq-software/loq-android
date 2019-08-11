@@ -85,7 +85,6 @@ class DashboardFragment : Fragment() {
         }
 
         progressLayout.show()
-        dashboardViewModel.getLoqs(this)
     }
 
 

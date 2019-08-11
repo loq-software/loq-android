@@ -1,6 +1,5 @@
 package com.easystreetinteractive.loq.ui.fragments
 
-import android.os.Handler
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,15 +12,12 @@ import com.easystreetinteractive.loq.extensions.inflateTo
 import com.easystreetinteractive.loq.extensions.replaceFragment
 import com.easystreetinteractive.loq.extensions.safeActivity
 import com.easystreetinteractive.loq.extensions.toast
-import com.easystreetinteractive.loq.ui.activities.MainActivity
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MainFragment : Fragment() {
 
-    private var progressStatus = 0
-    private val handler = Handler()
     private val mainViewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(
@@ -32,27 +28,22 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Thread(Runnable {
-            while (progressStatus < 100) {
-                progressStatus += 1
-                // Update the progress bar and display the
-                //current value in the text view
-                handler.post { progressBar!!.progress = progressStatus }
-                try {
-                    Thread.sleep(50)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
+
+        mainViewModel.loadProgress(this)
+
+        mainViewModel.onProgressUpdated.observe(this, Observer { event ->
+            val content = event.getContentIfNotHandled()
+            content?.let { progress ->
+                progressBar.progress = progress
+                if (progress >= 100){
+                    if (mainViewModel.user == null) {
+                        safeActivity.replaceFragment( fragment = LoginFragment())
+                    } else {
+                        mainViewModel.loadLoqs(this)
+                    }
                 }
-
             }
-
-            if (mainViewModel.user == null) {
-                safeActivity.replaceFragment( fragment = LoginFragment())
-            } else {
-                mainViewModel.loadLoqs(this)
-            }
-
-        }).start()
+        })
 
         mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
             val loqs = event.getContentIfNotHandled()
