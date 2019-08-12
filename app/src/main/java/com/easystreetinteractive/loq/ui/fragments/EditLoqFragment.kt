@@ -46,6 +46,8 @@ class EditLoqFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        editLoqSubTitle.text = "Edit ${loq.applicationName} Loq"
+
         editLoqAdapter = EditLoqAdapter().apply {
             updateData(loq.blockBlockedDays)
             deleteListener = deleteTimeListener

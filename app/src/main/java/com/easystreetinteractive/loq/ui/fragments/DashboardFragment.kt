@@ -19,7 +19,7 @@ import com.easystreetinteractive.loq.extensions.*
 
 import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.ui.activities.MainActivity
-import com.easystreetinteractive.loq.ui.adapters.LoqSelectionAdapter
+import com.easystreetinteractive.loq.ui.adapters.DashboardAdapter
 import com.easystreetinteractive.loq.ui.listeners.LoqSelectionEditListener
 import com.easystreetinteractive.loq.ui.viewmodels.DashboardViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class DashboardFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private lateinit var loqAdapter: LoqSelectionAdapter
+    private lateinit var loqAdapter: DashboardAdapter
     private var initialized = false
     private var lockPin: String = ""
 
@@ -50,7 +50,7 @@ class DashboardFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(safeActivity)
         recyclerView.layoutManager = layoutManager
-        loqAdapter = LoqSelectionAdapter()
+        loqAdapter = DashboardAdapter()
 
         mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
             progressLayout.hide()

@@ -105,17 +105,31 @@ class SetAndForgetViewModel(
             }
         }
         else{
-            val currentDays = loqToEdit.blockBlockedDays
-            for(selectedDay in currentDays){
+           /* val currentDays = loqToEdit.blockBlockedDays
+            for(currentDay in currentDays){
                 found = false
-                for (day in days){
-                    found = day.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
+                for (selectedDay in days){
+                    found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
                     if (found){
-                        day.time = selectedDay.time
+                        currentDay.time = selectedDay.time
                     }
                 }
                 if (!found){
                     days.add(selectedDay)
+                }
+            }*/
+            val currentDays = loqToEdit.blockBlockedDays
+            for (selectedDay in days){
+                found = false
+                for(currentDay in currentDays){
+                    found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
+                    if (found){
+                        currentDay.time = selectedDay.time
+                        break
+                    }
+                }
+                if (!found){
+                    currentDays.add(selectedDay)
                 }
             }
             applications.add(loqToEdit)
