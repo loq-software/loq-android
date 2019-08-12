@@ -105,19 +105,6 @@ class SetAndForgetViewModel(
             }
         }
         else{
-           /* val currentDays = loqToEdit.blockBlockedDays
-            for(currentDay in currentDays){
-                found = false
-                for (selectedDay in days){
-                    found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
-                    if (found){
-                        currentDay.time = selectedDay.time
-                    }
-                }
-                if (!found){
-                    days.add(selectedDay)
-                }
-            }*/
             val currentDays = loqToEdit.blockBlockedDays
             for (selectedDay in days){
                 found = false
