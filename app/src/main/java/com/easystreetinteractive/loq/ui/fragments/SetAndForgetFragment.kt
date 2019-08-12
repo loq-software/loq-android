@@ -212,7 +212,6 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
     }
 
     private fun showTimePicker() {
-        // Use the current time as the default values for the picker
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)

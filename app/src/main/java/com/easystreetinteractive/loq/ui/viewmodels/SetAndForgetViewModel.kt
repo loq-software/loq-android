@@ -106,16 +106,17 @@ class SetAndForgetViewModel(
         }
         else{
             val currentDays = loqToEdit.blockBlockedDays
-            for(selectedDay in currentDays){
+            for (selectedDay in days){
                 found = false
-                for (day in days){
-                    found = day.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
+                for(currentDay in currentDays){
+                    found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
                     if (found){
-                        day.time = selectedDay.time
+                        currentDay.time = selectedDay.time
+                        break
                     }
                 }
                 if (!found){
-                    days.add(selectedDay)
+                    currentDays.add(selectedDay)
                 }
             }
             applications.add(loqToEdit)
