@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.easystreetinteractive.loq">
 
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions"/>
     <uses-permission android:name="android.permission.BATTERY_STATS"
