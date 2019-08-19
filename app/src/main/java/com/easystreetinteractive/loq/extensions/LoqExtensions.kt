@@ -9,7 +9,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-inline fun isLockTime(loq: BlockedApplication): Boolean {
+inline fun BlockedApplication.isLockTime(): Boolean {
     val date = Date()   // given date
     val calendar = GregorianCalendar.getInstance() // creates a new calendar instance
     calendar.time = date   // assigns calendar to given date
@@ -43,7 +43,7 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
         }
     }
 
-    for (day in loq.blockBlockedDays) {
+    for (day in blockBlockedDays) {
         if (day.dayOfWeek.contentEquals(currentDay)) {
             val startHour = day.time?.startHour ?: 0
             val endHour = day.time?.endHour ?: 0
@@ -52,7 +52,7 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
 
             if (startHour > endHour){
                 if (hour == endHour){
-                    if (minute >= startMinute && minute <= endMinute) {
+                    if (minute in startMinute..endMinute) {
                         return true
                     }
                 }
@@ -79,7 +79,7 @@ inline fun isLockTime(loq: BlockedApplication): Boolean {
                         return true
                     }
                 }
-                else if (hour > startHour && hour < endHour){
+                else if (hour in (startHour + 1) until endHour){
                     return true
                 }
             }

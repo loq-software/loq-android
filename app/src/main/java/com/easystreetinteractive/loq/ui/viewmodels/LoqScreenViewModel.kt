@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.easystreetinteractive.loq.ads.AdManager
 import com.easystreetinteractive.loq.billing.BillingManager
+import com.easystreetinteractive.loq.loqer.CheckForLoqService
 import com.easystreetinteractive.loq.preferences.PreferenceManager
 import com.easystreetinteractive.loq.utils.Event
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import java.lang.Exception
 
 class LoqScreenViewModel(
         private val preferenceManager: PreferenceManager,

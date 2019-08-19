@@ -10,12 +10,16 @@ import com.easystreetinteractive.loq.extensions.getAppName
 import io.reactivex.Observable
 import java.util.*
 import kotlin.collections.ArrayList
+import android.app.ActivityManager.RunningAppProcessInfo
+import android.app.ActivityManager
+import android.util.Log
+
 
 interface ApplicationsRepository{
 
     fun getInstalledApps(): Observable<List<ApplicationInfo>>
 
-    fun getForegroundApp(): String
+    fun getForegroundAppPackageName(): String?
 
     fun getHasApplicationInstalled(appName: String): Observable<HasApplicationResult>
 
@@ -79,15 +83,16 @@ class RealApplicationsRepository(private val context: Application): Applications
         }
     }
 
-    override fun getForegroundApp(): String {
-        var currentApp = "NULL"
+    override fun getForegroundAppPackageName(): String? {
+
+        var currentApp: String? = null
         val usm = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val time = System.currentTimeMillis()
-        val appList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000 * 1000, time)
-        if (appList != null && appList.size > 0) {
+        val appList = usm.queryAndAggregateUsageStats( time - 1000 * 1000, time)
+        if (appList != null && appList.isNotEmpty()) {
             val mySortedMap = TreeMap<Long, UsageStats>()
             for (usageStats in appList) {
-                mySortedMap[usageStats.lastTimeUsed] = usageStats
+                mySortedMap[usageStats.value.lastTimeUsed] = usageStats.value
             }
             if (!mySortedMap.isEmpty()) {
                 currentApp = mySortedMap[mySortedMap.lastKey()]!!.packageName

@@ -36,7 +36,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.activities.MainActivity"
+        <activity
+            android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +46,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.LockScreenActivity"/>
+        <activity android:name=".ui.activities.LockScreenActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"

@@ -18,26 +18,33 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import android.app.Activity
+import androidx.core.content.ContextCompat.getSystemService
+import android.app.ActivityManager
+import android.content.Context
+import android.app.ActivityManager.RunningAppProcessInfo
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 interface LoqerManager{
 
     fun scheduleMethod(service: Service, owner: LifecycleOwner)
 
-    fun onDestroy()
 }
 
 class RealLoqerManager(
         private val preferenceManager: PreferenceManager,
         private val applicationsRepository: ApplicationsRepository,
         private val loqService: LoqService,
-        private val authenticationService: AuthenticationService
+        private val authenticationService: AuthenticationService,
+        private val context: Context
 ): LoqerManager {
-    private val scheduler = Executors
-            .newSingleThreadScheduledExecutor()
 
     override fun scheduleMethod(service: Service,owner: LifecycleOwner) {
 
-        Observable.interval(0, 10, TimeUnit.SECONDS)
+        Observable.interval(0, 5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .switchMap {
                     loqService.getLoqs(authenticationService.getCurrentUser()?.uid?: "")
@@ -47,11 +54,14 @@ class RealLoqerManager(
                     when(outcome){
                         is Outcome.Success -> {
                             val loqs = outcome.data
-                            val activityOnTop = applicationsRepository.getForegroundApp()
+                            val activityOnTop = applicationsRepository.getForegroundAppPackageName()?: return@subscribeForOutcome
                             if (isLocked(loqs, activityOnTop)){
-                                val dialogIntent = Intent(service, LockScreenActivity::class.java)
-                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                                val dialogIntent = Intent(context, LockScreenActivity::class.java)
+                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 service.startActivity(dialogIntent)
+
+
                             }
                         }
                     }
@@ -63,7 +73,7 @@ class RealLoqerManager(
         for (loq in blockedApplications) {
             if (loq.applicationName.equals(packageName, ignoreCase = true)
                     || loq.packageName.equals(packageName, ignoreCase = true)) {
-                if (isLockTime(loq) && !hasTemporaryUnlock())
+                if (loq.isLockTime() && !hasTemporaryUnlock())
                     return true
             }
         }
@@ -76,7 +86,4 @@ class RealLoqerManager(
         return currentTime - unlockTime < 60000
     }
 
-    override fun onDestroy() {
-        scheduler.shutdown()
-    }
 }
