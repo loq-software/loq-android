@@ -8,13 +8,13 @@ apply from: '../dependencies.gradle'
 android {
     signingConfigs {
         debug {
-            keyAlias = 'loqkeyalias'
+            keyAlias = 'loqKeyAlias'
             storeFile file('/home/derrick/loqKey.jks')
             storePassword 'loq_tech'
             keyPassword 'loq_tech'
         }
         release {
-            keyAlias = 'loqkeyalias'
+            keyAlias = 'loqKeyAlias'
             storePassword 'loq_tech'
             storeFile file('/home/derrick/loqKey.jks')
             keyPassword 'loq_tech'

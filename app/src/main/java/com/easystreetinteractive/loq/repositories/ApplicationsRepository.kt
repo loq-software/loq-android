@@ -11,7 +11,6 @@ import io.reactivex.Observable
 import java.util.*
 import kotlin.collections.ArrayList
 import android.app.ActivityManager.RunningAppProcessInfo
-import androidx.core.content.ContextCompat.getSystemService
 import android.app.ActivityManager
 import android.util.Log
 
@@ -85,22 +84,15 @@ class RealApplicationsRepository(private val context: Application): Applications
     }
 
     override fun getForegroundAppPackageName(): String? {
-        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val appProcesses = activityManager.runningAppProcesses
-        for (appProcess in appProcesses) {
-            if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                Log.i("Foreground App", appProcess.processName)
-            }
-        }
 
         var currentApp: String? = null
         val usm = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val time = System.currentTimeMillis()
-        val appList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000 * 1000, time)
-        if (appList != null && appList.size > 0) {
+        val appList = usm.queryAndAggregateUsageStats( time - 1000 * 1000, time)
+        if (appList != null && appList.isNotEmpty()) {
             val mySortedMap = TreeMap<Long, UsageStats>()
             for (usageStats in appList) {
-                mySortedMap[usageStats.lastTimeUsed] = usageStats
+                mySortedMap[usageStats.value.lastTimeUsed] = usageStats.value
             }
             if (!mySortedMap.isEmpty()) {
                 currentApp = mySortedMap[mySortedMap.lastKey()]!!.packageName

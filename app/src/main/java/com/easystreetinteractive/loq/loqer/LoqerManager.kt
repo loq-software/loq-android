@@ -32,7 +32,6 @@ interface LoqerManager{
 
     fun scheduleMethod(service: Service, owner: LifecycleOwner)
 
-    fun onDestroy()
 }
 
 class RealLoqerManager(
@@ -42,12 +41,10 @@ class RealLoqerManager(
         private val authenticationService: AuthenticationService,
         private val context: Context
 ): LoqerManager {
-    private val scheduler = Executors
-            .newSingleThreadScheduledExecutor()
 
     override fun scheduleMethod(service: Service,owner: LifecycleOwner) {
 
-        Observable.interval(0, 10, TimeUnit.SECONDS)
+        Observable.interval(0, 5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .switchMap {
                     loqService.getLoqs(authenticationService.getCurrentUser()?.uid?: "")
@@ -60,11 +57,8 @@ class RealLoqerManager(
                             val activityOnTop = applicationsRepository.getForegroundAppPackageName()?: return@subscribeForOutcome
                             if (isLocked(loqs, activityOnTop)){
 
-                                /*val am = context.getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
-                                am.killBackgroundProcesses(activityOnTop)*/
-
                                 val dialogIntent = Intent(context, LockScreenActivity::class.java)
-                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 service.startActivity(dialogIntent)
 
 
@@ -92,13 +86,4 @@ class RealLoqerManager(
         return currentTime - unlockTime < 60000
     }
 
-    private fun amKillProcess(process: String) {
-        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        am.killBackgroundProcesses(process)
-
-    }
-
-    override fun onDestroy() {
-        scheduler.shutdown()
-    }
 }

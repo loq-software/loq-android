@@ -18,6 +18,11 @@ class CheckForLoqService : Service(), LifecycleOwner {
 
     private val lifecycle = LifecycleRegistry(this)
 
+    override fun onCreate() {
+        super.onCreate()
+        lifecycle.currentState = Lifecycle.State.RESUMED
+    }
+
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -29,9 +34,10 @@ class CheckForLoqService : Service(), LifecycleOwner {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        lifecycle.currentState = Lifecycle.State.DESTROYED
         stopSelf()
-        loqerManager.onDestroy()
+        super.onDestroy()
+
     }
 
     override fun getLifecycle(): Lifecycle {
