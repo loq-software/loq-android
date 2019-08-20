@@ -1,6 +1,7 @@
 package com.easystreetinteractive.loq.utils
 
 import com.easystreetinteractive.loq.models.BlockTime
+import java.util.*
 
 object Utils {
 
@@ -42,5 +43,11 @@ object Utils {
     private fun getMinuteString(minute: Int): String{
         return if(minute < 10) "0$minute" else minute.toString()
 
+    }
+
+    fun getStartTime(): Long {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -1)
+        return calendar.timeInMillis
     }
 }

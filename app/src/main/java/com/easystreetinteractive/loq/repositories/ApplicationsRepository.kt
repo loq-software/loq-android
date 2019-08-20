@@ -10,9 +10,7 @@ import com.easystreetinteractive.loq.extensions.getAppName
 import io.reactivex.Observable
 import java.util.*
 import kotlin.collections.ArrayList
-import android.app.ActivityManager.RunningAppProcessInfo
-import android.app.ActivityManager
-import android.util.Log
+import com.easystreetinteractive.loq.utils.Utils.getStartTime
 
 
 interface ApplicationsRepository{
@@ -88,7 +86,7 @@ class RealApplicationsRepository(private val context: Application): Applications
         var currentApp: String? = null
         val usm = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val time = System.currentTimeMillis()
-        val appList = usm.queryAndAggregateUsageStats( time - 1000 * 1000, time)
+        val appList = usm.queryAndAggregateUsageStats(getStartTime(), time)
         if (appList != null && appList.isNotEmpty()) {
             val mySortedMap = TreeMap<Long, UsageStats>()
             for (usageStats in appList) {
