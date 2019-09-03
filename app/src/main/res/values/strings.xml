@@ -15,5 +15,6 @@
     <string name="delete_loq_time_message">Would you like to delete this day and time interval?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="in_app_purchase_product_id">unlock_app_purchase</string>
 
 </resources>
