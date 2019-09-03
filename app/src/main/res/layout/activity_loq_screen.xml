@@ -56,13 +56,27 @@
             android:textColor="#FDFDFD"
             android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/imgAd"
+        <FrameLayout
             android:layout_width="212dp"
             android:layout_height="124dp"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/loq_crop" />
+            android:background="@android:color/black">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/imgAd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/loq_crop"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/textView22"
@@ -88,18 +102,5 @@
             android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/progressLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:visibility="invisible">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
 
 </FrameLayout>
