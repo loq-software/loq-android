@@ -28,7 +28,7 @@ interface AdManager {
 
 }
 
-class RealAdManager(): AdManager {
+class RealAdManager: AdManager {
 
     private lateinit var mRewardedVideoAd: RewardedVideoAd
 

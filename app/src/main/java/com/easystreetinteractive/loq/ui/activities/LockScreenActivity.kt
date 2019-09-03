@@ -31,7 +31,7 @@ class LockScreenActivity : AppCompatActivity() {
         viewModel.showProgress.observe(this, Observer { event ->
             val show = event.getContentIfNotHandled()
             show?.let {
-                progressLayout.showOrHide(show)
+                imgAd.showOrHide(!show)
             }
         })
 
