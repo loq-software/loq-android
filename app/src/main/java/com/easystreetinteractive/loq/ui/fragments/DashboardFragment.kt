@@ -52,6 +52,8 @@ class DashboardFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         loqAdapter = DashboardAdapter()
 
+        progressLayout.show()
+
         mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
             progressLayout.hide()
             val items = event.peekContent()
@@ -84,7 +86,6 @@ class DashboardFragment : Fragment() {
             alert.show()
         }
 
-        progressLayout.show()
     }
 
 

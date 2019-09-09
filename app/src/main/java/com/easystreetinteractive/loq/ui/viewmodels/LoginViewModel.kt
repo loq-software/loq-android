@@ -39,9 +39,6 @@ class LoginViewModel(
     val signInError: LiveData<Event<String>> get() = _signInError
     private val _signInError = MutableLiveData<Event<String>>()
 
-    val onLoqsLoaded: LiveData<Event<List<BlockedApplication>>> get() = _onLoqsLoaded
-    private val _onLoqsLoaded = MutableLiveData<Event<List<BlockedApplication>>>()
-
     private val _showErrorMessage = MutableLiveData<Event<String>>()
     val showErrorMessage: LiveData<Event<String>> get() = _showErrorMessage
 
@@ -116,28 +113,5 @@ class LoginViewModel(
         else{
             callbackManager.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    fun loadLoqs(view: View) {
-        val id = authenticationService.getCurrentUser()?.uid?: return
-       loqService.getLoqs(id)
-               .ioToMain()
-               .subscribeForOutcome { outcome ->
-                   when(outcome){
-                       is Outcome.Success ->{
-                         _onLoqsLoaded.postValue(Event(outcome.data))
-                       }
-                       is Outcome.ApiError -> {
-                           outcome.e.printStackTrace()
-                          _showErrorMessage.postValue(Event("Network error"))
-                       }
-                       is Outcome.Failure -> {
-                           outcome.e.printStackTrace()
-                           _showErrorMessage.postValue(Event("Error"))
-                       }
-                   }
-               }
-               .disposeOnDetach(view)
-
     }
 }
