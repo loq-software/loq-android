@@ -84,7 +84,6 @@ class DashboardFragment : Fragment() {
             alert.show()
         }
 
-        progressLayout.show()
     }
 
 

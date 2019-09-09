@@ -10,12 +10,14 @@ import androidx.lifecycle.Observer
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.extensions.*
 import com.easystreetinteractive.loq.ui.viewmodels.LoginViewModel
+import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LoginFragment: Fragment() {
 
     private val loginViewModel by sharedViewModel<LoginViewModel>()
+    private val mainViewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -51,7 +53,7 @@ class LoginFragment: Fragment() {
             val user = event.user
             if (user != null){
                 progressLayout.show()
-                loginViewModel.loadLoqs(view)
+                mainViewModel.loadLoqs(safeActivity)
             }
             else{
                 progressLayout.hide()
@@ -67,7 +69,7 @@ class LoginFragment: Fragment() {
             progressLayout.hide()
         })
 
-        loginViewModel.onLoqsLoaded.observe(this, Observer { event ->
+        mainViewModel.onLoqsLoaded.observe(this, Observer { event ->
             val loqs = event.getContentIfNotHandled()
             loqs?.let{
                 if (it.isNotEmpty()){
