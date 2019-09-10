@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "842408038792-g4tjdaam8c5ja7bkr2pjpv5tbr3q45r7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.easystreetinteractive.loq",
+            "certificate_hash": "aeab40612ea1914fa1fc668380fc2824d588771f"
+          }
+        },
+        {
           "client_id": "842408038792-o5r179q7lhjt212mul5iegagf23oekip.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
