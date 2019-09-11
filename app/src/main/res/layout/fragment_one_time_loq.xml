@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    
+    <data>
+        <variable
+            name="viewModel"
+            type="com.easystreetinteractive.loq.ui.viewmodels.OneTimeLoqViewModel" />
+
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_with_icon">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="164dp"
+                android:layout_height="86dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/logo"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/roboto"
+                android:text="@string/one_time_loq_summary"
+                android:textAlignment="center"
+                android:textColor="#FDFDFD"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Select Application"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/applicationView"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:lines="1"
+                app:applicationName="@{viewModel.selectedApplication}"
+                android:background="@android:drawable/spinner_dropdown_background" />
+
+            <TextView
+                android:id="@+id/dateView"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:background="@android:drawable/spinner_dropdown_background"
+                app:date="@{viewModel.selectedDate}" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnStartTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:backgroundTint="@color/orange"
+                    android:background="@drawable/rounded_background"
+                    android:hint="@string/start_time"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    app:time="@{viewModel.selectedStartTime}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/to"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/rounded_background"
+                    android:hint="@string/end_time"
+                    android:backgroundTint="@color/orange"
+                    android:textColorHint="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    app:time="@{viewModel.selectedEndTime}"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="@color/orange"
+                android:text="@string/back"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_bold"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnFinished"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="@color/green"
+                android:text="@string/submit"
+                android:textSize="18sp"
+                android:fontFamily="@font/roboto_bold"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+    
+</layout>
