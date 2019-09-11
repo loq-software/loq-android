@@ -13,6 +13,6 @@ object BlockedDayUtilities {
     ): BlockedDay {
 
         val time = BlockTime(startHour, startMinute, endHour, endMinute)
-        return BlockedDay(dayOfWeek, time)
+        return BlockedDay(dayOfWeek, time = time)
     }
 }

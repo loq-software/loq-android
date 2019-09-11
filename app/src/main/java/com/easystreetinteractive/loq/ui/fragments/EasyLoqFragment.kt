@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.extensions.*
 import kotlinx.android.synthetic.main.fragment_easy_loq.*
+import java.util.*
 
 class EasyLoqFragment : Fragment() {
 

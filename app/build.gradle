@@ -25,7 +25,7 @@ android {
         applicationId 'com.easystreetinteractive.loq'
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 28
+        versionCode 29
         versionName '1.0.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -83,7 +83,7 @@ dependencies {
 
     implementation 'com.afollestad.material-dialogs:core:3.1.0'
     implementation 'com.afollestad.material-dialogs:lifecycle:3.1.0'
-
+    implementation 'com.afollestad.material-dialogs:datetime:3.1.1'
 
     //google
     implementation 'com.google.android.gms:play-services-ads:18.1.1'
