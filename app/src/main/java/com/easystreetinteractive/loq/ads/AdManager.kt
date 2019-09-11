@@ -50,7 +50,7 @@ class RealAdManager: AdManager {
         val videoLink = activity?.resources?.getString(R.string.ad_video_link)?: return
         mRewardedVideoAd.loadAd(videoLink,
                 PublisherAdRequest.Builder()
-                        .addTestDevice("6498DCA9BBB5CA9E79ECDA603C8A440F")
+                        //.addTestDevice("6498DCA9BBB5CA9E79ECDA603C8A440F")
                         .build())
     }
 

@@ -46,7 +46,7 @@ class DashboardFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initLockBlock()
         btnAddToLoq.setOnClickListener { safeActivity.addFragment(fragment = EasyLoqFragment()) }
-        btnQuickAdd.setOnClickListener { safeActivity.addFragment(fragment = QuickLoqFragment()) }
+        btnQuickAdd.setOnClickListener { safeActivity.addFragment(fragment = OneTimeLoqFragment()) }
 
         layoutManager = LinearLayoutManager(safeActivity)
         recyclerView.layoutManager = layoutManager

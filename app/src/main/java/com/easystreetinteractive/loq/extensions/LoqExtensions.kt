@@ -15,33 +15,7 @@ inline fun BlockedApplication.isLockTime(): Boolean {
     calendar.time = date   // assigns calendar to given date
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
     val minute = calendar.get(Calendar.MINUTE)
-    val calenderDay = calendar.get(Calendar.DAY_OF_WEEK)
-    val currentDay: String = when(calenderDay){
-        Constants.MONDAY -> {
-            "Monday"
-        }
-        Constants.TUESDAY -> {
-            "Tuesday"
-        }
-        Constants.WEDNESDAY -> {
-            "Wednesday"
-        }
-        Constants.THURSDAY -> {
-            "Thursday"
-        }
-        Constants.FRIDAY -> {
-            "Friday"
-        }
-        Constants.SATURDAY -> {
-           "Saturday"
-        }
-        Constants.SUNDAY -> {
-            "Sunday"
-        }
-        else -> {
-            "Unknown"
-        }
-    }
+    val currentDay: String = calendar.dayOfWeekString
 
     for (day in blockBlockedDays) {
         if (day.dayOfWeek.contentEquals(currentDay)) {

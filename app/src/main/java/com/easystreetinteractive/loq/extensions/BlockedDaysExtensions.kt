@@ -8,7 +8,7 @@ fun List<CheckBox>.dayCheckBoxesToBlockedDays(time: BlockTime): MutableList<Bloc
     val days = ArrayList<BlockedDay>()
     for (checkbox in this){
         if (checkbox.isChecked){
-            val blockedDay = BlockedDay(checkbox.text.toString(), time)
+            val blockedDay = BlockedDay(checkbox.text.toString(), time = time)
             days.add(blockedDay)
         }
     }
