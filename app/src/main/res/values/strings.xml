@@ -31,5 +31,7 @@
     <string name="pin_code">PIN code</string>
     <string name="re_enter_pin_code">Re-enter PIN</string>
     <string name="private_preference_key">private_pref_key</string>
+    <string name="pin_dialog_title">Child Lock</string>
+    <string name="pin_dialog_message">Enter PIN number</string>
 
 </resources>

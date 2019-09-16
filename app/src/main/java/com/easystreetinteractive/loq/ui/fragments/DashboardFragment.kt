@@ -20,6 +20,7 @@ import com.easystreetinteractive.loq.extensions.*
 import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.ui.activities.MainActivity
 import com.easystreetinteractive.loq.ui.adapters.DashboardAdapter
+import com.easystreetinteractive.loq.ui.dialogs.PinDialog
 import com.easystreetinteractive.loq.ui.listeners.LoqSelectionEditListener
 import com.easystreetinteractive.loq.ui.viewmodels.DashboardViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
@@ -88,7 +89,7 @@ class DashboardFragment : Fragment() {
 
 
     private fun initLockBlock() {
-       // lockPin = Utils.INSTANCE.getChildLoqPin(safeActivity)//todo: 7/25/19 Handle this
+       /* lockPin = Utils.INSTANCE.getChildLoqPin(safeActivity)
         if (lockPin.isNotEmpty()) {
             childLock!!.visibility = View.VISIBLE
         }
@@ -96,7 +97,8 @@ class DashboardFragment : Fragment() {
             if (txtPin!!.text.toString() == lockPin) {
                 childLock!!.visibility = View.GONE
             }
-        }
+        }*/
+        dashboardViewModel.checkForPin(safeActivity)
     }
 
     private val editLockListener: LoqSelectionEditListener = object: LoqSelectionEditListener {
