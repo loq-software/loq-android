@@ -1,5 +1,6 @@
 package com.easystreetinteractive.loq.ui.viewmodels
 
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.view.View
@@ -71,6 +72,57 @@ class SetAndForgetViewModel(
             view: View
     ){
         addLoqs(loqToEdit, info, currentLoqs, days, view)
+    }
+
+    fun buildLoqsList(
+            loqToEdit: BlockedApplication?,
+            info: List<ApplicationInfo>,
+            currentLoqs: List<BlockedApplication>,
+            days: MutableCollection<BlockedDay>
+    ): List<BlockedApplication>{
+        val applications = ArrayList<BlockedApplication>()
+        val user = authentication.getCurrentUser()?: return applications
+
+        var found: Boolean
+
+
+        if (loqToEdit == null) {
+
+            for (application in info) {
+                found = false
+                for (loq in currentLoqs) {
+                    found = application.getAppName(manager).contentEquals(loq.applicationName)
+                    if (found) {
+                        loq.blockBlockedDays.clear()
+                        loq.blockBlockedDays.addAll(days)
+                        applications.add(loq)
+                    }
+                }
+                if (!found) {
+                    val blockedApplication = BlockedApplication("", user.uid, application.getAppName(manager), application.packageName, days.toMutableList())
+                    applications.add(blockedApplication)
+                }
+
+            }
+        }
+        else{
+            val currentDays = loqToEdit.blockBlockedDays
+            for (selectedDay in days){
+                found = false
+                for(currentDay in currentDays){
+                    found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
+                    if (found){
+                        currentDay.time = selectedDay.time
+                        break
+                    }
+                }
+                if (!found){
+                    currentDays.add(selectedDay)
+                }
+            }
+            applications.add(loqToEdit)
+        }
+        return applications
     }
 
     private fun addLoqs(

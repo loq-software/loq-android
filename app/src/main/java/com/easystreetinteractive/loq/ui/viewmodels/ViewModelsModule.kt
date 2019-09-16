@@ -21,4 +21,6 @@ val viewModelsModule = module {
     single { EditLoqViewModel(get(), get()) }
 
     single { OneTimeLoqViewModel(get(), get(), get()) }
+
+    single { ConfirmSelectionsViewModel(get(), get(), get()) }
 }
