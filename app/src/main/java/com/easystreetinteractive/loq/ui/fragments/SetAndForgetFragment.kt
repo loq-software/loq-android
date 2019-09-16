@@ -143,12 +143,6 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                                 selectedDaysForDifferentDaysSetting.values
                         )
                         startConfirmSelectionsFragment(loqs)
-                        /*viewModel.finishButtonClicked(
-                                loqToEdit,
-                                selectedApplications,
-                                currentLoqs,
-                                selectedDaysForDifferentDaysSetting.values,
-                                view)*/
                     }
                 }
 
@@ -157,15 +151,6 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                     val endTime = btnEndTime.text.toString()
                     if (viewModel.days.hasSelection()) {
                         if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                           /* viewModel.finishButtonClicked(
-                                    loqToEdit,
-                                    selectedApplications,
-                                    currentLoqs,
-                                    rawStartMinute,
-                                    rawEndMinute,
-                                    rawStartHour,
-                                    rawEndHour,
-                                    view)*/
                             val blockedDays = viewModel.days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
                             val loqs = viewModel.buildLoqsList(
                                     loqToEdit,
