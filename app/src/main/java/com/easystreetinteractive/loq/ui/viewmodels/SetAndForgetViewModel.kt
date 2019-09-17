@@ -23,8 +23,6 @@ class SetAndForgetViewModel(
     val onLockedApplicationsSaved: LiveData<Event<List<BlockedApplication>>> get() = _onLockedApplicationsSaved
     private val _onLockedApplicationsSaved = MutableLiveData<Event<List<BlockedApplication>>>()
 
-    private val _errorAddingLoq = MutableLiveData<Event<Throwable>>()
-
     fun setupDays(
             sunday: CheckBox,
             monday: CheckBox,
