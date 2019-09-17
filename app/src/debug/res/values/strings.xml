@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ad_video_link">/6499/example/rewarded-video</string>
+    <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="ad_video_link">ca-app-pub-3940256099942544/5224354917</string>
     <string name="in_app_purchase_product_id">"android.test.purchased"</string>
 
 </resources>
