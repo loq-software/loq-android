@@ -28,6 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+// Todo: Day and time logic should be moved to ViewModel class.
 class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
     private var isStartTimeForDifferent: Boolean = false
@@ -66,6 +67,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         super.onViewCreated(view, savedInstanceState)
         setupDays()
 
+        // Todo: Move to ViewModel or binding class.
         val adapter = ArrayAdapter.createFromResource(safeActivity, R.array.days, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         daysSpinner.adapter = adapter
@@ -201,7 +203,8 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
     }
 
     private fun startConfirmSelectionsFragment(
-            currentLoqs: List<BlockedApplication>) {
+            currentLoqs: List<BlockedApplication>
+    ) {
         safeActivity.addFragment(
                 fragment = ConfirmSelectionsFragment.newInstance(
                         currentLoqs

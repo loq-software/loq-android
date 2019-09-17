@@ -33,5 +33,7 @@
     <string name="private_preference_key">private_pref_key</string>
     <string name="pin_dialog_title">Child Lock</string>
     <string name="pin_dialog_message">Enter PIN number</string>
+    <string name="commitment_dialog_title">Commitment Violation</string>
+    <string name="commitment_dialog_message">You can only remove loq times on the first of the month.</string>
 
 </resources>

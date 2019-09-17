@@ -8,7 +8,6 @@ object Constants{
     const val UNLOCK_TIME_KEY = "lastTimeKey"
     const val APP_NAME = "appName"
 
-    const val LOQ_TO_EDIT = "loqToEdit"
     const val CURRENT_LOQS = "currentLoqs"
 
     const val GOOGLE_LOGIN_REQUEST = 222
