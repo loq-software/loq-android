@@ -10,7 +10,8 @@
     <string name="fb_login_protocol_scheme">fb2345716189034287</string>
     <string name="select_day">Select Day</string>
     <string name="same_time_radio_button_text">Same time(s) for the selected days</string>
-    <string name="ad_video_link">/21836839261/loq_video-ad</string>
+    <string name="ad_app_id">ca-app-pub-1891015983937837~6101872751</string>
+    <string name="ad_video_link">ca-app-pub-1891015983937837/5886266247</string>
     <string name="delete_loq_time">Delete?</string>
     <string name="delete_loq_time_message">Would you like to delete this day and time interval?</string>
     <string name="yes">Yes</string>
