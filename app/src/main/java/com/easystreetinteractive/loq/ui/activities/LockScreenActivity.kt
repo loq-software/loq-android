@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.extensions.showOrHide
+import com.easystreetinteractive.loq.extensions.toast
 import com.easystreetinteractive.loq.ui.viewmodels.LoqScreenViewModel
 import kotlinx.android.synthetic.main.activity_loq_screen.*
 
@@ -38,6 +39,7 @@ class LockScreenActivity : AppCompatActivity() {
         viewModel.rewarded.observe(this, Observer { event ->
             val reward = event.getContentIfNotHandled()
             reward?.let {
+                toast("Blocked apps now accessible for one minute.")
                 finish()
             }
         })

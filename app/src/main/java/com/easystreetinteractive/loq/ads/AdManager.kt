@@ -7,6 +7,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import java.lang.NullPointerException
 
 interface AdManager {
 
@@ -39,15 +40,15 @@ class RealAdManager: AdManager {
     }
 
     override fun initializeAd(listener: RewardedVideoAdListener) {
-        /* // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
-        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713")*/
+        val adId = activity?.getString(R.string.ad_app_id)?: throw NullPointerException("Activity is null")
+        MobileAds.initialize(activity, adId)
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(activity)
         mRewardedVideoAd.rewardedVideoAdListener = listener
         loadRewardedVideoAd()
     }
 
     override fun loadRewardedVideoAd() {
-        val videoLink = activity?.resources?.getString(R.string.ad_video_link)?: return
+        val videoLink = activity?.resources?.getString(R.string.ad_video_link)?: throw NullPointerException("Activity is null")
         mRewardedVideoAd.loadAd(videoLink,
                 PublisherAdRequest.Builder()
                         //.addTestDevice("6498DCA9BBB5CA9E79ECDA603C8A440F")
