@@ -28,6 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+// Todo: Day and time logic should be moved to ViewModel class.
 class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
 
     private var isStartTimeForDifferent: Boolean = false
@@ -66,6 +67,7 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
         super.onViewCreated(view, savedInstanceState)
         setupDays()
 
+        // Todo: Move to ViewModel or binding class.
         val adapter = ArrayAdapter.createFromResource(safeActivity, R.array.days, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         daysSpinner.adapter = adapter
@@ -136,12 +138,13 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                         Toast.makeText(safeActivity, "You must add a day", Toast.LENGTH_SHORT).show()
                     }
                     else{
-                        viewModel.finishButtonClicked(
+                        val loqs = viewModel.buildLoqsList(
                                 loqToEdit,
                                 selectedApplications,
                                 currentLoqs,
-                                selectedDaysForDifferentDaysSetting.values,
-                                view)
+                                selectedDaysForDifferentDaysSetting.values
+                        )
+                        startConfirmSelectionsFragment(loqs)
                     }
                 }
 
@@ -150,15 +153,15 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                     val endTime = btnEndTime.text.toString()
                     if (viewModel.days.hasSelection()) {
                         if (startTime.isNotBlank() && endTime.isNotBlank()) {
-                            viewModel.finishButtonClicked(
+                            val blockedDays = viewModel.days.dayCheckBoxesToBlockedDays(BlockTime(rawStartHour.toInt(), rawStartMinute.toInt(), rawEndHour.toInt(), rawEndMinute.toInt()))
+                            val loqs = viewModel.buildLoqsList(
                                     loqToEdit,
                                     selectedApplications,
                                     currentLoqs,
-                                    rawStartMinute,
-                                    rawEndMinute,
-                                    rawStartHour,
-                                    rawEndHour,
-                                    view)
+                                    blockedDays
+                            )
+                            startConfirmSelectionsFragment(loqs)
+
                         } else {
                             Toast.makeText(safeActivity, "You must enter a start and end time", Toast.LENGTH_LONG).show()
 
@@ -197,6 +200,16 @@ class SetAndForgetFragment: Fragment(), TimePickerDialog.OnTimeSetListener {
                 safeActivity.replaceFragment(fragment = DashboardFragment())
             }
         })
+    }
+
+    private fun startConfirmSelectionsFragment(
+            currentLoqs: List<BlockedApplication>
+    ) {
+        safeActivity.addFragment(
+                fragment = ConfirmSelectionsFragment.newInstance(
+                        currentLoqs
+                )
+        )
     }
 
     private fun setupDays() {

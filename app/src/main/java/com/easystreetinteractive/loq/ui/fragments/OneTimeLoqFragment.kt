@@ -12,11 +12,9 @@ import com.afollestad.materialdialogs.list.listItems
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.constants.TimeType
 import com.easystreetinteractive.loq.databinding.FragmentOneTimeLoqBinding
-import com.easystreetinteractive.loq.extensions.getAppName
+import com.easystreetinteractive.loq.extensions.*
+import com.easystreetinteractive.loq.models.BlockedApplication
 
-import com.easystreetinteractive.loq.extensions.inflateWithBinding
-import com.easystreetinteractive.loq.extensions.safeActivity
-import com.easystreetinteractive.loq.extensions.observe
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.OneTimeLoqViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -65,6 +63,10 @@ class OneTimeLoqFragment : Fragment() {
             event.getContentIfNotHandled()?: return@observe
             mainViewModel.loadLoqs(safeActivity)
             safeActivity.onBackPressed()
+        }
+
+        mainViewModel.onLoqsLoaded.observeOnce{ event ->
+            viewModel.blockedApplications = event.peekContent()
         }
     }
 

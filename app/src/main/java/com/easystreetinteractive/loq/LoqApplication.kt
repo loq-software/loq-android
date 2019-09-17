@@ -10,6 +10,7 @@ import com.easystreetinteractive.loq.network.googleModule
 import com.easystreetinteractive.loq.network.networkModule
 import com.easystreetinteractive.loq.notifications.notificationsModule
 import com.easystreetinteractive.loq.permissions.permissionsModule
+import com.easystreetinteractive.loq.pin.pinModule
 import com.easystreetinteractive.loq.repositories.repositoriesModule
 import com.easystreetinteractive.loq.ui.viewmodels.viewModelsModule
 import com.google.android.gms.ads.MobileAds
@@ -31,7 +32,8 @@ class LoqApplication: Application() {
                 loqerModule,
                 permissionsModule,
                 adModule,
-                billingModule
+                billingModule,
+                pinModule
         )
         startKoin(
                 androidContext = this,
@@ -42,6 +44,5 @@ class LoqApplication: Application() {
         AppEventsLogger.activateApp(this)
 
         TestFairy.begin(this, "SDK-eTDNMh8y")
-
     }
 }
