@@ -50,4 +50,10 @@ object Utils {
         calendar.add(Calendar.YEAR, -1)
         return calendar.timeInMillis
     }
+
+    fun isFirstOfTheMonth(): Boolean{
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        return day == 1
+    }
 }

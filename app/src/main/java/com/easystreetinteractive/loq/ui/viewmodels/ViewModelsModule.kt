@@ -10,15 +10,17 @@ val viewModelsModule = module {
 
     single { EasyLoqViewModel(get()) }
 
-    single { SetAndForgetViewModel(get(), get(), get()) }
+    single { SetAndForgetViewModel(get(), get()) }
 
     single { CustomLoqViewModel(get()) }
 
-    single { DashboardViewModel(get(), get()) }
+    single { DashboardViewModel(get(), get(), get()) }
 
     single { LoqScreenViewModel(get(), get(), get()) }
 
     single { EditLoqViewModel(get(), get()) }
 
     single { OneTimeLoqViewModel(get(), get(), get()) }
+
+    single { ConfirmSelectionsViewModel(get(), get(), get()) }
 }

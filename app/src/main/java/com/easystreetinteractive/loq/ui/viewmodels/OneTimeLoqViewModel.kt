@@ -28,6 +28,8 @@ class OneTimeLoqViewModel(
         private val authentication: AuthenticationService
 ): ViewModel() {
 
+    var blockedApplications: List<BlockedApplication> = emptyList()
+
     val selectedDate: LiveData<Event<Calendar>> get() = _selectedDate
     private val _selectedDate = MutableLiveData<Event<Calendar>>()
 
@@ -134,17 +136,15 @@ class OneTimeLoqViewModel(
                 )
         )
 
-        val days = ArrayList<BlockedDay>()
-                .apply {
-                    add(blockedDay)
-                }
-        return BlockedApplication(
-                "",
-                user.uid,
-                application.getAppName(activity.packageManager),
-                application.packageName,
-                days.toMutableList()
-        )
+        for (currentBlockedApplication in blockedApplications){
+            val appName = application.getAppName(activity.packageManager)
+            if (currentBlockedApplication.applicationName.contentEquals(appName)){
+                currentBlockedApplication.blockBlockedDays.add(blockedDay)
+                return currentBlockedApplication
+            }
+        }
+
+        return null
     }
 
     var dateForCalender: Calendar = selectedDate.value?.peekContent()?: Calendar.getInstance()

@@ -25,5 +25,15 @@
     <string name="start_time">Start Time</string>
     <string name="error">Error</string>
     <string name="dismiss">Dismiss</string>
+    <string name="confirm_selections_summary">Confirm Your Selections</string>
+    <string name="commitment_checkbox_message">By checking this box I understand that I will be unable to change my settings (except for adding additional Loqs\'s unless it is the 1st day of the month, to enbrace the purpose of this mobile application. (Required)</string>
+    <string name="pin_checkbox_message">This is for a minor\'s device and will require a PIN to change any settings.</string>
+    <string name="pin_code">PIN code</string>
+    <string name="re_enter_pin_code">Re-enter PIN</string>
+    <string name="private_preference_key">private_pref_key</string>
+    <string name="pin_dialog_title">Child Lock</string>
+    <string name="pin_dialog_message">Enter PIN number</string>
+    <string name="commitment_dialog_title">Commitment Violation</string>
+    <string name="commitment_dialog_message">You can only remove loq times on the first of the month.</string>
 
 </resources>
