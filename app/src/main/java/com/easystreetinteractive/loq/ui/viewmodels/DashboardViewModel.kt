@@ -58,4 +58,5 @@ class DashboardViewModel(
             PinDialog.show(activity)
         }
     }
+
 }

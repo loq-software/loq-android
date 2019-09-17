@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import com.afollestad.materialdialogs.MaterialDialog
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.constants.Constants
 import com.easystreetinteractive.loq.extensions.*
@@ -20,10 +21,10 @@ import com.easystreetinteractive.loq.extensions.*
 import com.easystreetinteractive.loq.models.BlockedApplication
 import com.easystreetinteractive.loq.ui.activities.MainActivity
 import com.easystreetinteractive.loq.ui.adapters.DashboardAdapter
-import com.easystreetinteractive.loq.ui.dialogs.PinDialog
 import com.easystreetinteractive.loq.ui.listeners.LoqSelectionEditListener
 import com.easystreetinteractive.loq.ui.viewmodels.DashboardViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
+import com.easystreetinteractive.loq.utils.Utils
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -32,7 +33,6 @@ class DashboardFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private lateinit var loqAdapter: DashboardAdapter
     private var initialized = false
-    private var lockPin: String = ""
 
     private val dashboardViewModel by sharedViewModel<DashboardViewModel>()
     private val mainViewModel by sharedViewModel<MainViewModel>()
@@ -45,7 +45,7 @@ class DashboardFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initLockBlock()
+        dashboardViewModel.checkForPin(safeActivity)
         btnAddToLoq.setOnClickListener { safeActivity.addFragment(fragment = EasyLoqFragment()) }
         btnQuickAdd.setOnClickListener { safeActivity.addFragment(fragment = OneTimeLoqFragment()) }
 
@@ -85,20 +85,6 @@ class DashboardFragment : Fragment() {
             alert.show()
         }
 
-    }
-
-
-    private fun initLockBlock() {
-       /* lockPin = Utils.INSTANCE.getChildLoqPin(safeActivity)
-        if (lockPin.isNotEmpty()) {
-            childLock!!.visibility = View.VISIBLE
-        }
-        btnUnlock.setOnClickListener {
-            if (txtPin!!.text.toString() == lockPin) {
-                childLock!!.visibility = View.GONE
-            }
-        }*/
-        dashboardViewModel.checkForPin(safeActivity)
     }
 
     private val editLockListener: LoqSelectionEditListener = object: LoqSelectionEditListener {

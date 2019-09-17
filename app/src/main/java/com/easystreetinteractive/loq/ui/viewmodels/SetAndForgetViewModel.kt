@@ -93,9 +93,9 @@ class SetAndForgetViewModel(
                 for (loq in currentLoqs) {
                     found = application.getAppName(manager).contentEquals(loq.applicationName)
                     if (found) {
-                        loq.blockBlockedDays.clear()
                         loq.blockBlockedDays.addAll(days)
                         applications.add(loq)
+                        break
                     }
                 }
                 if (!found) {
@@ -108,7 +108,7 @@ class SetAndForgetViewModel(
         else{
             val currentDays = loqToEdit.blockBlockedDays
             for (selectedDay in days){
-                found = false
+               /* found = false
                 for(currentDay in currentDays){
                     found = currentDay.dayOfWeek.contentEquals(selectedDay.dayOfWeek)
                     if (found){
@@ -118,7 +118,9 @@ class SetAndForgetViewModel(
                 }
                 if (!found){
                     currentDays.add(selectedDay)
-                }
+                }*/
+                currentDays.add(selectedDay)
+
             }
             applications.add(loqToEdit)
         }

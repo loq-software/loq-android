@@ -21,6 +21,7 @@ import com.easystreetinteractive.loq.ui.adapters.EditLoqAdapter
 import com.easystreetinteractive.loq.ui.listeners.OnLoqTimeDeleteListener
 import com.easystreetinteractive.loq.ui.viewmodels.EditLoqViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
+import com.easystreetinteractive.loq.utils.Utils
 import kotlinx.android.synthetic.main.fragment_edit_loq.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.NullPointerException
@@ -96,23 +97,34 @@ class EditLoqFragment: Fragment() {
     private val deleteTimeListener = object : OnLoqTimeDeleteListener {
         override fun onLoqTimeDeleteClicked(day: BlockedDay) {
 
-            if (loq.blockBlockedDays.contains(day)){
-                MaterialDialog(safeActivity).show {
-                    title(R.string.delete_loq_time)
-                    message(R.string.delete_loq_time_message)
-                    positiveButton(R.string.yes){
-                        loq.blockBlockedDays.remove(day)
-                        editLoqAdapter.updateData(loq.blockBlockedDays)
-                        if (loq.blockBlockedDays.isEmpty()){
-                            viewModel.removeLoq(this@EditLoqFragment, loq)
+            if (Utils.isFirstOfTheMonth()) {
+                if (loq.blockBlockedDays.contains(day)){
+                    MaterialDialog(safeActivity).show {
+                        title(R.string.delete_loq_time)
+                        message(R.string.delete_loq_time_message)
+                        positiveButton(R.string.yes){
+                            loq.blockBlockedDays.remove(day)
+                            editLoqAdapter.updateData(loq.blockBlockedDays)
+                            if (loq.blockBlockedDays.isEmpty()){
+                                viewModel.removeLoq(this@EditLoqFragment, loq)
+                            }
+                            else {
+                                viewModel.updateLoq(this@EditLoqFragment, loq)
+                            }
                         }
-                        else {
-                            viewModel.updateLoq(this@EditLoqFragment, loq)
-                        }
+                        negativeButton(R.string.no)
                     }
-                    negativeButton(R.string.no)
                 }
             }
+            else{
+                MaterialDialog(safeActivity).show {
+                    title(text = "Commitment Violation")
+                    message(text = "You can only remove loq times on the first of the month.")
+                    negativeButton(R.string.dismiss)
+                }
+
+            }
+
         }
     }
 
