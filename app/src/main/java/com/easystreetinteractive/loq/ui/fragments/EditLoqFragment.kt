@@ -118,8 +118,8 @@ class EditLoqFragment: Fragment() {
             }
             else{
                 MaterialDialog(safeActivity).show {
-                    title(text = "Commitment Violation")
-                    message(text = "You can only remove loq times on the first of the month.")
+                    title(R.string.commitment_dialog_title)
+                    message(R.string.commitment_dialog_message)
                     negativeButton(R.string.dismiss)
                 }
 
