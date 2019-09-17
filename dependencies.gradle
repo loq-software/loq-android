@@ -22,7 +22,7 @@ ext.versions = [
         recyclerView      : "1.0.0",
         cardView          : "1.0.0",
         materialComponents: "1.0.0",
-        ktx               : "1.0.2",
+        ktx               : "1.1.0",
         legacySupport     : "1.0.0",
         preference        : "1.1.0-alpha01",
 
