@@ -2,6 +2,7 @@ package com.easystreetinteractive.loq.loqer
 
 import android.app.Activity
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.lifecycle.Lifecycle
@@ -46,8 +47,8 @@ class CheckForLoqService : Service(), LifecycleOwner {
 
     companion object {
 
-        fun getIntent(activity: Activity): Intent? {
-            return Intent(activity, CheckForLoqService::class.java)
+        fun getIntent(context: Context): Intent? {
+            return Intent(context, CheckForLoqService::class.java)
         }
     }
 }
