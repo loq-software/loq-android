@@ -60,8 +60,6 @@ class RealLoqerManager(
                                 val dialogIntent = Intent(context, LockScreenActivity::class.java)
                                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME or Intent.FLAG_ACTIVITY_NEW_TASK)
                                 service.startActivity(dialogIntent)
-
-
                             }
                         }
                     }
