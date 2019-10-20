@@ -1,6 +1,5 @@
 package com.easystreetinteractive.loq.loqer
 
-import android.app.Activity
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -28,9 +27,17 @@ class CheckForLoqService : Service(), LifecycleOwner {
         return null
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        loqerManager.scheduleMethod(this@CheckForLoqService, this)
-        startForeground(1, notifications.buildNotification(this))
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.let {
+            try {
+                loqerManager.scheduleMethod(this@CheckForLoqService, this)
+                startForeground(1, notifications.buildNotification(this))
+            }
+            catch (exception: Exception){
+                exception.printStackTrace()
+            }
+        }
+
         return START_STICKY
     }
 
