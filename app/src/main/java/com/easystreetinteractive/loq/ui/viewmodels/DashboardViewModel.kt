@@ -33,7 +33,7 @@ class DashboardViewModel(
         }
     }
 
-    fun logout(activity: FragmentActivity) {
+    fun logoutConfirmed(activity: FragmentActivity) {
         authenticationService.logout()
         _onLogOut.postValue(Event(true))
     }

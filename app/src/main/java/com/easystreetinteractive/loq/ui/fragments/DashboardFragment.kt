@@ -116,7 +116,7 @@ class DashboardFragment : Fragment() {
                     title(text = "Logout")
                     message(text = "Would you like to logout?")
                     positiveButton(text = "Confirm"){
-                        dashboardViewModel.logout(safeActivity)
+                        dashboardViewModel.logoutConfirmed(safeActivity)
                     }
                     negativeButton(text = "Dismiss")
                     onDismiss {
