@@ -14,7 +14,7 @@ val viewModelsModule = module {
 
     single { CustomLoqViewModel(get()) }
 
-    single { DashboardViewModel(get(), get(), get()) }
+    single { DashboardViewModel(get(), get()) }
 
     single { LoqScreenViewModel(get(), get(), get()) }
 

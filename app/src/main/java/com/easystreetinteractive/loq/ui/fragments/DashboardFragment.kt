@@ -3,17 +3,16 @@ package com.easystreetinteractive.loq.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.view.*
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onDismiss
 import com.easystreetinteractive.loq.R
 import com.easystreetinteractive.loq.constants.Constants
 import com.easystreetinteractive.loq.extensions.*
@@ -24,7 +23,6 @@ import com.easystreetinteractive.loq.ui.adapters.DashboardAdapter
 import com.easystreetinteractive.loq.ui.listeners.LoqSelectionEditListener
 import com.easystreetinteractive.loq.ui.viewmodels.DashboardViewModel
 import com.easystreetinteractive.loq.ui.viewmodels.MainViewModel
-import com.easystreetinteractive.loq.utils.Utils
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -45,7 +43,18 @@ class DashboardFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+
         dashboardViewModel.checkForPin(safeActivity)
+
+        toolbar.overflowIcon = safeActivity.drawable(R.drawable.ic_more_vert_white)
+        val mainActivity = safeActivity as MainActivity
+        mainActivity.setSupportActionBar(toolbar)
+        mainActivity.supportActionBar?.run {
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(false)
+        }
+
         btnAddToLoq.setOnClickListener { safeActivity.addFragment(fragment = EasyLoqFragment()) }
         btnQuickAdd.setOnClickListener { safeActivity.addFragment(fragment = OneTimeLoqFragment()) }
 
@@ -72,6 +81,13 @@ class DashboardFragment : Fragment() {
             }
         })
 
+        dashboardViewModel.onLogout.observe(this){ event ->
+            val loggedOut = event.getContentIfNotHandled()?: return@observe
+            if (loggedOut){
+                safeActivity.replaceFragment( fragment = LoginFragment())
+            }
+        }
+
         val hasStatsPermission = (safeActivity as MainActivity).permissionsManager.hasUsageStatsPermission()
         if (!hasStatsPermission){
             val builder = AlertDialog.Builder(safeActivity)
@@ -85,6 +101,31 @@ class DashboardFragment : Fragment() {
             alert.show()
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.menu_item_settings -> {
+                MaterialDialog(safeActivity).show {
+                    title(text = "Logout")
+                    message(text = "Would you like to logout?")
+                    positiveButton(text = "Confirm"){
+                        dashboardViewModel.logoutConfirmed(safeActivity)
+                    }
+                    negativeButton(text = "Dismiss")
+                    onDismiss {
+                        this.dismiss()
+                    }
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val editLockListener: LoqSelectionEditListener = object: LoqSelectionEditListener {
