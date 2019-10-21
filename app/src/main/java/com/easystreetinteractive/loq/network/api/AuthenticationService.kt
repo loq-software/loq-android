@@ -29,6 +29,8 @@ interface AuthenticationService{
     fun handleFacebookLogin(token: AccessToken): Observable<AuthenticationResult>
 
     fun getCurrentUser(): FirebaseUser?
+
+    fun logout()
 }
 
 class RealAuthenticationService(
@@ -127,6 +129,9 @@ class RealAuthenticationService(
         }
     }
 
+    override fun logout() {
+        authentication.signOut()
+    }
 
 }
 
